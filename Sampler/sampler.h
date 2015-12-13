@@ -2,7 +2,7 @@
 #define __SAMPLER_H__
 
 #include "Game.h"
-#include "common/vec3.h"
+#include "common/Vec3.h"
 #include "Shape.h"
 
 class ShadowSampler : public Game

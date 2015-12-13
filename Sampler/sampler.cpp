@@ -14,15 +14,11 @@
 #include "Mesh.h"
 #include "MeshLoader3DS.h"
 #include "Shader.h"
-
 #include "Shape.h"
-
 #include "Model_lwo.h"
 #include "Model.h"
 #include "ScriptSystem.h"
-
 #include "luautils.h"
-
 
 #pragma comment(lib, "FlipEngine.lib")
 #pragma comment(lib, "opengl32.lib")
@@ -53,9 +49,8 @@ void ShadowSampler::Init()
 	//SetupCamera();
 	_camera = new Camera;
 	_camera->Setup3DCamera(800, 600);
-	//_camera->Rise(1);
-	//_camera->Forward(-10);
-	_camera->SetPosition(0, 0, 0.5);
+	_camera->Rise(1);
+	_camera->Forward(-10);
 
 	// rendersys
 	RenderSystem** renderSys = (RenderSystem **)lua_newuserdata(L, sizeof(RenderSystem*));
@@ -73,7 +68,6 @@ void ShadowSampler::Init()
 	//_scriptSys->RunScript("script/main.lua");
 	
 	box = _renderSys->CreateBox();
-	//box->SetPosition(0, 0, -10);
 
 	box->SetViewProj(_camera->GetViewProj());
 	_renderSys->AddDrawSur(box->_drawSurf);
@@ -86,7 +80,6 @@ void ShadowSampler::Init()
 	_lbCamera->SetLabel("aaaaaaaa");
 	_lbCamera->SetPosition(0, 200, 0);
 	_renderSys->AddSprite(_lbCamera);
-
 }
 
 void ShadowSampler::Frame()
@@ -135,9 +128,11 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 				_camera->Forward(-0.5f);
 				break;
 			case 'q':
+			case 'Q':
 				_camera->Right(0.5f);
 				break;
 			case 'e':
+			case 'E':
 				_camera->Right(-0.5f);
 				break;
 			case 'A':
@@ -173,7 +168,7 @@ bool ShadowSampler::HitTest(int mouseX, int mouseY)
 	float x = (2.0f * mouseX) / width - 1.0f;
 	float y = 1.0f - (2.0f * mouseY) / height;
 	float z = 1.0f;
-	vec3 ray_nds = vec3 (x, y, z);
+	Vec3 ray_nds = Vec3 (x, y, z);
 
 	vec4 ray_clip = vec4 (ray_nds, 1.0);
 
@@ -187,7 +182,7 @@ bool ShadowSampler::HitTest(int mouseX, int mouseY)
 		ray_world.z /= ray_world.w;			
 	}
 
-	vec3 ray_dir = ray_world.ToVec3() - _camera->GetPosition();
+	Vec3 ray_dir = ray_world.ToVec3() - _camera->GetPosition();
 
 	Sys_Printf("hit test");
 

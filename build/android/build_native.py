@@ -28,6 +28,7 @@ def get_num_of_cpu():
 def main():
     '''remove file  and copy the new file
     '''
+    print "aaaaaaaaaa"
     project = os.path.dirname(os.path.realpath(__file__))
 
     ndk_root = get_ndk_root()

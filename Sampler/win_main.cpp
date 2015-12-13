@@ -1,16 +1,31 @@
 #include "sys/win32/win_local.h"
 #include "sys/sys_public.h"
-#include "framework/KeyInput.h"
-
 
 #include "Material.h"
 #include "ShaderSource.h"
-#include "File.h"
+#include "common/File.h"
 #include "sampler.h"
 
 Win32Vars_t win32;
 
-int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow ) 
+int main()
+{
+	GL_CreateDevice(800, 600);
+	ShadowSampler game;
+	game.Init();
+
+	//	::SetFocus( win32.hWnd );
+
+	// main game loop
+	while( 1 ) 
+	{
+		Sys_PumpEvents();
+		game.Frame();
+	}
+
+}
+
+int WINAPI WinMain1( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow ) 
 {
 	const HCURSOR hcurSave = ::SetCursor( LoadCursor( 0, IDC_WAIT ) );
 

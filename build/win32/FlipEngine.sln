@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FlipEngine", "FlipEngine.vcxproj", "{43D5EEC3-7C08-413F-A26E-C1A11F05247B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game01", "game01.vcxproj", "{44D32B8D-B58A-48A1-AE69-31C286BDEF15}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43D5EEC3-7C08-413F-A26E-C1A11F05247B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{43D5EEC3-7C08-413F-A26E-C1A11F05247B}.Debug|Win32.Build.0 = Debug|Win32
+		{43D5EEC3-7C08-413F-A26E-C1A11F05247B}.Release|Win32.ActiveCfg = Release|Win32
+		{43D5EEC3-7C08-413F-A26E-C1A11F05247B}.Release|Win32.Build.0 = Release|Win32
+		{44D32B8D-B58A-48A1-AE69-31C286BDEF15}.Debug|Win32.ActiveCfg = Debug|Win32
+		{44D32B8D-B58A-48A1-AE69-31C286BDEF15}.Debug|Win32.Build.0 = Debug|Win32
+		{44D32B8D-B58A-48A1-AE69-31C286BDEF15}.Release|Win32.ActiveCfg = Release|Win32
+		{44D32B8D-B58A-48A1-AE69-31C286BDEF15}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
