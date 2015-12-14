@@ -267,10 +267,10 @@ Box* RenderSystemLocal::CreateBox()
 	return box;
 }
 
-Plane* RenderSystemLocal::CreatePlane()
+Plane* RenderSystemLocal::CreatePlane(int w, int h)
 {
-	Plane* box = new Plane;
+	Plane* box = new Plane(w, h);
 	box->_resourceSys = _resourceSys;
-	box->_drawSurf->mtr = _resourceSys->AddMaterial("mtr/position.mtr");
+	box->_drawSurf->mtr = _resourceSys->AddMaterial("mtr/positionTex.mtr");
 	return box;
 }

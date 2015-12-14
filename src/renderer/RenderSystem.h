@@ -44,7 +44,7 @@ public:
 
 	virtual Box* CreateBox() = 0;
 
-	virtual Plane* CreatePlane() = 0;
+	virtual Plane* CreatePlane(int w, int h) = 0;
 
 	virtual int GetNumSurf() = 0;
 
@@ -83,7 +83,7 @@ public:
 
 	virtual Box* CreateBox();
 	
-	virtual Plane* CreatePlane();
+	virtual Plane* CreatePlane(int w, int h);
 
 	virtual void SetMainViewProj(mat4* mat) {_mainViewProj = mat;}
 private:

@@ -133,26 +133,23 @@ Texture* ResourceSystem::AddTexture(const char* file)
 {
 	Texture* texture = NULL;
 
-	lfStr fullPath = file;
-	void* it = _textures.Get(fullPath);
+	void* it = _textures.Get(file);
     if( it != NULL ) {
 		texture = (Texture*)it;
 		return texture;
     }
 
 	Image image;
-
-	std::string basename(file);
-    std::transform(basename.begin(), basename.end(), basename.begin(), ::tolower);
+	lfStr fullpath = _searchDir + file;
     
 	for (int i = 0; i < TexPluginCount; ++i)
 	{
-		if (basename.find(loaderPlugin[i].name) == std::string::npos)
+		if (fullpath.Find(loaderPlugin[i].name) == -1)
 			continue;
 
-		if( !loaderPlugin[i].pFunc(fullPath.c_str(), &image) )
+		if( !loaderPlugin[i].pFunc(fullpath.c_str(), &image) )
 		{
-			Sys_Printf( "load image %s failed\n", fullPath.c_str() );
+			Sys_Printf( "load image %s failed\n", fullpath.c_str() );
 			return defaultTexture;
 		}
 		else
@@ -160,12 +157,12 @@ Texture* ResourceSystem::AddTexture(const char* file)
 			texture = new Texture();
 			texture->Init(&image);
 
-			_textures.Put(fullPath, texture);
+			_textures.Put(file, texture);
 			return texture;
 		}
 	}
 
-	Sys_Printf( "load image %s failed\n", fullPath.c_str() );
+	Sys_Printf( "load image %s failed\n", fullpath.c_str() );
 	return defaultTexture;
 };
 

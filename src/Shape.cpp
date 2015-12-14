@@ -43,4 +43,7 @@ void Render::UpdateTransform()
 	_drawSurf->matModel.m[14] = _position.z; 
 }
 
-
+void Plane::SetTexture( const char* filename )
+{
+	_drawSurf->shaderParms->tex = _resourceSys->AddTexture(filename);
+}

@@ -98,7 +98,7 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 		return false;
 	}
 
-	vList = (Vec3 *)R_StaticAlloc( layer->point.count * sizeof( vList[0] ) );
+	vList = (Vec3 *)mem_alloc( layer->point.count * sizeof( vList[0] ) );
 	for ( j = 0; j < layer->point.count; j++ ) {
 		vList[j].x = layer->point.pt[j].pos[0];
 		vList[j].y = layer->point.pt[j].pos[2];
@@ -141,7 +141,7 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 	// before doing this operation, because we can miss a slop combination
 	// if they are in different surfaces
 
-	vRemap = (int *)R_StaticAlloc( layer->point.count * sizeof( vRemap[0] ) );
+	vRemap = (int *)mem_alloc( layer->point.count * sizeof( vRemap[0] ) );
 
 	//if ( fastLoad ) {
 	//	// renderbump doesn't care about vertex count
@@ -162,7 +162,7 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 	//	}
 	//}
 
-	tvRemap = (int *)R_StaticAlloc( numTVertexes * sizeof( tvRemap[0] ) );
+	tvRemap = (int *)mem_alloc( numTVertexes * sizeof( tvRemap[0] ) );
 
 	//if ( fastLoad ) {
 	//	// renderbump doesn't care about vertex count
@@ -199,10 +199,10 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 		// we need to find out how many unique vertex / texcoord combinations there are
 
 		// the maximum possible number of combined vertexes is the number of indexes
-		mvTable = (matchVert_t *)R_ClearedStaticAlloc( layer->polygon.count * 3 * sizeof( mvTable[0] ) );
+		mvTable = (matchVert_t *)mem_cleared_alloc( layer->polygon.count * 3 * sizeof( mvTable[0] ) );
 
 		// we will have a hash chain based on the xyz values
-		mvHash = (matchVert_t **)R_ClearedStaticAlloc( layer->point.count * sizeof( mvHash[0] ) );
+		mvHash = (matchVert_t **)mem_cleared_alloc( layer->point.count * sizeof( mvHash[0] ) );
 
 		// allocate triangle surface
 		tri = AllocGeo();

@@ -109,11 +109,6 @@ void R_StaticFree( void *data );
 
 void R_FreeStaticTriSurf( srfTriangles_t *tri );
 
-void *R_ClearedStaticAlloc( int bytes );
-
-void *R_StaticAlloc( int bytes );
-
-
 
 // animation
 void R_InitBasePoses(srfTriangles_t* geo, Joint* joint);

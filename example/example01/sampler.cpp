@@ -72,7 +72,8 @@ void ShadowSampler::Init()
 	box->SetViewProj(_camera->GetViewProj());
 	_renderSys->AddDrawSur(box->_drawSurf);
 
-	_plane = _renderSys->CreatePlane();
+	_plane = _renderSys->CreatePlane(10, 10);
+	_plane->SetTexture("test.png");
 	_plane->SetViewProj(_camera->GetViewProj());
 	_renderSys->AddDrawSur(_plane->_drawSurf);
 	

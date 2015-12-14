@@ -191,37 +191,3 @@ void R_FreeStaticTriSurf( srfTriangles_t *tri ) {
 //	}
 }
 
-/*
-=================
-R_StaticAlloc
-=================
-*/
-void *R_StaticAlloc( int bytes ) {
-	void	*buf;
-
-	//tr.pc.c_alloc++;
-
-	//tr.staticAllocCount += bytes;
-
-    buf = mem_alloc( bytes );
-
-	//// don't exit on failure on zero length allocations since the old code didn't
-	//if ( !buf && ( bytes != 0 ) ) {
-	//	common->FatalError( "R_StaticAlloc failed on %i bytes", bytes );
-	//}
-	return buf;
-}
-
-/*
-=================
-R_ClearedStaticAlloc
-=================
-*/
-void *R_ClearedStaticAlloc( int bytes ) {
-	void	*buf;
-
-	buf = R_StaticAlloc( bytes );
-	memset(buf, 0, bytes);
-	//SIMDProcessor->Memset( buf, 0, bytes );
-	return buf;
-}
