@@ -24,13 +24,13 @@ RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms)
 
 void RenderSystemLocal::Init()
 {	
-	glShadeModel(GL_SMOOTH);							
+	//glShadeModel(GL_SMOOTH);				// init value			
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);			// init value
 
-	glClearDepth(1.0f);									
+	glClearDepthf(1.0f);									
 	glEnable(GL_DEPTH_TEST);							
 	glDepthFunc(GL_LEQUAL);								
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	
+	//glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	
 	glViewport(0, 0, _winWidth, _winHeight);
 
 	// 文本需要

@@ -86,7 +86,7 @@ void R_GenerateGeometryVbo( srfTriangles_t *tri);
 
 void R_GenerateQuad(srfTriangles_t* geo);
 
-shadowMap_t* R_GenerateShadowMap();
+//shadowMap_t* R_GenerateShadowMap();
 
 drawSurf_t* R_GenerateQuadSurf();
 

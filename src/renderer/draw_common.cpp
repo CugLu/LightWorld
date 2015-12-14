@@ -5,7 +5,7 @@
 #include "sys/sys_public.h"
 #include "Material.h"
 
-#define offsetof(s,m)   (size_t)&reinterpret_cast<const volatile char&>((((s *)0)->m))
+//#define offsetof(s,m)   (size_t)&reinterpret_cast<const volatile char&>((((s *)0)->m))
 
 void R_RenderPTPass( drawSurf_t* drawSur, DrawFunc drawFunc ) {
 	srfTriangles_t* tri = drawSur->geo;

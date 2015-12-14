@@ -10,7 +10,7 @@ Image::~Image() {
 }
 
 void Image::FreeData() {
-    for (int i=0; i<_data.size(); i++) {
+    for (unsigned int i=0; i<_data.size(); i++) {
         delete _data[i];
     }
     _data.clear();

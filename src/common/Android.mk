@@ -25,20 +25,18 @@ LOCAL_CPP_FEATURES += exceptions
 
 
 LOCAL_SRC_FILES := \
-mat4.cpp\
+Mat4.cpp\
 Joint.cpp\
-vec2.cpp\
-hashtable.cpp\
-Heap.cpp\
+Vec2.cpp\
+HashTable.cpp\
 Lexer.cpp\
 Math.cpp\
 Parser.cpp\
 Plane.cpp\
-quat.cpp\
-Str.cpp\
+Quat.cpp\
+String.cpp\
 Timer.cpp\
 Token.cpp\
-vec2.cpp\
 aabb3d.cpp\
 List.cpp\
 

@@ -1,8 +1,6 @@
 #include "glutils.h"
+#include "common/precompiled.h"
 #include "sys/sys_public.h"
-
-#include <stdio.h>
-#include <string.h>
 
 static GLuint GL_CompileShader(GLenum shaderType, const char* source)
 {

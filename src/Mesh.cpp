@@ -49,16 +49,15 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 	int	numTVertexes;
 	int	i, j, k;
 	int	v, tv;
-	idVec3* vList;
+	Vec3* vList;
 	int *			vRemap;
-	idVec2 *		tvList;
+	Vec2 *		tvList;
 	int *			tvRemap;
 	matchVert_t *	mvTable;	// all of the match verts
 	matchVert_t **	mvHash;		// points inside mvTable for each xyz index
 	matchVert_t *	lastmv;
 	matchVert_t *	mv;
-	idVec3			normal;
-	int *			mergeTo;
+	Vec3			normal;
 	byte			color[4];
 	drawSurf_t* surf;
 
@@ -80,7 +79,6 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 
 	// the modeling programs can save out multiple surfaces with a common
 	// material, but we would like to merge them together where possible
-	mergeTo = (int *)_alloca( i * sizeof( mergeTo[0] ) ); 
 	memset( &surf, 0, sizeof( surf ) );
 
 	for ( lwoSurf = lwo->surf, i = 0; lwoSurf; lwoSurf = lwoSurf->next, i++ ) 
@@ -100,7 +98,7 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 		return false;
 	}
 
-	vList = (idVec3 *)R_StaticAlloc( layer->point.count * sizeof( vList[0] ) );
+	vList = (Vec3 *)R_StaticAlloc( layer->point.count * sizeof( vList[0] ) );
 	for ( j = 0; j < layer->point.count; j++ ) {
 		vList[j].x = layer->point.pt[j].pos[0];
 		vList[j].y = layer->point.pt[j].pos[2];
@@ -119,7 +117,7 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 	}
 
 	if ( numTVertexes ) {
-		tvList = (idVec2 *)mem_alloc( numTVertexes * sizeof( tvList[0] ) );
+		tvList = (Vec2 *)mem_alloc( numTVertexes * sizeof( tvList[0] ) );
 		int offset = 0;
 		for( lwVMap *vm = layer->vmap; vm; vm = vm->next ) {
 			if ( vm->type == LWID_('T','X','U','V') ) {
@@ -134,7 +132,7 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 	} else {
 		Sys_Warning( "ConvertLWOToModelSurfaces: model  has bad or missing uv data" );
 	  	numTVertexes = 1;
-		tvList = (idVec2 *)mem_cleared_alloc( numTVertexes * sizeof( tvList[0] ) );
+		tvList = (Vec2 *)mem_cleared_alloc( numTVertexes * sizeof( tvList[0] ) );
 	}
 
 	// It seems like the tools our artists are using often generate

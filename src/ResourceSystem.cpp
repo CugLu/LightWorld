@@ -15,7 +15,7 @@
 #include "MeshLoaderLwo.h"
 #include "MeshLoader3DS.h"
 
-#include "../ShaderSource.h"
+#include "ShaderSource.h"
 
 static LoaderPlugin loaderPlugin[] = {
     { "jpg", image_load_jpg},

@@ -1,4 +1,6 @@
 #include "MeshLoaderLwo.h"
+#include "common/mem.h"
+
 #define	FLOAT_IS_DENORMAL(x)	(((*(const unsigned long *)&x) & 0x7f800000) == 0x00000000 && \
 								 ((*(const unsigned long *)&x) & 0x007fffff) != 0x00000000 )
 /*
@@ -45,8 +47,6 @@ void BigRevBytes( void *bp, int elsize, int elcount ) {
 	}
 }
 
-#include "common/mem.h"
-#include "MeshLoaderLwo.h"
 
 /*
 ======================================================================
@@ -66,8 +66,8 @@ Free memory used by an lwClip.
 void lwFreeClip( lwClip *clip )
 {
    if ( clip ) {
-      lwListFree( clip->ifilter, (void (__cdecl *)(void *))lwFreePlugin );
-      lwListFree( clip->pfilter, (void (__cdecl *)(void *))lwFreePlugin );
+      lwListFree( clip->ifilter, (FreeFunc)lwFreePlugin );
+      lwListFree( clip->pfilter, (FreeFunc)lwFreePlugin );
 	  switch( clip->type ) {
 		case ID_STIL: {
 	      if ( clip->source.still.name ) mem_free( clip->source.still.name );
@@ -333,11 +333,10 @@ void lwFreeEnvelope( lwEnvelope *env )
    if ( env ) {
       if ( env->name ) mem_free( env->name );
       lwListFree( env->key, lwFree );
-      lwListFree( env->cfilter, (void (__cdecl *)(void *))lwFreePlugin );
+      lwListFree( env->cfilter, (FreeFunc)lwFreePlugin );
       mem_free( env );
    }
 }
-
 
 static int compare_keys( lwKey *k1, lwKey *k2 )
 {
@@ -411,7 +410,7 @@ lwEnvelope *lwGetEnvelope( idFile *fp, int cksize )
             if ( !key ) goto Fail;
             key->time = getF4( fp );
             key->value = getF4( fp );
-            lwListInsert( (void**)&env->key, key, (int (__cdecl *)(void *,void *))compare_keys );
+            lwListInsert( (void**)&env->key, key, (ComFunc)compare_keys );
             env->nkeys++;
             break;
 
@@ -919,7 +918,7 @@ lwListFree()
 Free the items in a list.
 ====================================================================== */
 
-void lwListFree( void *list, void ( *freeNode )( void * ))
+void lwListFree( void *list, FreeFunc freeNode)
 {
    lwNode *node, *next;
 
@@ -964,7 +963,7 @@ lwListInsert()
 Insert a node into a list in sorted order.
 ====================================================================== */
 
-void lwListInsert( void **vlist, void *vitem, int ( *compare )( void *, void * ))
+void lwListInsert( void **vlist, void *vitem, ComFunc compare)
 {
    lwNode **list, *item, *node, *prev;
 
@@ -1412,7 +1411,7 @@ void lwFreeLayer( lwLayer *layer )
       if ( layer->name ) mem_free( layer->name );
       lwFreePoints( &layer->point );
       lwFreePolygons( &layer->polygon );
-      lwListFree( layer->vmap, (void (__cdecl *)(void *))lwFreeVMap );
+      lwListFree( layer->vmap, (FreeFunc)lwFreeVMap );
       mem_free( layer );
    }
 }
@@ -1428,10 +1427,10 @@ Free memory used by an lwObject.
 void lwFreeObject( lwObject *object )
 {
    if ( object ) {
-      lwListFree( object->layer, (void (__cdecl *)(void *))lwFreeLayer );
-      lwListFree( object->env, (void (__cdecl *)(void *))lwFreeEnvelope );
-      lwListFree( object->clip, (void (__cdecl *)(void *))lwFreeClip );
-      lwListFree( object->surf, (void (__cdecl *)(void *))lwFreeSurface );
+      lwListFree( object->layer, (FreeFunc)lwFreeLayer );
+      lwListFree( object->env, (FreeFunc)lwFreeEnvelope );
+      lwListFree( object->clip, (FreeFunc)lwFreeClip );
+      lwListFree( object->surf, (FreeFunc)lwFreeSurface );
       lwFreeTags( &object->taglist );
       mem_free( object );
    }
@@ -2964,18 +2963,18 @@ void lwFreeSurface( lwSurface *surf )
 		if ( surf->name ) mem_free( surf->name );
 		if ( surf->srcname ) mem_free( surf->srcname );
 
-		lwListFree( surf->shader, (void (__cdecl *)(void *))lwFreePlugin );
+		lwListFree( surf->shader, (FreeFunc)lwFreePlugin );
 
-		lwListFree( surf->color.tex, (void (__cdecl *)(void *))lwFreeTexture );
-		lwListFree( surf->luminosity.tex, (void (__cdecl *)(void *))lwFreeTexture );
-		lwListFree( surf->diffuse.tex, (void (__cdecl *)(void *))lwFreeTexture );
-		lwListFree( surf->specularity.tex, (void (__cdecl *)(void *))lwFreeTexture );
-		lwListFree( surf->glossiness.tex, (void (__cdecl *)(void *))lwFreeTexture );
-		lwListFree( surf->reflection.val.tex, (void (__cdecl *)(void *))lwFreeTexture );
-		lwListFree( surf->transparency.val.tex, (void (__cdecl *)(void *))lwFreeTexture );
-		lwListFree( surf->eta.tex, (void (__cdecl *)(void *))lwFreeTexture );
-		lwListFree( surf->translucency.tex, (void (__cdecl *)(void *))lwFreeTexture );
-		lwListFree( surf->bump.tex, (void (__cdecl *)(void *))lwFreeTexture );
+		lwListFree( surf->color.tex, (FreeFunc)lwFreeTexture );
+		lwListFree( surf->luminosity.tex, (FreeFunc)lwFreeTexture );
+		lwListFree( surf->diffuse.tex, (FreeFunc)lwFreeTexture );
+		lwListFree( surf->specularity.tex, (FreeFunc)lwFreeTexture );
+		lwListFree( surf->glossiness.tex, (FreeFunc)lwFreeTexture );
+		lwListFree( surf->reflection.val.tex, (FreeFunc)lwFreeTexture );
+		lwListFree( surf->transparency.val.tex, (FreeFunc)lwFreeTexture );
+		lwListFree( surf->eta.tex, (FreeFunc)lwFreeTexture );
+		lwListFree( surf->translucency.tex, (FreeFunc)lwFreeTexture );
+		lwListFree( surf->bump.tex, (FreeFunc)lwFreeTexture );
 
 		mem_free( surf );
 	}
@@ -3630,7 +3629,7 @@ static int add_texture( lwSurface *surf, lwTexture *tex )
       default:  return 0;
    }
 
-   lwListInsert( (void**)list, tex, (int (__cdecl *)(void *,void *))compare_textures );
+   lwListInsert( (void**)list, tex, (ComFunc)compare_textures );
    return 1;
 }
 
@@ -3855,7 +3854,7 @@ lwSurface *lwGetSurface( idFile *fp, int cksize )
                case ID_SHDR:
                   shdr = lwGetShader( fp, sz - 4 );
                   if ( !shdr ) goto Fail;
-                  lwListInsert( (void**)&surf->shader, shdr, (int (__cdecl *)(void *,void *))compare_shaders );
+                  lwListInsert( (void**)&surf->shader, shdr, (ComFunc)compare_shaders );
                   ++surf->nshaders;
                   set_flen( 4 + get_flen() );
                   break;

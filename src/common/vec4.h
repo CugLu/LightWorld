@@ -2,18 +2,18 @@
 #define __VEC4_H__
 #include "Vec3.h"
 
-class vec4
+class Vec4
 {
 public:
-	vec4();
-	~vec4();
-	vec4(float x, float y, float z, float w);
+	Vec4();
+	~Vec4();
+	Vec4(float x, float y, float z, float w);
 
-	vec4(const Vec3& v, float w) : x(v.x), y(v.y), z(v.z), w(w) {}
+	Vec4(const Vec3& v, float w) : x(v.x), y(v.y), z(v.z), w(w) {}
 
-	vec4(const vec4& other) :x(other.x), y(other.y), z(other.z), w(other.w) {};
+	Vec4(const Vec4& other) :x(other.x), y(other.y), z(other.z), w(other.w) {};
 
-	inline void operator=( const vec4& other );
+	inline void operator=( const Vec4& other );
 
 	void Set(float x, float y, float z, float w);
 
@@ -26,19 +26,19 @@ public:
 	float w;
 };
 
-inline vec4::vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w)
+inline Vec4::Vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w)
 {
 }
 
-inline vec4::vec4()
+inline Vec4::Vec4()
 {
 }
 
-inline vec4::~vec4()
+inline Vec4::~Vec4()
 {
 }
 
-inline void vec4::Set(float x, float y, float z, float w)
+inline void Vec4::Set(float x, float y, float z, float w)
 {
 	this->x = x;
 	this->y = y;
@@ -46,7 +46,7 @@ inline void vec4::Set(float x, float y, float z, float w)
 	this->w = w;
 }
 
-inline void vec4::operator=( const vec4& other )
+inline void Vec4::operator=( const Vec4& other )
 {
 	this->x = other.x;
 	this->y = other.y;
@@ -54,7 +54,7 @@ inline void vec4::operator=( const vec4& other )
 	this->w = other.w;
 }
 
-inline Vec3 &vec4::ToVec3( void )
+inline Vec3 &Vec4::ToVec3( void )
 {
 	return *reinterpret_cast<Vec3 *>(this);
 }

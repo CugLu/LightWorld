@@ -295,19 +295,23 @@ void MeshLoaderB3D::ReadKey(Joint* joint)
 	while( CheckSize() ){
 		int frame = _file->ReadInt();
 		if (flags & 1){
-			Vec3 v = _file->ReadVec3();
-			PositionKey k = { v, frame };
+			PositionKey k;
+			k.position = _file->ReadVec3();
+			k.frame = frame;
 			joint->positionKeys.push_back(k);
 		}
 		if( flags & 2 ){
-			Vec3 v = _file->ReadVec3();
-			ScaleKey k = { v, frame };
+			ScaleKey k;
+			k.position = _file->ReadVec3();
+			k.frame = frame;
 			joint->scaleKeys.push_back(k);
 		}
 		if( flags & 4 ){
 			Quat r = _file->ReadQuat();
 			r.w = -r.w; // fix bug
-			RotationKey k = { r, frame };
+			RotationKey k;
+			k.rotation = r;
+			k.frame = frame;
 			joint->rotationKeys.push_back(k);
 		}
 	}

@@ -12,15 +12,15 @@ typedef unsigned int        UINT;
 typedef unsigned int        *PUINT;
 typedef long LONG;
 
-typedef struct tagBITMAPFILEHEADER {
+struct bitmapfileheader{
 	unsigned short bfType;
 	unsigned long  bfSize;
-	unsigned short     bfReserved1;
-	unsigned short     bfReserved2;
-	unsigned long   bfOffBits;
-} BITMAPFILEHEADER;
+	unsigned short bfReserved1;
+	unsigned short bfReserved2;
+	unsigned long  bfOffBits;
+};
 
-typedef struct tagBITMAPINFOHEADER{
+struct bitmapinfoheader{
 	DWORD      biSize;
 	LONG       biWidth;
 	LONG       biHeight;
@@ -32,13 +32,13 @@ typedef struct tagBITMAPINFOHEADER{
 	LONG       biYPelsPerMeter;
 	DWORD      biClrUsed;
 	DWORD      biClrImportant;
-} BITMAPINFOHEADER;
+};
 
 bool image_load_bmp(const char *file, Image* i)
 {
 	FILE *fp; //our file pointer
-    BITMAPFILEHEADER bitmapFileHeader; //our bitmap file header
-	BITMAPINFOHEADER bitmapInfoHeader;
+    bitmapfileheader bitmapFileHeader; //our bitmap file header
+	bitmapinfoheader bitmapInfoHeader;
     unsigned char *bitmapImage;  //store image data
     int imageIdx=0;  //image index counter
     unsigned char tempRGB;  //our swap variable
@@ -49,7 +49,7 @@ bool image_load_bmp(const char *file, Image* i)
         return false;
 
     //read the bitmap file header
-    fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER),1,fp);
+    fread(&bitmapFileHeader, sizeof(bitmapfileheader),1,fp);
 
     //verify that this is a bmp file by check bitmap id
     if (bitmapFileHeader.bfType !=0x4D42)
@@ -59,7 +59,7 @@ bool image_load_bmp(const char *file, Image* i)
     }
 
     //read the bitmap info header
-    fread(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER),1,fp); // small edit. forgot to add the closing bracket at sizeof
+    fread(&bitmapInfoHeader, sizeof(bitmapinfoheader),1,fp); // small edit. forgot to add the closing bracket at sizeof
 
 	bitmapInfoHeader.biSizeImage = bitmapInfoHeader.biWidth*bitmapInfoHeader.biHeight*(bitmapInfoHeader.biBitCount>>3);
     //move file point to the begging of bitmap data
@@ -87,7 +87,7 @@ bool image_load_bmp(const char *file, Image* i)
     }
 
     //swap the r and b values to get RGB (bitmap is BGR)
-	for (int imageIdx = 0; imageIdx < bitmapInfoHeader.biSizeImage; imageIdx += 3)
+	for (unsigned int imageIdx = 0; imageIdx < bitmapInfoHeader.biSizeImage; imageIdx += 3)
     {
         tempRGB = bitmapImage[imageIdx];
         bitmapImage[imageIdx] = bitmapImage[imageIdx + 2];

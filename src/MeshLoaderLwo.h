@@ -213,6 +213,8 @@ typedef struct st_lwEnvelope {
 #define BEH_OFFSET     4
 #define BEH_LINEAR     5
 
+typedef void (*FreeFunc)(void *);
+typedef int ( *ComFunc)( void *, void * );
 
 /* values that can be enveloped */
 
@@ -611,10 +613,9 @@ lwObject *lwGetObject5( const char *filename, unsigned int *failID, int *failpos
 
 /* list.c */
 
-	void lwListFree( void *list, void ( *freeNode )( void * ));
+void lwListFree( void *list, FreeFunc freeNode);
 void lwListAdd( void **list, void *node );
-void lwListInsert( void **vlist, void *vitem,
-				  int ( *compare )( void *, void * ));
+void lwListInsert( void **vlist, void *vitem, ComFunc func);
 
 /* vecmath.c */
 

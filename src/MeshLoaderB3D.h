@@ -57,7 +57,7 @@ public:
 		//SB3dTexture *Textures[video::MATERIAL_MAX_TEXTURES];
 	};
 
-	bool MeshLoaderB3D::Load(const char* file) ;
+	bool Load(const char* file) ;
 
 	void ReadTexs();
 	bool ReadVrts();

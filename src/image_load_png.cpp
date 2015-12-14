@@ -122,25 +122,26 @@ bool image_load_png( const char *file, Image* i)
 
     i->_type = (use16) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE;
 
+	//GL_ALPHA, GL_LUMINANCE, GL_LUMINANCE_ALPHA, GL_RGB, GL_RGBA.
     switch ((int)png_get_channels(png_ptr, info_ptr)) {
         case 1:
             i->_format = GL_LUMINANCE;
-            i->_internalFormat = (use16) ? GL_LUMINANCE16 : GL_LUMINANCE8;
+            i->_internalFormat = GL_LUMINANCE;
             i->_elementSize = (use16) ? 2 : 1;
             break;
         case 2:
             i->_format = GL_LUMINANCE_ALPHA;
-            i->_internalFormat = (use16) ? GL_LUMINANCE16_ALPHA16 : GL_LUMINANCE8_ALPHA8;
+            i->_internalFormat = GL_LUMINANCE_ALPHA;
             i->_elementSize = (use16) ? 4 : 2;
             break;
         case 3:
             i->_format = GL_RGB;
-            i->_internalFormat = (use16) ? GL_RGB16 : GL_RGB8;
+            i->_internalFormat = GL_RGB;
             i->_elementSize = (use16) ? 6 : 3;
             break;
         case 4:
             i->_format = GL_RGBA;
-            i->_internalFormat = (use16) ? GL_RGBA16 : GL_RGBA8;
+            i->_internalFormat = GL_RGBA;
             i->_elementSize = (use16) ? 8 : 4;
             break;
     }

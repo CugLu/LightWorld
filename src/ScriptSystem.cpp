@@ -48,10 +48,6 @@ int lua_print(lua_State * luastate)
 	return 0;
 }
 
-
-
-
-
 ScriptSystem::ScriptSystem()
 {
 }
@@ -89,7 +85,6 @@ bool ScriptSystem::RunScript( const char* filename )
 
 	return true;
 }
-
 
 bool ScriptSystem::Call( const char* funcname )
 {

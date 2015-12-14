@@ -12,7 +12,6 @@ Builds tangents, normals, and face planes
 */
 void R_DeriveNormals( srfTriangles_t *tri ) {
 	int				i;
-	Plane			*planes;
 
 	if ( tri->tangentsCalculated ) {
 		return;

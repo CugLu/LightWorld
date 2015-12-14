@@ -2,8 +2,7 @@
 #define __SYS_PUBLIC__
 
 #include <stdarg.h>
-#include "../common/idlib.h"
-#include "../common/Array.h"
+#include "common/Array.h"
 
 typedef struct
 {

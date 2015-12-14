@@ -1,11 +1,11 @@
 // draw common °æ±¾2
 
 #include "draw_common.h"
-#include "../Shader.h"
-#include "../Texture.h"
-#include "../DrawVert.h"
-#include "../sys/sys_public.h"
-#include "../Material.h"
+#include "Shader.h"
+#include "Texture.h"
+#include "DrawVert.h"
+#include "sys/sys_public.h"
+#include "Material.h"
 
 static void R_BindArrayBuffer(int i) {
 	switch (i) {

@@ -1,13 +1,9 @@
 #include "win_local.h"
 #include "glutils.h"
 #include "sys/sys_public.h"
-#include <windows.h>
 
-#include "gl/wglext.h"
-#ifdef _WIN32
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glew32.lib")
-#endif
 
 const char* CLASS_NAME = "glimp";
 static bool GL_SetPixelFormat( ) {
@@ -204,15 +200,15 @@ static int GL_InitGL()
 	//Sys_Printf("gl extension: %s\n", GL_extension);
 
 	//Setting up swap intervals
-	PFNWGLSWAPINTERVALEXTPROC       wglSwapIntervalEXT = NULL;
-	PFNWGLGETSWAPINTERVALEXTPROC    wglGetSwapIntervalEXT = NULL;
-	wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
-	wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC)wglGetProcAddress("wglGetSwapIntervalEXT");
-	if (wglGetSwapIntervalEXT && wglSwapIntervalEXT)
-	{
-		Sys_Printf("wglGetSwapIntervalEXT %d\n", wglGetSwapIntervalEXT());
-		wglSwapIntervalEXT(0);
-	}
+	//PFNWGLSWAPINTERVALEXTPROC       wglSwapIntervalEXT = NULL;
+	//PFNWGLGETSWAPINTERVALEXTPROC    wglGetSwapIntervalEXT = NULL;
+	//wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
+	//wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC)wglGetProcAddress("wglGetSwapIntervalEXT");
+	//if (wglGetSwapIntervalEXT && wglSwapIntervalEXT)
+	//{
+	//	Sys_Printf("wglGetSwapIntervalEXT %d\n", wglGetSwapIntervalEXT());
+	//	wglSwapIntervalEXT(0);
+	//}
 
 	return false;										
 }
@@ -229,10 +225,8 @@ bool GL_CreateDevice(int width, int height){
 	GL_SetPixelFormat();
 	GL_InitGL();
 
-	
 	ShowWindow( win32.hWnd, SW_SHOW );
 	UpdateWindow( win32.hWnd );
-
 
 	return true;
 }

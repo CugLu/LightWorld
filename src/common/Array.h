@@ -273,31 +273,31 @@ int Array<T>::binary_search( const T& element )
 template <class T>
 int Array<T>::binary_search( const T& element, int left, int right )
 {
-	if (!used)
-		return -1;
+	//if (!used)
+	//	return -1;
 
-	sort();
+	//sort();
 
-	int m;
+	//int m;
 
-	do
-	{
-		m = (left+right)>>1;
+	//do
+	//{
+	//	m = (left+right)>>1;
 
-		if (element < data[m])
-			right = m - 1;
-		else
-			left = m + 1;
+	//	if (element < data[m])
+	//		right = m - 1;
+	//	else
+	//		left = m + 1;
 
-	} while((element < data[m] || data[m] < element) && left<=right);
+	//} while((element < data[m] || data[m] < element) && left<=right);
 
-	// this last line equals to:
-	// " while((element != array[m]) && left<=right);"
-	// but we only want to use the '<' operator.
-	// the same in next line, it is "(element == array[m])"
+	//// this last line equals to:
+	//// " while((element != array[m]) && left<=right);"
+	//// but we only want to use the '<' operator.
+	//// the same in next line, it is "(element == array[m])"
 
-	if (!(element < data[m]) && !(data[m] < element))
-		return m;
+	//if (!(element < data[m]) && !(data[m] < element))
+	//	return m;
 
 	return -1;
 }

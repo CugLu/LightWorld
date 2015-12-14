@@ -11,11 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\sampler\sampler.cpp" />
-    <ClCompile Include="..\..\sampler\win_main.cpp" />
+    <ClCompile Include="..\..\example\example01\sampler.cpp" />
+    <ClCompile Include="..\..\example\example01\win_main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\sampler\sampler.h" />
+    <ClInclude Include="..\..\example\example01\sampler.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{44D32B8D-B58A-48A1-AE69-31C286BDEF15}</ProjectGuid>

@@ -2,7 +2,6 @@
 #define __GLUTILS_H__
 
 #ifdef _WIN32
-//#  include <GL/glew.h>
 #include "gl/glew.h"
 #elif __APPLE__
 #  include <openGLES/ES2/gl.h>

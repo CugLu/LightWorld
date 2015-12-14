@@ -1,3 +1,3 @@
 set solib-search-path ./obj/local/armeabi
-source C:/android_tool/android-ndk-r10d/prebuilt/common/gdb/common.setup
-directory C:/android_tool/android-ndk-r10d/platforms/android-15/arch-arm/usr/include C:/android_tool/android-ndk-r10d/sources/cxx-stl/stlport/stlport C:/android_tool/android-ndk-r10d/sources/cxx-stl//gabi++/include C:\program1\FlipEngine1\build\android\../../Engine/common jni
+source F:/AndroidTool/android-ndk-r10d/prebuilt/common/gdb/common.setup
+directory F:/AndroidTool/android-ndk-r10d/platforms/android-15/arch-arm/usr/include E:\MySourceCode\FlipEngine1\build\android\../../build/prebuild/png/prebuilt/android E:\MySourceCode\FlipEngine1\build\android\../../build/prebuild/zlib/prebuilt/android F:/AndroidTool/android-ndk-r10d/sources/cxx-stl/stlport/stlport F:/AndroidTool/android-ndk-r10d/sources/cxx-stl//gabi++/include E:\MySourceCode\FlipEngine1\build\android\../../src/common E:\MySourceCode\FlipEngine1\build\android\../../src/../build/prebuild/android jni E:\MySourceCode\FlipEngine1\build\android\../../build/prebuild/jpeg/prebuilt/android E:\MySourceCode\FlipEngine1\build\android\../../build/prebuild/lua/luajit/prebuilt/android

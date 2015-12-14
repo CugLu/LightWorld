@@ -20,7 +20,7 @@ public:
 
 	inline mat4 operator*(const mat4 mat);
 	inline mat4 operator*=(const mat4& mat);
-	inline vec4 operator*( const vec4 &vec ) const;
+	inline Vec4 operator*( const Vec4 &vec ) const;
 
 	void makeIdentity();
 	void buildPerspectiveProjection(float fieldOfViewRadians, float aspectRatio, float zNear, float zFar);
@@ -125,9 +125,9 @@ inline mat4 mat4::operator*=(const mat4& mat)
 	return *this * mat;
 }
 
-inline vec4 mat4::operator*( const vec4 &vec ) const 
+inline Vec4 mat4::operator*( const Vec4 &vec ) const 
 {
-	return vec4(
+	return Vec4(
 		m[0] * vec.x + m[4] * vec.y + m[8] * vec.z + m[12] * vec.w,
 		m[1] * vec.x + m[5] * vec.y + m[9] * vec.z + m[13] * vec.w,
 		m[2] * vec.x + m[6] * vec.y + m[10] * vec.z + m[14] * vec.w,

@@ -52,6 +52,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>D:\Program Files (x86)\Visual Leak Detector\lib\Win32;../Engine/external/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>Debug;../../src/external/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -197,6 +200,32 @@
     <ClCompile Include="../../src/MeshLoaderB3D.cpp" />
     <ClCompile Include="../../src/Mesh.cpp" />
     <ClCompile Include="../../src/Model.cpp" />
+    <ClCompile Include="..\..\src\external\spine\Animation.c" />
+    <ClCompile Include="..\..\src\external\spine\AnimationState.c" />
+    <ClCompile Include="..\..\src\external\spine\AnimationStateData.c" />
+    <ClCompile Include="..\..\src\external\spine\Atlas.c" />
+    <ClCompile Include="..\..\src\external\spine\AtlasAttachmentLoader.c" />
+    <ClCompile Include="..\..\src\external\spine\Attachment.c" />
+    <ClCompile Include="..\..\src\external\spine\AttachmentLoader.c" />
+    <ClCompile Include="..\..\src\external\spine\Bone.c" />
+    <ClCompile Include="..\..\src\external\spine\BoneData.c" />
+    <ClCompile Include="..\..\src\external\spine\BoundingBoxAttachment.c" />
+    <ClCompile Include="..\..\src\external\spine\Event.c" />
+    <ClCompile Include="..\..\src\external\spine\EventData.c" />
+    <ClCompile Include="..\..\src\external\spine\extension.c" />
+    <ClCompile Include="..\..\src\external\spine\IkConstraint.c" />
+    <ClCompile Include="..\..\src\external\spine\IkConstraintData.c" />
+    <ClCompile Include="..\..\src\external\spine\Json.c" />
+    <ClCompile Include="..\..\src\external\spine\MeshAttachment.c" />
+    <ClCompile Include="..\..\src\external\spine\RegionAttachment.c" />
+    <ClCompile Include="..\..\src\external\spine\Skeleton.c" />
+    <ClCompile Include="..\..\src\external\spine\SkeletonBounds.c" />
+    <ClCompile Include="..\..\src\external\spine\SkeletonData.c" />
+    <ClCompile Include="..\..\src\external\spine\SkeletonJson.c" />
+    <ClCompile Include="..\..\src\external\spine\Skin.c" />
+    <ClCompile Include="..\..\src\external\spine\SkinnedMeshAttachment.c" />
+    <ClCompile Include="..\..\src\external\spine\Slot.c" />
+    <ClCompile Include="..\..\src\external\spine\SlotData.c" />
     <ClCompile Include="..\..\src\MeshLoaderLwo.cpp" />
     <ClCompile Include="../../src/renderer\draw_common.cpp" />
     <ClCompile Include="../../src/renderer\RenderSystem.cpp" />
@@ -298,6 +327,33 @@
     <ClInclude Include="../../src/MeshLoaderB3D.h" />
     <ClInclude Include="../../src/Mesh.h" />
     <ClInclude Include="../../src/Model.h" />
+    <ClInclude Include="..\..\src\external\spine\Animation.h" />
+    <ClInclude Include="..\..\src\external\spine\AnimationState.h" />
+    <ClInclude Include="..\..\src\external\spine\AnimationStateData.h" />
+    <ClInclude Include="..\..\src\external\spine\Atlas.h" />
+    <ClInclude Include="..\..\src\external\spine\AtlasAttachmentLoader.h" />
+    <ClInclude Include="..\..\src\external\spine\Attachment.h" />
+    <ClInclude Include="..\..\src\external\spine\AttachmentLoader.h" />
+    <ClInclude Include="..\..\src\external\spine\Bone.h" />
+    <ClInclude Include="..\..\src\external\spine\BoneData.h" />
+    <ClInclude Include="..\..\src\external\spine\BoundingBoxAttachment.h" />
+    <ClInclude Include="..\..\src\external\spine\Event.h" />
+    <ClInclude Include="..\..\src\external\spine\EventData.h" />
+    <ClInclude Include="..\..\src\external\spine\extension.h" />
+    <ClInclude Include="..\..\src\external\spine\IkConstraint.h" />
+    <ClInclude Include="..\..\src\external\spine\IkConstraintData.h" />
+    <ClInclude Include="..\..\src\external\spine\Json.h" />
+    <ClInclude Include="..\..\src\external\spine\MeshAttachment.h" />
+    <ClInclude Include="..\..\src\external\spine\RegionAttachment.h" />
+    <ClInclude Include="..\..\src\external\spine\Skeleton.h" />
+    <ClInclude Include="..\..\src\external\spine\SkeletonBounds.h" />
+    <ClInclude Include="..\..\src\external\spine\SkeletonData.h" />
+    <ClInclude Include="..\..\src\external\spine\SkeletonJson.h" />
+    <ClInclude Include="..\..\src\external\spine\Skin.h" />
+    <ClInclude Include="..\..\src\external\spine\SkinnedMeshAttachment.h" />
+    <ClInclude Include="..\..\src\external\spine\Slot.h" />
+    <ClInclude Include="..\..\src\external\spine\SlotData.h" />
+    <ClInclude Include="..\..\src\external\spine\spine.h" />
     <ClInclude Include="..\..\src\MeshLoaderLwo.h" />
     <ClInclude Include="../../src/renderer\draw_common.h" />
     <ClInclude Include="../../src/renderer\RenderSystem.h" />

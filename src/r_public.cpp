@@ -138,29 +138,29 @@ void R_GenerateBox( srfTriangles_t* geo, float sx, float sy, float sz)
 	}
 }
 
-shadowMap_t* R_GenerateShadowMap()
-{
-	shadowMap_t* shadowMap = new shadowMap_t;
-
-	// Create texid
-	glGenTextures(1, &shadowMap->texId);
-	glBindTexture(GL_TEXTURE_2D, shadowMap->texId);
-	glTexStorage2D( GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT32F, SHADOWMAP_DEPTH_SIZE, SHADOWMAP_DEPTH_SIZE);
-
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-	glGenFramebuffers(1, &shadowMap->fbo);    
-	glBindFramebuffer(GL_FRAMEBUFFER, shadowMap->fbo);
-	glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowMap->texId, 0);
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	return shadowMap;
-}
+//shadowMap_t* R_GenerateShadowMap()
+//{
+//	shadowMap_t* shadowMap = new shadowMap_t;
+//
+//	// Create texid
+//	glGenTextures(1, &shadowMap->texId);
+//	glBindTexture(GL_TEXTURE_2D, shadowMap->texId);
+//	glTexStorage2D( GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT32F, SHADOWMAP_DEPTH_SIZE, SHADOWMAP_DEPTH_SIZE);
+//
+//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+//
+//	glGenFramebuffers(1, &shadowMap->fbo);    
+//	glBindFramebuffer(GL_FRAMEBUFFER, shadowMap->fbo);
+//	glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowMap->texId, 0);
+//	glDrawBuffer(GL_NONE);
+//	glReadBuffer(GL_NONE);
+//	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+//
+//	return shadowMap;
+//}
 
 mat4 R_BillboardModelView( mat4& model, mat4& view )
 {
@@ -274,7 +274,7 @@ void R_UpdateGeoPoses(srfTriangles_t* geo, Joint* joint, float frame)
 
 Vec2 R_WorldToScreenPos( Vec3 pos, mat4* viewProj, int screenwidth, int screenheight )
 {
-	vec4 out = (*viewProj) * vec4(pos, 1.0f);
+	Vec4 out = (*viewProj) * Vec4(pos, 1.0f);
 
 	out.x /= out.w;
 	out.y /= out.w;
