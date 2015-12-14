@@ -12,7 +12,7 @@
 #include "Material.h"
 #include "common/File.h"
 
-#include "Model_lwo.h"
+#include "MeshLoaderLwo.h"
 #include "MeshLoader3DS.h"
 
 #include "../ShaderSource.h"

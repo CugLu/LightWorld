@@ -1,7 +1,7 @@
 #ifndef __LEXER_H__
 #define __LEXER_H__
 
-#include "idlib.h"
+#include "precompiled.h"
 #include "Token.h"
 
 // lexer flags

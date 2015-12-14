@@ -5,7 +5,7 @@ Quat::Quat(float _w, float _x, float _y, float _z) :w(_w), x(_x), y(_y), z(_z)
 
 }
 
-void Quat::fromAxisAngle(const Vec3& axis, float angle)
+void Quat::FromAxisAngle(const Vec3& axis, float angle)
 {
 	float rad = angle*0.5f;
 	float scale = sinf(rad);
@@ -16,7 +16,7 @@ void Quat::fromAxisAngle(const Vec3& axis, float angle)
 	z = axis.z * scale;
 }
 
-mat4 Quat::toMatrix() const
+mat4 Quat::ToMatrix() const
 {
 	mat4 m;
 	float wx, wy, wz, xx, xy, xz, yy, yz, zz;
@@ -57,14 +57,14 @@ mat4 Quat::toMatrix() const
 	return m;
 }
 
-float Quat::dot(const Quat& rkQ) const
+float Quat::Dot(const Quat& rkQ) const
 {
     return w*rkQ.w+x*rkQ.x+y*rkQ.y+z*rkQ.z;
 }
 
-Quat& Quat::slerp(Quat q1, Quat q2, float time, float threshold)
+Quat& Quat::Slerp(Quat q1, Quat q2, float time, float threshold)
 {
-	float angle = q1.dot(q2);
+	float angle = q1.Dot(q2);
 
 	// make sure we use the short rotation
 	if (angle < 0.0f)
@@ -82,16 +82,16 @@ Quat& Quat::slerp(Quat q1, Quat q2, float time, float threshold)
 		return (*this = (q1*scale) + (q2*invscale));
 	}
 	else // linear interploation
-		return lerp(q1,q2,time);
+		return Lerp(q1,q2,time);
 }
 
-Quat& Quat::lerp(Quat q1, Quat q2, float time)
+Quat& Quat::Lerp(Quat q1, Quat q2, float time)
 {
 	const float scale = 1.0f - time;
 	return (*this = (q1*scale) + (q2*time));
 }
 
-Quat& Quat::rotationFromTo(const Vec3& from, const Vec3& to)
+Quat& Quat::RotationFromTo(const Vec3& from, const Vec3& to)
 {
 	// Based on Stan Melax's article in Game Programming Gems
 	// Copy, since cannot modify local
@@ -115,13 +115,13 @@ Quat& Quat::rotationFromTo(const Vec3& from, const Vec3& to)
 			axis = axis.cross(v0);
 		}
 		// same as fromAngleAxis(core::PI, axis).normalize();
-		return set(axis.x, axis.y, axis.z, 0).Normalize();
+		return Set(axis.x, axis.y, axis.z, 0).Normalize();
 	}
 
 	const float s = sqrtf( (1+d)*2 ); // optimize inv_sqrt
 	const float invs = 1.f / s;
 	const Vec3 c = v0.cross(v1)*invs;
-	return set(c.x, c.y, c.z, s * 0.5f).Normalize();
+	return Set(c.x, c.y, c.z, s * 0.5f).Normalize();
 }
 
 Quat& Quat::MakeIdentity()
@@ -134,7 +134,7 @@ Quat& Quat::MakeIdentity()
 }
 
 
-Quat& Quat::set(float x, float y, float z, float w)
+Quat& Quat::Set(float x, float y, float z, float w)
 {
 	this->x = x;
 	this->y = y;
@@ -152,4 +152,14 @@ Quat& Quat::Normalize()
 
 	//n = 1.0f / sqrtf(n);
 	return (*this *= (1.f / sqrtf(n)) );
+}
+
+bool Quat::operator==( const Quat& other ) const
+{
+	return other.x == x || other.y == y && other.z == z && other.w == w;
+}
+
+bool Quat::operator!=( const Quat& other ) const
+{
+	return other.x != x || other.y != y || other.z != z || other.w != w;
 }

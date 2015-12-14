@@ -2,13 +2,6 @@
 #define __MATH_MATH_H__
 
 #include "precompiled.h"
-/*
-===============================================================================
-
-  Math
-
-===============================================================================
-*/
 
 #ifdef INFINITY
 #undef INFINITY
@@ -19,7 +12,6 @@
 #endif
 
 const float	PI				= 3.14159265358979323846f;
-
 
 #define DEG2RAD(a)				( (a) * PI / 180.0f )
 #define RAD2DEG(a)				( (a) * idMath::M_RAD2DEG )

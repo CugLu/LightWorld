@@ -17,7 +17,6 @@ public:
 	Vec3 _max;
 };
 
-
 #endif
 
 

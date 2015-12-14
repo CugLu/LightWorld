@@ -113,7 +113,7 @@ int ShadowVolume::createEdgesAndCaps(Vec3 light, Array<Vec3>* svp)
 
 			// add edges if face is adjacent to back-facing face
 			// or if no adjacent face was found
-			if (adj0 == i || mIsFrontFace[adj0] == false)
+			if (adj0 == i || !mIsFrontFace[adj0])
 			{
 				// add edge v0-v1
 				mEdges[2*numEdges+0] = wFace0;
@@ -121,7 +121,7 @@ int ShadowVolume::createEdgesAndCaps(Vec3 light, Array<Vec3>* svp)
 				++numEdges;
 			}
 
-			if (adj1 == i || mIsFrontFace[adj1] == false)
+			if (adj1 == i || !mIsFrontFace[adj1])
 			{
 				// add edge v1-v2
 				mEdges[2*numEdges+0] = wFace1;
@@ -129,7 +129,7 @@ int ShadowVolume::createEdgesAndCaps(Vec3 light, Array<Vec3>* svp)
 				++numEdges;
 			}
 
-			if (adj2 == i || mIsFrontFace[adj2] == false)
+			if (adj2 == i || !mIsFrontFace[adj2])
 			{
 				// add edge v2-v0
 				mEdges[2*numEdges+0] = wFace2;
@@ -148,14 +148,14 @@ void ShadowVolume::createSideFace()
 
 void ShadowVolume::calculateAdjacency()
 {
-	s32 indexCount = mFaceCount*3;
+	u32 indexCount = mFaceCount*3;
 	// go through all faces and fetch their three neighbours
 	for (u32 f=0; f<mFaceCount*3; f+=3)
 	{
 		for (u32 edge = 0; edge<3; ++edge)
 		{
 			const Vec3& v1 = mVertices[mIndices[f+edge]];
-			const Vec3& v2 = mVertices[mIndices[f+((edge+1)%3)]];
+			const Vec3& v2 = mVertices[mIndices[f+(edge+1)%3]];
 
 			// now we search an_O_ther _F_ace with these two
 			// vertices, which is not the current face.

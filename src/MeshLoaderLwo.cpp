@@ -1,4 +1,4 @@
-#include "Model_lwo.h"
+#include "MeshLoaderLwo.h"
 #define	FLOAT_IS_DENORMAL(x)	(((*(const unsigned long *)&x) & 0x7f800000) == 0x00000000 && \
 								 ((*(const unsigned long *)&x) & 0x007fffff) != 0x00000000 )
 /*
@@ -46,7 +46,7 @@ void BigRevBytes( void *bp, int elsize, int elcount ) {
 }
 
 #include "common/mem.h"
-#include "Model_lwo.h"
+#include "MeshLoaderLwo.h"
 
 /*
 ======================================================================

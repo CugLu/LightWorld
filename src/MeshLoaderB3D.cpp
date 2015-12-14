@@ -145,7 +145,7 @@ void MeshLoaderB3D::ExitChunk()
 void MeshLoaderB3D::ReadTexs()
 {
 	while (CheckSize()) {
-		printTree("read texs \n");
+		PrintTree("read texs \n");
 		SB3dTexture tex;
 		tex.TextureName = _file->ReadString();
 		tex.Flags = _file->ReadInt();
@@ -164,7 +164,7 @@ Joint* MeshLoaderB3D::ReadNode()
 	Joint* joint = new Joint;
 
 	lfStr str = _file->ReadString();
-	printTree(str.c_str());
+	PrintTree(str.c_str());
 
 	Vec3 t = _file->ReadVec3();
 	Vec3 s = _file->ReadVec3();
@@ -205,7 +205,7 @@ void MeshLoaderB3D::ReadBrus()
 	}
 	while( CheckSize() ){
 		lfStr name = _file->ReadString();
-		printTree(name.c_str());
+		PrintTree(name.c_str());
 		Vec3 color = _file->ReadVec3();
 		float alpha = _file->ReadFloat();
 		float shiny = _file->ReadFloat();
@@ -229,7 +229,7 @@ void MeshLoaderB3D::ReadBone( Joint* joint )
 		joint->vertexWeights.push_back(weight);
 		i++;
 	}
-	printTree("vertex count: %d", i);
+	PrintTree("vertex count: %d", i);
 }
 
 void MeshLoaderB3D::ReadMesh() {
@@ -247,7 +247,7 @@ void MeshLoaderB3D::ReadMesh() {
 	}
 }
 
-void MeshLoaderB3D::printTree(const char *psz, ...) {
+void MeshLoaderB3D::PrintTree(const char *psz, ...) {
 	//char sBuf[128];
 	//va_list ap;
 	//va_start(ap, psz);

@@ -48,6 +48,10 @@
 
 typedef unsigned char byte;
 
+#ifndef BIT
+#define BIT( num )				( 1 << ( num ) )
+#endif
+
 //-----------------------------------------------------
 
 #endif	/* __cplusplus */

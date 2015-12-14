@@ -197,7 +197,7 @@
     <ClCompile Include="../../src/MeshLoaderB3D.cpp" />
     <ClCompile Include="../../src/Mesh.cpp" />
     <ClCompile Include="../../src/Model.cpp" />
-    <ClCompile Include="../../src/Model_lwo.cpp" />
+    <ClCompile Include="..\..\src\MeshLoaderLwo.cpp" />
     <ClCompile Include="../../src/renderer\draw_common.cpp" />
     <ClCompile Include="../../src/renderer\RenderSystem.cpp" />
     <ClCompile Include="../../src/renderer\draw_common1.cpp" />
@@ -240,7 +240,6 @@
     <ClInclude Include="../../src/common\Aabb3d.h" />
     <ClInclude Include="../../src/common\HashTable.h" />
     <ClInclude Include="../../src/common\mem.h" />
-    <ClInclude Include="../../src/common\idlib.h" />
     <ClInclude Include="../../src/common\Joint.h" />
     <ClInclude Include="../../src/common\List.h" />
     <ClInclude Include="../../src/common\Math.h" />
@@ -299,7 +298,7 @@
     <ClInclude Include="../../src/MeshLoaderB3D.h" />
     <ClInclude Include="../../src/Mesh.h" />
     <ClInclude Include="../../src/Model.h" />
-    <ClInclude Include="../../src/Model_lwo.h" />
+    <ClInclude Include="..\..\src\MeshLoaderLwo.h" />
     <ClInclude Include="../../src/renderer\draw_common.h" />
     <ClInclude Include="../../src/renderer\RenderSystem.h" />
     <ClInclude Include="../../src/ResourceSystem.h" />

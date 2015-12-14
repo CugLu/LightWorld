@@ -2,13 +2,7 @@
 #define __TOKEN_H__
 
 #include "String.h"
-/*
-===============================================================================
 
-	idToken is a token read from a file or memory with idLexer or idParser
-
-===============================================================================
-*/
 
 enum TokenType{
   TK_AND = 257, 

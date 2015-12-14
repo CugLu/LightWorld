@@ -1,6 +1,6 @@
 #include "sys/sys_public.h"
 #include "Mesh.h"
-#include "Model_lwo.h"
+#include "MeshLoaderLwo.h"
 #include "common/mem.h"
 
 Mesh::Mesh() 
@@ -30,13 +30,13 @@ void Mesh::GenerateNormals()
 
 void Mesh::CalcBounds()
 {
-	for (int i=0; i<_geometries.size(); ++i)
+	for (unsigned int i=0; i<_geometries.size(); ++i)
 	{
 		R_BoundTriSurf(_geometries[i]);
 	}
 }
 
-#include "Model_lwo.h"
+#include "MeshLoaderLwo.h"
 typedef struct matchVert_s {
 	struct matchVert_s	*next;
 	int		v, tv;
@@ -61,7 +61,6 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 	int *			mergeTo;
 	byte			color[4];
 	drawSurf_t* surf;
-	drawSurf_t* modelSurf;
 
 	if ( !lwo ) {
 		return false;

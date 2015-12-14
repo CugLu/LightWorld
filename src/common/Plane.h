@@ -2,16 +2,10 @@
 #define __MATH_PLANE_H__
 
 /*
-===============================================================================
-
-	3D plane with equation: a * x + b * y + c * z + d = 0
-
-===============================================================================
-*/
+ * 3D plane with equation: a * x + b * y + c * z + d = 0
+ */
 
 #include "Vec3.h"
-
-
 
 #define	ON_EPSILON					0.1f
 #define DEGENERATE_DIST_EPSILON		1e-4f

@@ -262,9 +262,6 @@
     <ClCompile Include="../../src/external\lua\lbaselib.c">
       <Filter>external\lua</Filter>
     </ClCompile>
-    <ClCompile Include="../../src/autolua\lCamera.cpp">
-      <Filter>external\lua</Filter>
-    </ClCompile>
     <ClCompile Include="../../src/external\lua\lcode.c">
       <Filter>external\lua</Filter>
     </ClCompile>
@@ -280,16 +277,10 @@
     <ClCompile Include="../../src/external\lua\ldump.c">
       <Filter>external\lua</Filter>
     </ClCompile>
-    <ClCompile Include="../../src/common\Lexer.cpp">
-      <Filter>external\lua</Filter>
-    </ClCompile>
     <ClCompile Include="../../src/external\lua\lfunc.c">
       <Filter>external\lua</Filter>
     </ClCompile>
     <ClCompile Include="../../src/external\lua\lgc.c">
-      <Filter>external\lua</Filter>
-    </ClCompile>
-    <ClCompile Include="../../src/lgeo.cpp">
       <Filter>external\lua</Filter>
     </ClCompile>
     <ClCompile Include="../../src/external\lua\linit.c">
@@ -307,9 +298,6 @@
     <ClCompile Include="../../src/external\lua\lmem.c">
       <Filter>external\lua</Filter>
     </ClCompile>
-    <ClCompile Include="../../src/autolua\lModel.cpp">
-      <Filter>external\lua</Filter>
-    </ClCompile>
     <ClCompile Include="../../src/external\lua\loadlib.c">
       <Filter>external\lua</Filter>
     </ClCompile>
@@ -323,12 +311,6 @@
       <Filter>external\lua</Filter>
     </ClCompile>
     <ClCompile Include="../../src/external\lua\lparser.c">
-      <Filter>external\lua</Filter>
-    </ClCompile>
-    <ClCompile Include="../../src/lrender.cpp">
-      <Filter>external\lua</Filter>
-    </ClCompile>
-    <ClCompile Include="../../src/autolua\lSprite.cpp">
       <Filter>external\lua</Filter>
     </ClCompile>
     <ClCompile Include="../../src/external\lua\lstate.c">
@@ -392,9 +374,6 @@
       <Filter>resource</Filter>
     </ClCompile>
     <ClCompile Include="../../src/Model.cpp">
-      <Filter>resource</Filter>
-    </ClCompile>
-    <ClCompile Include="../../src/Model_lwo.cpp">
       <Filter>resource</Filter>
     </ClCompile>
     <ClCompile Include="../../src/common\Math.cpp">
@@ -514,6 +493,27 @@
     <ClCompile Include="../../src/r_public.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
+    <ClCompile Include="../../src/lgeo.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../src/autolua\lModel.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../src/autolua\lSprite.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../src/lrender.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../src/autolua\lCamera.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../src/common\Lexer.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\MeshLoaderLwo.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../src/renderer\RenderSystem.h" />
@@ -550,9 +550,6 @@
       <Filter>renderer</Filter>
     </ClInclude>
     <ClInclude Include="../../src/common\HashTable.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="../../src/common\idlib.h">
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="../../src/Image.h">
@@ -618,19 +615,10 @@
     <ClInclude Include="../../src/external\lua\ldo.h">
       <Filter>external\lua</Filter>
     </ClInclude>
-    <ClInclude Include="../../src/common\Lexer.h">
-      <Filter>external\lua</Filter>
-    </ClInclude>
     <ClInclude Include="../../src/external\lua\lfunc.h">
       <Filter>external\lua</Filter>
     </ClInclude>
     <ClInclude Include="../../src/external\lua\lgc.h">
-      <Filter>external\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="../../src/Light.h">
-      <Filter>external\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="../../src/common\List.h">
       <Filter>external\lua</Filter>
     </ClInclude>
     <ClInclude Include="../../src/external\lua\llex.h">
@@ -717,9 +705,6 @@
     <ClInclude Include="../../src/Model.h">
       <Filter>resource</Filter>
     </ClInclude>
-    <ClInclude Include="../../src/Model_lwo.h">
-      <Filter>resource</Filter>
-    </ClInclude>
     <ClInclude Include="../../src/common\Math.h">
       <Filter>common</Filter>
     </ClInclude>
@@ -794,6 +779,18 @@
     </ClInclude>
     <ClInclude Include="../../src/r_public.h">
       <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../src/common\List.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../src/Light.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../src/common\Lexer.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\MeshLoaderLwo.h">
+      <Filter>resource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -15,7 +15,7 @@
 #include "MeshLoader3DS.h"
 #include "Shader.h"
 #include "Shape.h"
-#include "Model_lwo.h"
+#include "MeshLoaderLwo.h"
 #include "Model.h"
 #include "ScriptSystem.h"
 #include "luautils.h"

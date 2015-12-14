@@ -7,7 +7,6 @@
 #include <sys/time.h>
 #endif
 
-
 class Timer
 {
 public:
@@ -20,10 +19,6 @@ public:
     double getElapsedTimeInSec();               // get elapsed time in second (same as getElapsedTime)
     double getElapsedTimeInMilliSec();          // get elapsed time in milli-second
     double getElapsedTimeInMicroSec();          // get elapsed time in micro-second
-
-
-protected:
-
 
 private:
     double startTimeInMicroSec;                 // starting time in micro-second

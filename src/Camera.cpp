@@ -65,8 +65,8 @@ mat4* Camera::GetView() {
 
 void Camera::RotateByAxis( Vec3 axis, float angle ) {
 	Quat q;
-	q.fromAxisAngle(axis, angle * QUAT_PI / 360.f);
-	q.toMatrix().transformVec3(_pos.x, _pos.y, _pos.z);
+	q.FromAxisAngle(axis, angle * QUAT_PI / 360.f);
+	q.ToMatrix().transformVec3(_pos.x, _pos.y, _pos.z);
 	_matView.buildLookAt(_pos, _at, Vec3(0.f, 1.f, 0.f));
 	_matViewProj = _matProj * _matView;	
 }
@@ -74,8 +74,8 @@ void Camera::RotateByAxis( Vec3 axis, float angle ) {
 void Camera::Yaw(float angle) {
 	Vec3 dir = _at - _pos;
 	Quat q;
-	q.fromAxisAngle(Vec3(0.f, 1.0f, 0.f), angle * QUAT_PI / 360.f);
-	q.toMatrix().transformVec3(dir.x, dir.y, dir.z);
+	q.FromAxisAngle(Vec3(0.f, 1.0f, 0.f), angle * QUAT_PI / 360.f);
+	q.ToMatrix().transformVec3(dir.x, dir.y, dir.z);
 	_at = _pos + dir;
 
 	//Sys_Printf("%f %f %f \n", _dir.x, _dir.y, _dir.z);

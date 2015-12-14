@@ -202,7 +202,7 @@ static void R_InitPoses(srfTriangles_t* geo, Joint* joint)
 	mat4 positionMatrix;
 	positionMatrix.buildTranslate(joint->position);
 	mat4 rotationMatrix;
-	rotationMatrix = joint->rotation.toMatrix();
+	rotationMatrix = joint->rotation.ToMatrix();
 	mat4 localAniMatrix = positionMatrix*rotationMatrix;
 
 	if (joint->parent)
@@ -251,7 +251,7 @@ void R_UpdateGeoPoses(srfTriangles_t* geo, Joint* joint, float frame)
 	mat4 positionMatrix;
 	positionMatrix.buildTranslate(position);
 	mat4 rotationMatrix;
-	rotationMatrix = rotation.toMatrix();
+	rotationMatrix = rotation.ToMatrix();
 	mat4 localAniMatrix = positionMatrix * rotationMatrix;
 
 	if (joint->parent)

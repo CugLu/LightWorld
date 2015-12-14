@@ -70,7 +70,7 @@ void Joint::GetFrame(float frame, Vec3& position, Quat& rotation)
 		if (preRotation.frame != nextRotation.frame)
 		{
 			float t = (frame - preRotation.frame) / (nextRotation.frame - preRotation.frame);
-			rotation.slerp(preRotation.rotation, nextRotation.rotation, t);
+			rotation.Slerp(preRotation.rotation, nextRotation.rotation, t);
 		}
 		else
 		{

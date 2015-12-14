@@ -73,7 +73,7 @@ public:
 	bool CheckSize();
 	void ExitChunk();
 
-	void printTree(const char *psz, ...);
+	void PrintTree(const char *psz, ...);
 
 	long _curpos;
 	Array<unsigned int> _stack;
