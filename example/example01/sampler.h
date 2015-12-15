@@ -3,7 +3,9 @@
 
 #include "Game.h"
 #include "common/Vec3.h"
+
 class Plane;
+class Model;
 
 class ShadowSampler : public Game
 {
@@ -36,6 +38,7 @@ private:
 
 	Plane* _plane;
 
+	Model* _model;
 };
 
 #endif

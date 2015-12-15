@@ -40,7 +40,7 @@ void Model::SetFile( const char* filename )
 	_drawSurf->shaderParms->tex = _resourceSys->AddTexture("0.png");
 	R_GenerateGeometryVbo(_drawSurf->geo);
 
-	_drawSurf->mtr = _resourceSys->AddMaterial("../media/mtr/position.mtr");
+	_drawSurf->mtr = _resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
 }
 
 void Model::SetViewProj( mat4* viewProj )

@@ -50,8 +50,11 @@ public:
 		R_GeneratePlane(_drawSurf->geo, width, height);
 	}
 
-	void SetTexture(const char* filename);
 	~Plane() {}
+
+	void SetTexture(const char* filename);
+
+	void SetTextureUV(float u, float v);
 };
 
 

@@ -9,23 +9,14 @@ Camera::Camera() {
 Camera::~Camera() {
 }
 
-void Camera::Forward(float displacement) {
-	Vec3 dir = _at - _pos;
-	dir.normalize();
-	_pos += dir * displacement;
-	_matView.buildLookAt(_pos, _at, Vec3(0.f, 1.f, 0.f));
-	_matViewProj = _matProj * _matView;	
-}
-
 mat4* Camera::GetViewProj() {
 	return &_matViewProj;
 }
 
 void Camera::Setup3DCamera(int width, int height) {
 	_matProj.buildPerspectiveProjection(3.1415926535898f / 3, float(width)/(height), 0.1f, 800.f);
-	_at.set(0.f, 0.f, -1.f);
-	_matView.buildLookAt(_pos, _at, Vec3(0.f, 1.f, 0.f));
-	_matViewProj = _matProj * _matView;	
+	_pos.set(0.f, 0.f, 1.f);
+	UpdateViewProj();
 }
 
 void Camera::Setup2DCamera(float width, float height) {
@@ -39,6 +30,14 @@ void Camera::Setup2DCamera(float width, float height) {
 
 Vec3 Camera::GetPosition() {
 	return _pos;
+}
+
+void Camera::Forward(float displacement) {
+	Vec3 dir = _at - _pos;
+	dir.normalize();
+	_pos += dir * displacement;
+	_matView.buildLookAt(_pos, _at, Vec3(0.f, 1.f, 0.f));
+	_matViewProj = _matProj * _matView;	
 }
 
 void Camera::Rise( float displacement ) {
@@ -67,8 +66,7 @@ void Camera::RotateByAxis( Vec3 axis, float angle ) {
 	Quat q;
 	q.FromAxisAngle(axis, angle * QUAT_PI / 360.f);
 	q.ToMatrix().transformVec3(_pos.x, _pos.y, _pos.z);
-	_matView.buildLookAt(_pos, _at, Vec3(0.f, 1.f, 0.f));
-	_matViewProj = _matProj * _matView;	
+	UpdateViewProj();
 }
 
 void Camera::Yaw(float angle) {
@@ -82,9 +80,7 @@ void Camera::Yaw(float angle) {
 
 	//_at.rotatexzBy(angle, vec3(_pos.x, _pos.y, _pos.z));
 	//Sys_Printf("%f %f %f \n", dir.x, dir.y, dir.z);
-
-	_matView.buildLookAt(_pos, _at, Vec3(0.f, 1.f, 0.f));
-	_matViewProj = _matProj * _matView;
+	UpdateViewProj();
 }
 
 void Camera::Right( float displacement )
@@ -95,7 +91,17 @@ void Camera::Right( float displacement )
 	right.rotatexzBy(-90, Vec3(0, 0, 0));
 	_pos += right * displacement;
 	_at = _pos + dir;
+	UpdateViewProj();
+}
 
+void Camera::UpdateViewProj()
+{
 	_matView.buildLookAt(_pos, _at, Vec3(0.f, 1.f, 0.f));
 	_matViewProj = _matProj * _matView;
+}
+
+void Camera::LookAt( float x, float y, float z )
+{
+	_at.set(x, y, z);
+	UpdateViewProj();
 }

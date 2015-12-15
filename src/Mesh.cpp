@@ -335,14 +335,14 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 			*(unsigned *)tri->verts[j].color = *(unsigned *)mv->color;
 		}
 
-		R_StaticFree( mvTable );
-		R_StaticFree( mvHash );
+		mem_free( mvTable );
+		mem_free( mvHash );
 	}
 
-	R_StaticFree( tvRemap );
-	R_StaticFree( vRemap );
-	R_StaticFree( tvList );
-	R_StaticFree( vList );
+	mem_free( tvRemap );
+	mem_free( vRemap );
+	mem_free( tvList );
+	mem_free( vList );
 
 	return true;
 }

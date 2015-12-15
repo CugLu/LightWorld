@@ -39,10 +39,15 @@ public:
 	Plane( void );
 	Plane( float a, float b, float c, float d );
 	Plane( const Vec3 &normal, const float dist );
+	Plane( Vec3 v0, Vec3 v1, Vec3 v2);
 
 	float Distance( const Vec3 &v ) const;
-	int	Side( const Vec3 &v, const float epsilon = 0.0f ) const;
+	Vec3& Normal( void );
+	void FitThroughPoint( const Vec3 &p );
 
+	float operator[]( const int index ) const;
+
+	float& operator[]( const int index );
 private:
 	float a;
 	float b;

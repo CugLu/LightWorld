@@ -38,6 +38,10 @@ public:
 	bool operator==(const Vec3& other) const { return other.x == x && other.y == y && other.z == z; }
 	bool operator!=(const Vec3& other) const { return other.x != x || other.y != y || other.z != z; }
 
+	Vec3 operator-() const {
+		return Vec3( -x, -y, -z );
+	}
+
 	// functions
 
 	void set(const float nx, const float ny, const float nz) { x = nx; y = ny; z = nz; }

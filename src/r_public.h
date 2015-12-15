@@ -10,6 +10,7 @@
 class DrawVert;
 class Shader;
 class Material;
+class Plane;
 
 // our only drawing geometry type
 typedef struct srfTriangles_s 
@@ -25,9 +26,12 @@ typedef struct srfTriangles_s
 	GLuint vbo[2];
 
 	Aabb3d aabb;
+	Plane* facePlanes;
 
 	bool generateNormals;
 	bool tangentsCalculated;
+	bool facePlanesCalculated;
+
 }srfTriangles_t;
 
 typedef struct
@@ -74,6 +78,8 @@ void	R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts );
 
 void	R_AllocStaticTriSurfIndexes( srfTriangles_t *tri, int numIndexes );
 
+void R_AllocStaticTriSurfPlanes(srfTriangles_t* tri, int num);
+
 material_t* R_AllocMaterail();
 
 
@@ -87,6 +93,7 @@ void R_GenerateGeometryVbo( srfTriangles_t *tri);
 void R_GenerateQuad(srfTriangles_t* geo);
 
 //shadowMap_t* R_GenerateShadowMap();
+void R_SetTextureUV(srfTriangles_t* geo, float u, float v);
 
 drawSurf_t* R_GenerateQuadSurf();
 
@@ -105,7 +112,9 @@ void R_BoundTriSurf( srfTriangles_t* tri );
 srfTriangles_t *	R_MergeSurfaceList( const srfTriangles_t **surfaces, int numSurfaces );
 srfTriangles_t *	R_MergeTriangles( const srfTriangles_t *tri1, const srfTriangles_t *tri2 );
 
-void R_StaticFree( void *data );
+void R_DeriveFacePlanes( srfTriangles_t *tri );
+
+void mem_free( void *data );
 
 void R_FreeStaticTriSurf( srfTriangles_t *tri );
 
@@ -118,5 +127,6 @@ void R_UpdateGeoPoses(srfTriangles_t* geo, Joint* joint, float frame);
 
 //
 Vec2 R_WorldToScreenPos(Vec3 pos, mat4* viewProj, int screenwidth, int screenheight);
+
 
 #endif

@@ -1,6 +1,6 @@
-/************************************************************************/
-/* blur shader & outline shader
-/************************************************************************/
+/*
+ * blur shader & outline shader
+ */
 
 #include "sampler.h"
 #include "Mesh.h"
@@ -49,8 +49,9 @@ void ShadowSampler::Init()
 	//SetupCamera();
 	_camera = new Camera;
 	_camera->Setup3DCamera(800, 600);
-	_camera->Rise(1);
-	_camera->Forward(-10);
+	_camera->Rise(30);
+	_camera->Forward(-30);
+	_camera->LookAt(0, 0, 0);
 
 	// rendersys
 	RenderSystem** renderSys = (RenderSystem **)lua_newuserdata(L, sizeof(RenderSystem*));
@@ -68,12 +69,12 @@ void ShadowSampler::Init()
 	//_scriptSys->RunScript("script/main.lua");
 	
 	box = _renderSys->CreateBox();
-
 	box->SetViewProj(_camera->GetViewProj());
 	_renderSys->AddDrawSur(box->_drawSurf);
 
-	_plane = _renderSys->CreatePlane(10, 10);
+	_plane = _renderSys->CreatePlane(100, 100);
 	_plane->SetTexture("test.png");
+	_plane->SetTextureUV(2, 2);
 	_plane->SetViewProj(_camera->GetViewProj());
 	_renderSys->AddDrawSur(_plane->_drawSurf);
 	
@@ -81,6 +82,11 @@ void ShadowSampler::Init()
 	_lbCamera->SetLabel("aaaaaaaa");
 	_lbCamera->SetPosition(0, 200, 0);
 	_renderSys->AddSprite(_lbCamera);
+
+	_model = _renderSys->CreateModel();
+	_model->SetFile("ninja.b3d");
+	_model->SetViewProj(_camera->GetViewProj());
+	_renderSys->AddModel(_model);
 }
 
 void ShadowSampler::Frame()

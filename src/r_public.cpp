@@ -2,6 +2,8 @@
 #include "DrawVert.h"
 #include "sys/sys_public.h"
 #include "common/File.h"
+#include "common/Plane.h"
+#include "common/mem.h"
 
 static const int SHADOWMAP_DEPTH_SIZE = 1024;
 
@@ -14,6 +16,11 @@ srfTriangles_t * R_AllocStaticTriSurf( void )
 
 void R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts ) {
 	tri->verts = new DrawVert[ numVerts ];
+}
+
+void R_AllocStaticTriSurfPlanes( srfTriangles_t* tri, int num )
+{
+	tri->facePlanes = (Plane*)mem_alloc(sizeof(Plane) * num);
 }
 
 material_t* R_AllocMaterail()
@@ -79,18 +86,23 @@ void R_GeneratePlane(srfTriangles_t* geo, float w, float h)
 	geo->verts[3].xyz = Vec3(halfw, 0.f, halfh);
 }
 
+void R_SetTextureUV(srfTriangles_t* geo, float u, float v)
+{
+	geo->verts[0].st = Vec2(0.f, v);
+	geo->verts[1].st = Vec2(0.f, 0.f);
+	geo->verts[2].st = Vec2(u, v);
+	geo->verts[3].st = Vec2(u, 0.f);
+}
+
 void R_GenerateQuad( srfTriangles_t* geo )
 {
 	geo->vbo[0] = 0;
 	geo->vbo[1] = 0;
 
 	geo->numVerts = 4;
-	 R_AllocStaticTriSurfVerts(geo, 4);
-
-	geo->verts[0].st = Vec2(0.f, 1.f);
-	geo->verts[1].st = Vec2(0.f, 0.f);
-	geo->verts[2].st = Vec2(1.f, 1.f);
-	geo->verts[3].st = Vec2(1.f, 0.f);
+	R_AllocStaticTriSurfVerts(geo, 4);
+	
+	R_SetTextureUV(geo, 1.f, 1.f);
 
 	geo->numIndexes = 6;
 	geo->indexes = new glIndex_t[6];
@@ -295,4 +307,3 @@ Vec2 R_WorldToScreenPos( Vec3 pos, mat4* viewProj, int screenwidth, int screenhe
 
 	return screenPos;
 }
-

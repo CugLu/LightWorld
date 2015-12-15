@@ -24,7 +24,9 @@ public:
 	void Rise(float displacement);
 	void SetPosition(float x, float y, float z);
 	void RotateByAxis(Vec3 axis, float angle);
+	void LookAt(float x, float y, float z);
 
+	void UpdateViewProj();
 private:
 	mat4 _matView;
 	mat4 _matProj;

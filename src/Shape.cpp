@@ -47,3 +47,8 @@ void Plane::SetTexture( const char* filename )
 {
 	_drawSurf->shaderParms->tex = _resourceSys->AddTexture(filename);
 }
+
+void Plane::SetTextureUV( float u, float v )
+{
+	R_SetTextureUV(_drawSurf->geo, u, v);
+}

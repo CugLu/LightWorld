@@ -168,8 +168,8 @@ Texture* ResourceSystem::AddTexture(const char* file)
 
 Mesh* ResourceSystem::AddMesh(const char* file)
 {
-	lfStr str = file;
-	if (str.Find(".lwo") != -1) { 
+	lfStr fullpath = _searchDir + file;
+	if (fullpath.Find(".lwo") != -1) { 
 		unsigned int failId;
 		int failedPos;
 		lwObject* object = lwGetObject(file, &failId, &failedPos);
@@ -179,13 +179,13 @@ Mesh* ResourceSystem::AddMesh(const char* file)
 		delete object;
 		return mesh;
 	}
-	else if (str.Find(".3ds") != -1)
+	else if (fullpath.Find(".3ds") != -1)
 	{
 		return LoadMesh3DS(file);
 	}
 	else {
 		MeshLoaderB3D meshLoader;
-		meshLoader.Load(file);
+		meshLoader.Load(fullpath);
 		return meshLoader._mesh;
 	}
 
