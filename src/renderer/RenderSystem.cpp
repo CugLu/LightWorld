@@ -153,12 +153,11 @@ void RenderSystemLocal::RenderBounds()
 	unsigned short indices3[] = {0, 3};
 	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices3);
 
-	glFrontFace(GL_CW);
+	// draw volume
 	for (unsigned int i=0; i<_srftri.size(); ++i)
 	{
 		R_DrawPositon(_srftri[i]);
 	}
-	glFrontFace(GL_CCW);
 
 	//------------------------
 	//glEnable(GL_STENCIL_TEST);

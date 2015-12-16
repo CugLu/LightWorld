@@ -82,6 +82,7 @@ static void R_AddSilEdges( const srfTriangles_t *tri ) {
 		// This will cause edges that are exactly on the frustum plane
 		// to be considered sil edges if the face inside casts a shadow.
 		if (facing[ sil->p1] == facing[ sil->p2 ]) {
+			Sys_Printf("remove %d %d\n", sil->v1, sil->v2);
 			continue;
 		}
 
@@ -91,8 +92,9 @@ static void R_AddSilEdges( const srfTriangles_t *tri ) {
 			return;
 		}
 
-		v1 = sil->v1;
-		v2 = sil->v2;
+		v1 = remap[ sil->v1 ];
+		v2 = remap[ sil->v2 ];
+
 		// we need to choose the correct way of triangulating the silhouette quad
 		// consistantly between any two points, no matter which order they are specified.
 		// If this wasn't done, slight rasterization cracks would show in the shadow
@@ -207,9 +209,9 @@ void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& 
 			Sys_Error( "R_CreateShadowVolumeInFrustum: bad remap[]" );
 		}
 
-		shadowIndices[numShadowIndices++] = remap[i3];
-		shadowIndices[numShadowIndices++] = remap[i2];
 		shadowIndices[numShadowIndices++] = remap[i1];
+		shadowIndices[numShadowIndices++] = remap[i2];
+		shadowIndices[numShadowIndices++] = remap[i3];
 	}
 
 	Sys_Printf("front face %d\n", numShadowIndices/3);
@@ -237,7 +239,7 @@ void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& 
 		//Sys_Printf("%f %f %f\n", shadowTris->verts[i].xyz.x, shadowTris->verts[i].xyz.y, shadowTris->verts[i].xyz.y);
 	}
 
-	for (int i=0; i<numShadowIndices; ++i)
+	for (int i=0; i<shadowTris->numIndexes; ++i)
 		shadowTris->indices[i] = shadowIndices[i];
 
 	R_GenerateGeometryVbo(shadowTris);

@@ -72,7 +72,7 @@ void ShadowSampler::Init()
 	box = _renderSys->CreateBox(3, 3, 3);
 	box->SetViewProj(_camera->GetViewProj());
 	box->SetPosition(10, 0, 0);
-	_renderSys->AddDrawSur(box->_drawSurf);
+	//_renderSys->AddDrawSur(box->_drawSurf);
 	
 	_plane = _renderSys->CreatePlane(100, 100);
 	_plane->SetTexture("test.png");
@@ -91,18 +91,18 @@ void ShadowSampler::Init()
 	_renderSys->AddModel(_model);
 	
 
-	//Interaction* inter = new Interaction;
-	//drawSurf_t* surf = _model->_drawSurf;
-	//R_IdentifySilEdges(surf->geo);
-	//inter->CreateInteraction(surf->geo, Vec3(0, 10, 0), surf->matModel);
-	//_renderSys->AddSurfTris(inter->shadowTris);
+	Interaction* inter = new Interaction;
+	drawSurf_t* surf = _model->_drawSurf;
+	R_IdentifySilEdges(surf->geo);
+	inter->CreateInteraction(surf->geo, Vec3(0, 10, 0), surf->matModel);
+	_renderSys->AddSurfTris(inter->shadowTris);
 
 	{
-		Interaction* inter = new Interaction;
-		drawSurf_t* surf = box->_drawSurf;
-		R_IdentifySilEdges(surf->geo);
-		inter->CreateInteraction(surf->geo, Vec3(0, 5, 0), surf->matModel);
-		_renderSys->AddSurfTris(inter->shadowTris);
+		//Interaction* inter = new Interaction;
+		//drawSurf_t* surf = box->_drawSurf;
+		//R_IdentifySilEdges(surf->geo);
+		//inter->CreateInteraction(surf->geo, Vec3(0, 5, 0), surf->matModel);
+		//_renderSys->AddSurfTris(inter->shadowTris);
 	}
 }
 
