@@ -16,6 +16,9 @@
 #include "Camera.h"
 #include "Shape.h"
 
+#include "Interaction.h"
+
+
 RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms)
 {
 	_winWidth = glimpParms->width;
@@ -67,6 +70,9 @@ void RenderSystemLocal::FrameUpdate()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
 	glViewport(0, 0, 800, 600);
+
+	//CreateShadow();
+
 	RenderCommon();
 
 	//RenderPasses();
@@ -124,7 +130,6 @@ void RenderSystemLocal::RenderBounds()
 	Shader* shader = _resourceSys->FindShader(eShader_Position);
 	glUseProgram(shader->GetProgarm());
 	
-
 	mat4 t = *_mainViewProj;
 	glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
 
@@ -148,6 +153,49 @@ void RenderSystemLocal::RenderBounds()
 	unsigned short indices3[] = {0, 3};
 	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices3);
 
+	glFrontFace(GL_CW);
+	for (unsigned int i=0; i<_srftri.size(); ++i)
+	{
+		R_DrawPositon(_srftri[i]);
+	}
+	glFrontFace(GL_CCW);
+
+	//------------------------
+	//glEnable(GL_STENCIL_TEST);
+	//glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
+	//glClearStencil(0);
+	//glDepthMask( GL_FALSE );
+	////glDepthFunc(GL_LEQUAL);
+	//glStencilFunc(GL_ALWAYS, 0, 0xf);
+
+	//glFrontFace(GL_CCW);
+	//glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
+	//for (unsigned int i=0; i<_srftri.size(); ++i)
+	//{
+	//	R_DrawPositon(_srftri[i]);
+	//}
+
+	//glFrontFace(GL_CW);
+	//glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
+	//for (unsigned int i=0; i<_srftri.size(); ++i)
+	//{
+	//	R_DrawPositon(_srftri[i]);
+	//}
+
+	//glFrontFace(GL_CCW);
+	//glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+	//glStencilFunc(GL_NOTEQUAL, 0, 0xf);
+	//glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+	//for (unsigned int i=0; i<_srftri.size(); ++i)
+	//{
+	//	R_DrawPositon(_srftri[i]);
+	//}
+	//glDepthMask( GL_TRUE );
+	//glDisable(GL_STENCIL_TEST);
+
+
+
+	// bound render
 	for (unsigned int i = 0; i < _surfaces.size(); i++)
 	{
 		if(!_surfaces[i]->bShowBound)
@@ -191,9 +239,6 @@ void RenderSystemLocal::RenderCommon()
 {
 	for (unsigned int i = 0; i < _surfaces.size(); i++)
 	{
-		if (_surfaces[i]->id == 99)
-			_surfaces[i]->id = 99;
-
 		R_RenderCommon(_surfaces[i]);
 		GL_CheckError("i=====");
 	}
@@ -226,6 +271,9 @@ bool RenderSystemLocal::AddModel( Model* model )
 	if (!drawSurf->mtr)
 		drawSurf->mtr = _resourceSys->AddMaterial("mtr/positiontex.mtr");
 	AddDrawSur(drawSurf);
+
+	_models.push_back(model);
+
 	return true;
 }
 
@@ -259,11 +307,12 @@ AniModel* RenderSystemLocal::CreateAniModel()
 	return model;
 }
 
-Box* RenderSystemLocal::CreateBox()
+Box* RenderSystemLocal::CreateBox(int nx, int ny, int nz)
 {
-	Box* box = new Box;
+	Box* box = new Box(nx, ny, nz);
 	box->_resourceSys = _resourceSys;
 	box->_drawSurf->mtr = _resourceSys->AddMaterial("mtr/position.mtr");
+
 	return box;
 }
 
@@ -273,4 +322,22 @@ Plane* RenderSystemLocal::CreatePlane(int w, int h)
 	box->_resourceSys = _resourceSys;
 	box->_drawSurf->mtr = _resourceSys->AddMaterial("mtr/positionTex.mtr");
 	return box;
+}
+
+void RenderSystemLocal::CreateShadow()
+{
+	srfTriangles_t* tri;
+	Vec3 light = Vec3(10, 10, 10);
+	mat4 matModel;
+	for (unsigned int i=0; i<_models.size(); ++i)
+	{
+		tri = _models[i]->_drawSurf->geo;
+		matModel = _models[i]->_drawSurf->matModel;
+		_models[i]->_inter->CreateInteraction(tri, light, matModel);
+	}
+}
+
+void RenderSystemLocal::AddSurfTris( srfTriangles_t* tri )
+{
+	_srftri.push_back(tri);
 }

@@ -20,6 +20,8 @@ public:
 	void GenerateNormals();
 
 	void CalcBounds();
+	
+	void BuildDeformInfo();
 
 	bool ConvertLWOToModelSurfaces( const struct st_lwObject *lwo );
 

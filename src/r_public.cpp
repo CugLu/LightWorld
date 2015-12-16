@@ -15,6 +15,9 @@ srfTriangles_t * R_AllocStaticTriSurf( void )
 }
 
 void R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts ) {
+	if(tri->verts)
+		delete[] tri->verts;
+
 	tri->verts = new DrawVert[ numVerts ];
 }
 
@@ -47,7 +50,7 @@ void R_GenerateGeometryVbo( srfTriangles_t *tri )
 
 	// Stick the data for the indices into its VBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tri->vbo[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(glIndex_t) * tri->numIndexes, tri->indexes, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(glIndex_t) * tri->numIndexes, tri->indices, GL_STATIC_DRAW);
 
 	// Clear the VBO state
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -105,13 +108,13 @@ void R_GenerateQuad( srfTriangles_t* geo )
 	R_SetTextureUV(geo, 1.f, 1.f);
 
 	geo->numIndexes = 6;
-	geo->indexes = new glIndex_t[6];
-	geo->indexes[0] = 0;
-	geo->indexes[1] = 1;
-	geo->indexes[2] = 2;
-	geo->indexes[3] = 2;
-	geo->indexes[4] = 1;
-	geo->indexes[5] = 3;
+	geo->indices = new glIndex_t[6];
+	geo->indices[0] = 0;
+	geo->indices[1] = 1;
+	geo->indices[2] = 2;
+	geo->indices[3] = 2;
+	geo->indices[4] = 1;
+	geo->indices[5] = 3;
 }
 
 void R_GenerateBox( srfTriangles_t* geo, float sx, float sy, float sz)
@@ -143,10 +146,10 @@ void R_GenerateBox( srfTriangles_t* geo, float sx, float sy, float sz)
 
 	geo->numIndexes = sizeof(indices) / sizeof(unsigned short);
 
-	geo->indexes = new glIndex_t[geo->numIndexes];
+	geo->indices = new glIndex_t[geo->numIndexes];
 	for (int i=0; i<geo->numIndexes; i++)
 	{
-		geo->indexes[i] = indices[i];
+		geo->indices[i] = indices[i];
 	}
 }
 

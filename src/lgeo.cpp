@@ -40,7 +40,7 @@ static int lgeo_newIndice(lua_State* L)
 	srfTriangles_s* obj = lgeo_to(L);
 	int num = lua_tonumber(L, -2);
 	obj->numIndexes = num;
-	R_AllocStaticTriSurfIndexes(obj, num);
+	R_AllocStaticTriSurfIndices(obj, num);
 	return 1;
 }
 
@@ -49,7 +49,7 @@ static int lgeo_setIndice(lua_State* L)
 	srfTriangles_s* obj = lgeo_to(L);
 	int idx = lua_tonumber(L, -2);
 	float i = lua_tonumber(L, -3);
-	obj->indexes[idx] = i;
+	obj->indices[idx] = i;
 	return 1;
 }
 

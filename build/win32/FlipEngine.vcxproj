@@ -377,6 +377,7 @@
     <ClInclude Include="../../src/external\zlib\zconf.h" />
     <ClInclude Include="../../src/external\zlib\zlib.h" />
     <ClInclude Include="../../src/external\zlib\zutil.h" />
+    <ClInclude Include="..\..\src\tr_trisurf.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

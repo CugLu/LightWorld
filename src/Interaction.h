@@ -1,6 +1,7 @@
 #ifndef __INTERACTION_H__
 #define __INTERACTION_H__
 
+#include "r_public.h"
 /*
 ===============================================================================
 
@@ -14,30 +15,19 @@
 */
 
 
-typedef struct {		
-	// if lightTris == LIGHT_TRIS_DEFERRED, then the calculation of the
-	// lightTris has been deferred, and must be done if ambientTris is visible
-	srfTriangles_t *		lightTris;
-
-	// shadow volume triangle surface
-	srfTriangles_t *		shadowTris;
-
-	// so we can check ambientViewCount before adding lightTris, and get
-	// at the shared vertex and possibly shadowVertex caches
-	srfTriangles_t *		ambientTris;
-
-	const Material *		shader;
-} surfaceInteraction_t;
-
 
 class Interaction {
 public:
-	void CreateInteraction(srfTriangles_t* geo, Vec3* lightPos);
+	Interaction();
+	~Interaction();
+
+	void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& modelMatrix );
 
 
 private:
-	surfaceInteraction_t *	surfaces;
 	
+public:
+	srfTriangles_t *		shadowTris;
 public:
 	
 };

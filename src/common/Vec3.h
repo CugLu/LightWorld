@@ -112,7 +112,7 @@ public:
 		z += center.z;
 	}
 
-	void rotatexyBy(float degrees, const Vec3& center)
+	void rotatexyBz(float degrees, const Vec3& center)
 	{
 		degrees = DEG2RAD(degrees);
 		float cs = (float)cos(degrees);
@@ -124,7 +124,7 @@ public:
 		y += center.y;
 	}
 
-	void rotateyzBy(float degrees, const Vec3& center)
+	void rotateyzBx(float degrees, const Vec3& center)
 	{
 		degrees = DEG2RAD(degrees);
 		float cs = (float)cos(degrees);

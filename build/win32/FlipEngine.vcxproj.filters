@@ -954,5 +954,6 @@
     <ClInclude Include="..\..\src\external\spine\spine.h">
       <Filter>external\spine</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\tr_trisurf.h" />
   </ItemGroup>
 </Project>

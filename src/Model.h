@@ -6,6 +6,7 @@
 
 class Joint;
 class ResourceSystem;
+class Interaction;
 
 class Model {
 	friend class RenderSystemLocal;
@@ -23,9 +24,11 @@ public:
 
 	void SetViewProj(mat4* viewProj);
 protected:
-	drawSurf_t* _drawSurf;
 	Vec3 _position;
 
+public:
+	drawSurf_t* _drawSurf;
+	Interaction* _inter;
 	ResourceSystem* _resourceSys;
 };
 

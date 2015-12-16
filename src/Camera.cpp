@@ -86,7 +86,7 @@ void Camera::Yaw(float angle) {
 void Camera::Right( float displacement )
 {
 	Vec3 dir = _at - _pos;
-	Vec3 right = Vec3(dir.x, dir.y, dir.z);
+	Vec3 right = Vec3(dir.x, 0, dir.z);
 	right.normalize();
 	right.rotatexzBy(-90, Vec3(0, 0, 0));
 	_pos += right * displacement;
@@ -103,5 +103,13 @@ void Camera::UpdateViewProj()
 void Camera::LookAt( float x, float y, float z )
 {
 	_at.set(x, y, z);
+	UpdateViewProj();
+}
+
+void Camera::Rotate( float angle )
+{
+	Vec3 dir = _pos - _at;
+	dir.rotatexzBy(angle, Vec3(0, 0, 0));
+	_pos = _at + dir;
 	UpdateViewProj();
 }

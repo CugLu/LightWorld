@@ -19,6 +19,7 @@
 #include "ScriptSystem.h"
 #include "luautils.h"
 #include "Shape.h"
+#include "Interaction.h"
 
 #pragma comment(lib, "FlipEngine.lib")
 #pragma comment(lib, "opengl32.lib")
@@ -68,10 +69,11 @@ void ShadowSampler::Init()
 
 	//_scriptSys->RunScript("script/main.lua");
 	
-	box = _renderSys->CreateBox();
+	box = _renderSys->CreateBox(3, 3, 3);
 	box->SetViewProj(_camera->GetViewProj());
+	box->SetPosition(10, 0, 0);
 	_renderSys->AddDrawSur(box->_drawSurf);
-
+	
 	_plane = _renderSys->CreatePlane(100, 100);
 	_plane->SetTexture("test.png");
 	_plane->SetTextureUV(2, 2);
@@ -87,6 +89,21 @@ void ShadowSampler::Init()
 	_model->SetFile("ninja.b3d");
 	_model->SetViewProj(_camera->GetViewProj());
 	_renderSys->AddModel(_model);
+	
+
+	//Interaction* inter = new Interaction;
+	//drawSurf_t* surf = _model->_drawSurf;
+	//R_IdentifySilEdges(surf->geo);
+	//inter->CreateInteraction(surf->geo, Vec3(0, 10, 0), surf->matModel);
+	//_renderSys->AddSurfTris(inter->shadowTris);
+
+	{
+		Interaction* inter = new Interaction;
+		drawSurf_t* surf = box->_drawSurf;
+		R_IdentifySilEdges(surf->geo);
+		inter->CreateInteraction(surf->geo, Vec3(0, 5, 0), surf->matModel);
+		_renderSys->AddSurfTris(inter->shadowTris);
+	}
 }
 
 void ShadowSampler::Frame()
@@ -149,6 +166,14 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 			case 'D':
 			case 'd':
 				_camera->Yaw(-10);
+				break;
+			case 'z':
+			case 'Z':
+				_camera->Rotate(5);
+				break;
+			case 'c':
+			case 'C':
+				_camera->Rotate(-5);
 				break;
 			default:
 				break;

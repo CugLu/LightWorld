@@ -1,6 +1,13 @@
 #include "r_public.h"
 #include "common/Plane.h"
 #include "common/mem.h"
+#include "sys/sys_public.h"
+
+const int MAX_SIL_EDGES			= 0x10000;
+const int SILEDGE_HASH_SIZE		= 1024;
+static int			numSilEdges;
+static silEdge_t	silEdges[MAX_SIL_EDGES];
+static int			numPlanes;
 /*
 ==================
 R_DeriveTangents
@@ -29,9 +36,9 @@ void R_DeriveNormals( srfTriangles_t *tri ) {
 		DrawVert	*a, *b, *c;
 		Vec3		temp, normal, tangents[2];
 
-		a = tri->verts + tri->indexes[i + 0];
-		b = tri->verts + tri->indexes[i + 1];
-		c = tri->verts + tri->indexes[i + 2];
+		a = tri->verts + tri->indices[i + 0];
+		b = tri->verts + tri->indices[i + 1];
+		c = tri->verts + tri->indices[i + 2];
 
 		d0[0] = b->xyz[0] - a->xyz[0];
 		d0[1] = b->xyz[1] - a->xyz[1];
@@ -63,7 +70,7 @@ void R_DeriveNormals( srfTriangles_t *tri ) {
 
 		// sum up the tangents and normals for each vertex on this face
 		for ( int j = 0 ; j < 3 ; j++ ) {
-			DrawVert* vert = &tri->verts[tri->indexes[i+j]];
+			DrawVert* vert = &tri->verts[tri->indices[i+j]];
 			vert->normal += normal;
 			vert->tangents[0] += tangents[0];
 			vert->tangents[1] += tangents[1];
@@ -73,6 +80,26 @@ void R_DeriveNormals( srfTriangles_t *tri ) {
 	tri->tangentsCalculated = true;
 }
 
+/*
+=================
+SilEdgeSort
+=================
+*/
+static int SilEdgeSort( const void *a, const void *b ) {
+	if ( ((silEdge_t *)a)->p1 < ((silEdge_t *)b)->p1 ) {
+		return -1;
+	}
+	if ( ((silEdge_t *)a)->p1 > ((silEdge_t *)b)->p1 ) {
+		return 1;
+	}
+	if ( ((silEdge_t *)a)->p2 < ((silEdge_t *)b)->p2 ) {
+		return -1;
+	}
+	if ( ((silEdge_t *)a)->p2 > ((silEdge_t *)b)->p2 ) {
+		return 1;
+	}
+	return 0;
+}
 
 /*
 =================
@@ -100,7 +127,7 @@ srfTriangles_t	*R_MergeSurfaceList( const srfTriangles_t **surfaces, int numSurf
 	newTri->numVerts = totalVerts;
 	newTri->numIndexes = totalIndexes;
 	R_AllocStaticTriSurfVerts( newTri, newTri->numVerts );
-	R_AllocStaticTriSurfIndexes( newTri, newTri->numIndexes );
+	R_AllocStaticTriSurfIndices( newTri, newTri->numIndexes );
 
 	totalVerts = 0;
 	totalIndexes = 0;
@@ -108,7 +135,7 @@ srfTriangles_t	*R_MergeSurfaceList( const srfTriangles_t **surfaces, int numSurf
 		tri = surfaces[i];
 		memcpy( newTri->verts + totalVerts, tri->verts, tri->numVerts * sizeof( *tri->verts ) );
 		for ( j = 0 ; j < tri->numIndexes ; j++ ) {
-			newTri->indexes[ totalIndexes + j ] = totalVerts + tri->indexes[j];
+			newTri->indices[ totalIndexes + j ] = totalVerts + tri->indices[j];
 		}
 		totalVerts += tri->numVerts;
 		totalIndexes += tri->numIndexes;
@@ -139,9 +166,11 @@ srfTriangles_t	*R_MergeTriangles( const srfTriangles_t *tri1, const srfTriangles
 R_AllocStaticTriSurfIndexes
 =================
 */
-void R_AllocStaticTriSurfIndexes( srfTriangles_t *tri, int numIndexes ) {
-	assert( tri->indexes == NULL );
-	tri->indexes = new glIndex_t[numIndexes];
+void R_AllocStaticTriSurfIndices( srfTriangles_t *tri, int numIndexes ) {
+	if (tri->indices)
+		delete[] tri->indices;
+
+	tri->indices = new glIndex_t[numIndexes];
 }
 
 void R_DeriveFacePlanes( srfTriangles_t *tri ) {
@@ -157,9 +186,9 @@ void R_DeriveFacePlanes( srfTriangles_t *tri ) {
 		Vec3	d1, d2, normal;
 		Vec3	*v1, *v2, *v3;
 
-		i1 = tri->indexes[i + 0];
-		i2 = tri->indexes[i + 1];
-		i3 = tri->indexes[i + 2];
+		i1 = tri->indices[i + 0];
+		i2 = tri->indices[i + 1];
+		i3 = tri->indices[i + 2];
 
 		v1 = &tri->verts[i1].xyz;
 		v2 = &tri->verts[i2].xyz;
@@ -190,5 +219,133 @@ void R_DeriveFacePlanes( srfTriangles_t *tri ) {
 	}
 
 	tri->facePlanesCalculated = true;
+}
 
+/*
+===============
+R_DefineEdge
+===============
+*/
+static int c_duplicatedEdges, c_tripledEdges;
+
+static void R_DefineEdge( int v1, int v2, int planeNum ) {
+	int		i;
+
+	// check for degenerate edge
+	if ( v1 == v2 ) {
+		return;
+	}
+	// search for a matching other side
+	for ( i = 0; i<numSilEdges; ++i) {
+		if ( silEdges[i].v1 == v1 && silEdges[i].v2 == v2 ) {
+			c_duplicatedEdges++;
+			// allow it to still create a new edge
+			continue;
+		}
+		if ( silEdges[i].v2 == v1 && silEdges[i].v1 == v2 ) {
+			if ( silEdges[i].p2 != numPlanes )  {
+				c_tripledEdges++;
+				// allow it to still create a new edge
+				continue;
+			}
+			// this is a matching back side
+			silEdges[i].p2 = planeNum;
+			return;
+		}
+
+	}
+
+	// define the new edge
+	if ( numSilEdges == MAX_SIL_EDGES ) {
+		Sys_Warning( "MAX_SIL_EDGES" );
+		return;
+	}
+	
+	silEdges[numSilEdges].p1 = planeNum;
+	silEdges[numSilEdges].p2 = numPlanes;
+	silEdges[numSilEdges].v1 = v1;
+	silEdges[numSilEdges].v2 = v2;
+
+	numSilEdges++;
+}
+
+/*
+=================
+R_IdentifySilEdges
+
+If the surface will not deform, coplanar edges (polygon interiors)
+can never create silhouette plains, and can be omited
+=================
+*/
+int	c_coplanarSilEdges;
+int	c_totalSilEdges;
+
+void R_IdentifySilEdges( srfTriangles_t *tri ) {
+	int		i;
+	int		numTris;
+	int		shared, single;
+
+	numTris = tri->numIndexes / 3;
+
+	numSilEdges = 0;
+	numPlanes = numTris;
+
+	c_duplicatedEdges = 0;
+	c_tripledEdges = 0;
+
+	for ( i = 0 ; i < numTris ; i++ ) {
+		int		i1, i2, i3;
+
+		i1 = tri->indices[ i*3 + 0 ];
+		i2 = tri->indices[ i*3 + 1 ];
+		i3 = tri->indices[ i*3 + 2 ];
+
+		// create the edges
+		R_DefineEdge( i1, i2, i );
+		R_DefineEdge( i2, i3, i );
+		R_DefineEdge( i3, i1, i );
+	}
+
+	if ( c_duplicatedEdges || c_tripledEdges ) {
+		Sys_Warning( "%i duplicated edge directions, %i tripled edges", c_duplicatedEdges, c_tripledEdges );
+	}
+
+	// if we know that the vertexes aren't going
+	// to deform, we can remove interior triangulation edges
+	// on otherwise planar polygons.
+	// I earlier believed that I could also remove concave
+	// edges, because they are never silhouettes in the conventional sense,
+	// but they are still needed to balance out all the true sil edges
+	// for the shadow algorithm to function
+	int		c_coplanarCulled;
+
+	c_coplanarCulled = 0;
+	c_totalSilEdges += numSilEdges;
+
+	// sort the sil edges based on plane number
+	qsort( silEdges, numSilEdges, sizeof( silEdges[0] ), SilEdgeSort );
+
+	// count up the distribution.
+	// a perfectly built model should only have shared
+	// edges, but most models will have some interpenetration
+	// and dangling edges
+	shared = 0;
+	single = 0;
+	for ( i = 0 ; i < numSilEdges ; i++ ) {
+		if ( silEdges[i].p2 == numPlanes ) {
+			single++;
+		} else {
+			shared++;
+		}
+	}
+
+	if ( !single ) {
+		tri->perfectHull = true;
+	} else {
+		tri->perfectHull = false;
+	}
+
+	tri->numSilEdges = numSilEdges;
+	tri->silEdges = (silEdge_t*)mem_alloc( numSilEdges * sizeof(silEdge_t) );
+	memcpy( tri->silEdges, silEdges, numSilEdges * sizeof( tri->silEdges[0] ) );
 }

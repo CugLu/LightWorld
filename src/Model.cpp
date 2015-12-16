@@ -2,8 +2,9 @@
 #include "Mesh.h"
 #include "ResourceSystem.h"
 #include "r_public.h"
+#include "Interaction.h"
 
-Model::Model()
+Model::Model():_inter(NULL)
 {
 	Init();
 }
@@ -17,6 +18,7 @@ void Model::Init()
 {
 	_drawSurf = R_AllocDrawSurf();
 	_drawSurf->shaderParms = R_AllocMaterail();
+	_inter = new Interaction;
 }
 
 void Model::SetPosition(float x, float y, float z)

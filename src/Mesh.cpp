@@ -36,7 +36,6 @@ void Mesh::CalcBounds()
 	}
 }
 
-#include "MeshLoaderLwo.h"
 typedef struct matchVert_s {
 	struct matchVert_s	*next;
 	int		v, tv;
@@ -208,7 +207,7 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 		tri = AllocGeo();
 		tri->numVerts = 0;
 		tri->numIndexes = 0;
-		R_AllocStaticTriSurfIndexes( tri, layer->polygon.count * 3 );
+		R_AllocStaticTriSurfIndices( tri, layer->polygon.count * 3 );
 		tri->generateNormals = !normalsParsed;
 
 		// find all the unique combinations
@@ -311,7 +310,7 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 					tri->numVerts++;
 				}
 
-				tri->indexes[tri->numIndexes] = mv - mvTable;
+				tri->indices[tri->numIndexes] = mv - mvTable;
 				tri->numIndexes++;
 			}
 		}
@@ -371,3 +370,14 @@ void Mesh::SetNumFrames(int num)
 {
 	_numFrames = num;
 }
+
+void Mesh::BuildDeformInfo()
+{
+	for (unsigned int i=0; i<_geometries.size(); ++i)
+	{
+		R_DeriveNormals(_geometries[i]);
+		R_BoundTriSurf(_geometries[i]);
+		R_IdentifySilEdges(_geometries[i]);
+	}
+}
+

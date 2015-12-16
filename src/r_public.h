@@ -12,6 +12,12 @@ class Shader;
 class Material;
 class Plane;
 
+typedef struct {
+	// NOTE: making this a glIndex is dubious, as there can be 2x the faces as verts
+	glIndex_t					p1, p2;					// planes defining the edge
+	glIndex_t					v1, v2;					// verts defining the edge
+} silEdge_t;
+
 // our only drawing geometry type
 typedef struct srfTriangles_s 
 {
@@ -21,7 +27,11 @@ typedef struct srfTriangles_s
 	DrawVert* verts;				
 
 	int	numIndexes;			
-	glIndex_t* indexes;
+	glIndex_t* indices;
+
+	int numSilEdges;
+	silEdge_t* silEdges;
+	glIndex_t* silIndexes;
 
 	GLuint vbo[2];
 
@@ -31,6 +41,8 @@ typedef struct srfTriangles_s
 	bool generateNormals;
 	bool tangentsCalculated;
 	bool facePlanesCalculated;
+	bool perfectHull;
+	bool calcShadow;
 
 }srfTriangles_t;
 
@@ -76,7 +88,7 @@ srfTriangles_t *R_AllocStaticTriSurf( void );
 
 void	R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts );
 
-void	R_AllocStaticTriSurfIndexes( srfTriangles_t *tri, int numIndexes );
+void	R_AllocStaticTriSurfIndices( srfTriangles_t *tri, int numIndexes );
 
 void R_AllocStaticTriSurfPlanes(srfTriangles_t* tri, int num);
 
@@ -128,5 +140,7 @@ void R_UpdateGeoPoses(srfTriangles_t* geo, Joint* joint, float frame);
 //
 Vec2 R_WorldToScreenPos(Vec3 pos, mat4* viewProj, int screenwidth, int screenheight);
 
+
+void R_IdentifySilEdges( srfTriangles_t *tri );
 
 #endif

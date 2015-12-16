@@ -42,13 +42,15 @@ public:
 
 	virtual AniModel* CreateAniModel() = 0;
 
-	virtual Box* CreateBox() = 0;
+	virtual Box* CreateBox(int w, int h, int z) = 0;
 
 	virtual Plane* CreatePlane(int w, int h) = 0;
 
 	virtual int GetNumSurf() = 0;
 
 	virtual void SetMainViewProj(mat4* mat) = 0;
+
+		virtual void AddSurfTris(srfTriangles_t* tri) = 0;
 };
 
 class RenderSystemLocal : public RenderSystem
@@ -81,13 +83,16 @@ public:
 
 	virtual AniModel* CreateAniModel();
 
-	virtual Box* CreateBox();
+	virtual Box* CreateBox(int nx, int ny, int nz);
 	
 	virtual Plane* CreatePlane(int w, int h);
 
 	virtual void SetMainViewProj(mat4* mat) {_mainViewProj = mat;}
+
+	virtual void AddSurfTris(srfTriangles_t* tri);
 private:
-	
+	void CreateShadow();
+
 	void RenderCommon();
 
 	void RenderPasses();
@@ -100,6 +105,9 @@ private:
 	Array<drawSurf_t*> _surfaces;
 	Sprite*	_defaultSprite;
 	shadowMap_t* _shadowMap;
+
+	Array<Model*> _models;
+	Array<srfTriangles_t*> _srftri;
 
 	int _winWidth;
 	int _winHeight;
