@@ -343,6 +343,7 @@ void R_IdentifySilEdges( srfTriangles_t *tri ) {
 		tri->perfectHull = true;
 	} else {
 		tri->perfectHull = false;
+		Sys_Warning("built model has single edges %d\n", single);
 	}
 
 	tri->numSilEdges = numSilEdges;

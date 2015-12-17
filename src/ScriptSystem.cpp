@@ -1,9 +1,7 @@
 #include "ScriptSystem.h"
 #include "sys/sys_public.h"
 #include "common/String.h"
-
 #include "luautils.h"
-
 #include "Sprite.h"
 
 int lua_print(lua_State * luastate)

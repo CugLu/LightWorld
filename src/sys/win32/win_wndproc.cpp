@@ -5,6 +5,9 @@ LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 int MapKey (int key)
 {
+	if (key>=65 && key<=91)
+		key = key + 'A' - 'a';
+
 	return key;
 }
 

@@ -82,7 +82,7 @@ static void R_AddSilEdges( const srfTriangles_t *tri ) {
 		// This will cause edges that are exactly on the frustum plane
 		// to be considered sil edges if the face inside casts a shadow.
 		if (facing[ sil->p1] == facing[ sil->p2 ]) {
-			Sys_Printf("remove %d %d\n", sil->v1, sil->v2);
+			//Sys_Printf("remove %d %d\n", sil->v1, sil->v2);
 			continue;
 		}
 
@@ -135,7 +135,6 @@ static void R_ProjectPointsToFarPlane( Vec3& lightPos, mat4& modelMatrix, int fi
 	in = &shadowVerts[firstShadowVert];
 	for (int i = firstShadowVert ; i < numShadowVerts ; i+= 2, in += 2 ) {
 		in[1] = in[0] + (in[0] - lv).normalize()*100;
-		Sys_Printf("%f %f %f=----------------\n", in[0].x, in[0].y, in[0].z);
 	}
 }
 
@@ -155,7 +154,7 @@ void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& 
 	for (int i=0; i<numPlanes; i++)
 	{
 		facing[i] = plane[i].Distance(lv) > 0;
-		Sys_Printf("%f %f %f %d\n", plane[i][0], plane[i][1], plane[i][2], facing[i]);
+		//Sys_Printf("%f %f %f %d\n", plane[i][0], plane[i][1], plane[i][2], facing[i]);
 	}
 
 	memset(remap, -1, sizeof(remap));

@@ -1,7 +1,3 @@
-/*
- * blur shader & outline shader
- */
-
 #include "sampler.h"
 #include "Mesh.h"
 #include "ResourceSystem.h"
@@ -88,13 +84,13 @@ void ShadowSampler::Init()
 	_model = _renderSys->CreateModel();
 	_model->SetFile("ninja.b3d");
 	_model->SetViewProj(_camera->GetViewProj());
-	_renderSys->AddModel(_model);
+	//_renderSys->AddModel(_model);
 	
 
 	Interaction* inter = new Interaction;
 	drawSurf_t* surf = _model->_drawSurf;
 	R_IdentifySilEdges(surf->geo);
-	inter->CreateInteraction(surf->geo, Vec3(0, 10, 0), surf->matModel);
+	inter->CreateInteraction(surf->geo, Vec3(0, 40, 10), surf->matModel);
 	_renderSys->AddSurfTris(inter->shadowTris);
 
 	{
@@ -144,35 +140,27 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 			switch (event->evValue)
 			{
 			case 'w':
-			case 'W':
 				_camera->Forward(0.5f);
 				break;
 			case 's':
-			case 'S':
 				_camera->Forward(-0.5f);
 				break;
 			case 'q':
-			case 'Q':
 				_camera->Right(0.5f);
 				break;
 			case 'e':
-			case 'E':
 				_camera->Right(-0.5f);
 				break;
-			case 'A':
 			case 'a':
 				_camera->Yaw(10);
 				break;
-			case 'D':
 			case 'd':
 				_camera->Yaw(-10);
 				break;
 			case 'z':
-			case 'Z':
 				_camera->Rotate(5);
 				break;
 			case 'c':
-			case 'C':
 				_camera->Rotate(-5);
 				break;
 			default:

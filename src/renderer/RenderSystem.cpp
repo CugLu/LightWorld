@@ -133,33 +133,16 @@ void RenderSystemLocal::RenderBounds()
 	mat4 t = *_mainViewProj;
 	glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
 
-	float vertices[] = {0.f, 0.f, 0.f, 
-			10.f, 0.f, 0.f,
-			0.f, 10.f, 0.f,
-			0.f, 0.f, 10.f,
-	};
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
-
-	glUniform3f(shader->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
-	unsigned short indices1[] = {0, 1};
-	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices1);
-
-	glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
-	unsigned short indices2[] = {0, 2};
-	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices2);
-
-	glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 0.0, 1.0);
-	unsigned short indices3[] = {0, 3};
-	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices3);
 
 	// draw volume
 	for (unsigned int i=0; i<_srftri.size(); ++i)
 	{
-		R_DrawPositon(_srftri[i]);
+	R_DrawPositon(_srftri[i]);
 	}
 
 	//------------------------
+	//glUniform3f(shader->GetUniform(eUniform_Color), 0.3, 0.3, 0.3);
 	//glEnable(GL_STENCIL_TEST);
 	//glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
 	//glClearStencil(0);
@@ -210,6 +193,25 @@ void RenderSystemLocal::RenderBounds()
 		RB_DrawBounds(&_surfaces[i]->geo->aabb);
 	}
 
+	float vertices[] = {0.f, 0.f, 0.f, 
+			10.f, 0.f, 0.f,
+			0.f, 10.f, 0.f,
+			0.f, 0.f, 10.f,
+	};
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
+
+	glUniform3f(shader->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
+	unsigned short indices1[] = {0, 1};
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices1);
+
+	glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
+	unsigned short indices2[] = {0, 2};
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices2);
+
+	glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 0.0, 1.0);
+	unsigned short indices3[] = {0, 3};
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices3);
 }
 
 void RenderSystemLocal::RenderPasses()

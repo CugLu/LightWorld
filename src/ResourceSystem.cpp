@@ -117,7 +117,6 @@ static int ShaderPluginCount = sizeof(shaderplugin) / sizeof(ShaderPlugin);
 
 static sysTextContent_t textContent;
 
-
 //ResourceManager* ResourceManager::sm_pSharedInstance = nullptr;
 ResourceSystem::ResourceSystem()
 {

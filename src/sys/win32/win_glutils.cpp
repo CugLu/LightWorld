@@ -32,17 +32,14 @@ static bool GL_SetPixelFormat( ) {
 	Sys_Printf( "Initializing OpenGL driver\n" );
 
 	if ( win32.hDC == NULL ) {
-		Sys_Printf( "...getting DC: " );
-
 		if ( ( win32.hDC = GetDC( win32.hWnd ) ) == NULL ) {
-			Sys_Printf( "^3failed^0\n" );
+			Sys_Printf( "...GetDC failed\n" );
 			return false;
 		}
-		Sys_Printf( "succeeded\n" );
 	}
 
 	if ( ( win32.pixelformat = ChoosePixelFormat( win32.hDC, &src ) ) == 0 ) {
-		Sys_Printf( "...^3GLW_ChoosePFD failed^0\n");
+		Sys_Printf( "...ChoosePixelFormat failed^0\n");
 		return false;
 	}
 	Sys_Printf( "...PIXELFORMAT %d selected\n", win32.pixelformat );
@@ -71,7 +68,7 @@ static bool GL_SetPixelFormat( ) {
 	return true;
 }
 
-static void GL_CreateWindowClasses( void ) {
+static void GL_RegisterWindowClasses( void ) {
 	WNDCLASS wc;
 	if ( win32.windowClassRegistered ) {
 		return;
@@ -183,7 +180,6 @@ void GLimp_Shutdown( void ) {
 		CloseHandle( win32.renderThreadHandle );
 		win32.renderThreadHandle = NULL;
 	}
-
 }
 
 static int GL_InitGL()										
@@ -220,7 +216,7 @@ void GL_SwapBuffers( void ) {
 bool GL_CreateDevice(int width, int height){
 	Sys_Printf( "Initializing OpenGL Window\n" );
 
-	GL_CreateWindowClasses();
+	GL_RegisterWindowClasses();
 	GL_CreateWindow(width, height);
 	GL_SetPixelFormat();
 	GL_InitGL();
