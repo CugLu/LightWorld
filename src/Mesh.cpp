@@ -206,7 +206,7 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 		// allocate triangle surface
 		tri = AllocGeo();
 		tri->numVerts = 0;
-		tri->numIndexes = 0;
+		tri->numIndices = 0;
 		R_AllocStaticTriSurfIndices( tri, layer->polygon.count * 3 );
 		tri->generateNormals = !normalsParsed;
 
@@ -310,13 +310,13 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 					tri->numVerts++;
 				}
 
-				tri->indices[tri->numIndexes] = mv - mvTable;
-				tri->numIndexes++;
+				tri->indices[tri->numIndices] = mv - mvTable;
+				tri->numIndices++;
 			}
 		}
 
 		// allocate space for the indexes and copy them
-		if ( tri->numIndexes > layer->polygon.count * 3 ) {
+		if ( tri->numIndices > layer->polygon.count * 3 ) {
 			Sys_Error( "ConvertLWOToModelSurfaces: index miscount in LWO file %s", name.c_str() );
 		}
 		if ( tri->numVerts > layer->polygon.count * 3 ) {

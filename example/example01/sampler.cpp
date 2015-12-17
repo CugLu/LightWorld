@@ -25,6 +25,7 @@ Game* game = new ShadowSampler();
 Texture* _texture;
 Box* box;
 float angle = 0;
+Interaction* inter;
 
 ShadowSampler::ShadowSampler( void ):_camera(NULL)
 {
@@ -67,7 +68,7 @@ void ShadowSampler::Init()
 	
 	box = _renderSys->CreateBox(3, 3, 3);
 	box->SetViewProj(_camera->GetViewProj());
-	box->SetPosition(10, 0, 0);
+	box->SetPosition(0, 0, 0);
 	//_renderSys->AddDrawSur(box->_drawSurf);
 	
 	_plane = _renderSys->CreatePlane(100, 100);
@@ -87,18 +88,18 @@ void ShadowSampler::Init()
 	//_renderSys->AddModel(_model);
 	
 
-	Interaction* inter = new Interaction;
+	inter = new Interaction;
 	drawSurf_t* surf = _model->_drawSurf;
 	R_IdentifySilEdges(surf->geo);
 	inter->CreateInteraction(surf->geo, Vec3(0, 40, 10), surf->matModel);
 	_renderSys->AddSurfTris(inter->shadowTris);
 
 	{
-		//Interaction* inter = new Interaction;
-		//drawSurf_t* surf = box->_drawSurf;
-		//R_IdentifySilEdges(surf->geo);
-		//inter->CreateInteraction(surf->geo, Vec3(0, 5, 0), surf->matModel);
-		//_renderSys->AddSurfTris(inter->shadowTris);
+/*		inter = new Interaction;
+		drawSurf_t* surf = box->_drawSurf;
+		R_IdentifySilEdges(surf->geo);
+		inter->CreateInteraction(surf->geo, Vec3(0, 5, 0), surf->matModel);
+		_renderSys->AddSurfTris(inter->shadowTris)*/;
 	}
 }
 
@@ -158,11 +159,31 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 				_camera->Yaw(-10);
 				break;
 			case 'z':
-				_camera->Rotate(5);
+				_camera->RotateByY(5);
+				break;
+			case 'x':
+				_camera->RotateByY(-5);
 				break;
 			case 'c':
-				_camera->Rotate(-5);
+				_camera->Pitch(5);
 				break;
+			case 'v':
+				_camera->Pitch(-5);
+				break;
+			case 'j':
+				_renderSys->_debugShadowVolume = !_renderSys->_debugShadowVolume;
+				break;
+			case 'k':
+				_renderSys->_drawShadow = !_renderSys->_drawShadow;
+				break;
+			case K_ENTER:
+				{
+					inter->shadowTris->drawBegin += 3;
+					inter->shadowTris->drawCount = 6;
+					Sys_Printf("draw begin %d\n", inter->shadowTris->drawBegin);
+				}
+				break;
+
 			default:
 				break;
 			}

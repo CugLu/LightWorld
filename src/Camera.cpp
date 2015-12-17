@@ -106,10 +106,23 @@ void Camera::LookAt( float x, float y, float z )
 	UpdateViewProj();
 }
 
-void Camera::Rotate( float angle )
+void Camera::RotateByY( float angle )
 {
 	Vec3 dir = _pos - _at;
 	dir.rotatexzBy(angle, Vec3(0, 0, 0));
 	_pos = _at + dir;
+	UpdateViewProj();
+}
+
+void Camera::Pitch( float angle )
+{
+	Vec3 dir = _at - _pos;
+	Vec3 axis = dir.cross(Vec3(0, 1, 0));
+	axis.normalize();
+	Quat q;
+	q.FromAxisAngle(axis, angle * QUAT_PI / 360.f);
+	q.ToMatrix().transformVec3(dir.x, dir.y, dir.z);
+	_at = _pos + dir;
+
 	UpdateViewProj();
 }

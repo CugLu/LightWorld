@@ -37,7 +37,7 @@ static void R_DrawCommon( srfTriangles_t* tri, unsigned short *attri, unsigned s
 	}
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tri->vbo[1]);
-	glDrawElements(GL_TRIANGLES, tri->numIndexes, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, tri->numIndices, GL_UNSIGNED_SHORT, 0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

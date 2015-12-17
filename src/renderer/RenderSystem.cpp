@@ -136,44 +136,51 @@ void RenderSystemLocal::RenderBounds()
 
 
 	// draw volume
-	for (unsigned int i=0; i<_srftri.size(); ++i)
+	//glPolygonMode(GL_FRONT, GL_LINE);
+	if (!_debugShadowVolume)
 	{
-	R_DrawPositon(_srftri[i]);
+		for (unsigned int i=0; i<_srftri.size(); ++i)
+			R_DrawPositon(_srftri[i]);
 	}
+	 glPolygonMode(GL_FRONT, GL_FILL);
 
+	 if (!_drawShadow)
+	 {
+		 glUniform3f(shader->GetUniform(eUniform_Color), 0.3, 0.3, 0.3);
+		 glEnable(GL_STENCIL_TEST);
+		 glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
+		 glClearStencil(0);
+		 glDepthMask( GL_FALSE );
+		 //glDepthFunc(GL_LEQUAL);
+		 glStencilFunc(GL_ALWAYS, 0, 0xf);
+
+		 glFrontFace(GL_CCW);
+		 glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
+		 for (unsigned int i=0; i<_srftri.size(); ++i)
+		 {
+			 R_DrawPositon(_srftri[i]);
+		 }
+
+		 glFrontFace(GL_CW);
+		 glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
+		 for (unsigned int i=0; i<_srftri.size(); ++i)
+		 {
+			 R_DrawPositon(_srftri[i]);
+		 }
+
+		 glFrontFace(GL_CCW);
+		 glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+		 glStencilFunc(GL_NOTEQUAL, 0, 0xf);
+		 glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+		 for (unsigned int i=0; i<_srftri.size(); ++i)
+		 {
+			 R_DrawPositon(_srftri[i]);
+		 }
+		 glDepthMask( GL_TRUE );
+		 glDisable(GL_STENCIL_TEST);
+	 }
 	//------------------------
-	//glUniform3f(shader->GetUniform(eUniform_Color), 0.3, 0.3, 0.3);
-	//glEnable(GL_STENCIL_TEST);
-	//glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
-	//glClearStencil(0);
-	//glDepthMask( GL_FALSE );
-	////glDepthFunc(GL_LEQUAL);
-	//glStencilFunc(GL_ALWAYS, 0, 0xf);
 
-	//glFrontFace(GL_CCW);
-	//glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
-	//for (unsigned int i=0; i<_srftri.size(); ++i)
-	//{
-	//	R_DrawPositon(_srftri[i]);
-	//}
-
-	//glFrontFace(GL_CW);
-	//glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
-	//for (unsigned int i=0; i<_srftri.size(); ++i)
-	//{
-	//	R_DrawPositon(_srftri[i]);
-	//}
-
-	//glFrontFace(GL_CCW);
-	//glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-	//glStencilFunc(GL_NOTEQUAL, 0, 0xf);
-	//glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-	//for (unsigned int i=0; i<_srftri.size(); ++i)
-	//{
-	//	R_DrawPositon(_srftri[i]);
-	//}
-	//glDepthMask( GL_TRUE );
-	//glDisable(GL_STENCIL_TEST);
 
 
 

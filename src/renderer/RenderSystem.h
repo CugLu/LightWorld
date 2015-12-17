@@ -50,7 +50,10 @@ public:
 
 	virtual void SetMainViewProj(mat4* mat) = 0;
 
-		virtual void AddSurfTris(srfTriangles_t* tri) = 0;
+	virtual void AddSurfTris(srfTriangles_t* tri) = 0;
+public:
+	bool _debugShadowVolume;
+	bool _drawShadow;
 };
 
 class RenderSystemLocal : public RenderSystem
@@ -113,6 +116,8 @@ private:
 	int _winHeight;
 	
 	ResourceSystem* _resourceSys;
+
+
 };
 
 #endif

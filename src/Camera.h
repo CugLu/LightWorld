@@ -25,7 +25,8 @@ public:
 	void SetPosition(float x, float y, float z);
 	void RotateByAxis(Vec3 axis, float angle);
 	void LookAt(float x, float y, float z);
-	void Rotate(float angle);
+	void RotateByY(float angle);
+	void Pitch(float angle);
 
 	void UpdateViewProj();
 private:

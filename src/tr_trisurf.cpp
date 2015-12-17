@@ -30,7 +30,7 @@ void R_DeriveNormals( srfTriangles_t *tri ) {
 		tri->verts[i].tangents[1].Zero();
 	}
 
-	for ( i = 0; i < tri->numIndexes; i += 3 ) {
+	for ( i = 0; i < tri->numIndices; i += 3 ) {
 		// make face tangents
 		float		d0[5], d1[5];
 		DrawVert	*a, *b, *c;
@@ -120,25 +120,25 @@ srfTriangles_t	*R_MergeSurfaceList( const srfTriangles_t **surfaces, int numSurf
 	totalIndexes = 0;
 	for ( i = 0 ; i < numSurfaces ; i++ ) {
 		totalVerts += surfaces[i]->numVerts;
-		totalIndexes += surfaces[i]->numIndexes;
+		totalIndexes += surfaces[i]->numIndices;
 	}
 
 	newTri = R_AllocStaticTriSurf();
 	newTri->numVerts = totalVerts;
-	newTri->numIndexes = totalIndexes;
+	newTri->numIndices = totalIndexes;
 	R_AllocStaticTriSurfVerts( newTri, newTri->numVerts );
-	R_AllocStaticTriSurfIndices( newTri, newTri->numIndexes );
+	R_AllocStaticTriSurfIndices( newTri, newTri->numIndices );
 
 	totalVerts = 0;
 	totalIndexes = 0;
 	for ( i = 0 ; i < numSurfaces ; i++ ) {
 		tri = surfaces[i];
 		memcpy( newTri->verts + totalVerts, tri->verts, tri->numVerts * sizeof( *tri->verts ) );
-		for ( j = 0 ; j < tri->numIndexes ; j++ ) {
+		for ( j = 0 ; j < tri->numIndices ; j++ ) {
 			newTri->indices[ totalIndexes + j ] = totalVerts + tri->indices[j];
 		}
 		totalVerts += tri->numVerts;
-		totalIndexes += tri->numIndexes;
+		totalIndexes += tri->numIndices;
 	}
 
 	return newTri;
@@ -177,11 +177,11 @@ void R_DeriveFacePlanes( srfTriangles_t *tri ) {
 	Plane *	planes;
 
 	if ( !tri->facePlanes ) {
-		R_AllocStaticTriSurfPlanes( tri, tri->numIndexes );
+		R_AllocStaticTriSurfPlanes( tri, tri->numIndices );
 	}
 	planes = tri->facePlanes;
 
-	for ( int i = 0; i < tri->numIndexes; i+= 3, planes++ ) {
+	for ( int i = 0; i < tri->numIndices; i+= 3, planes++ ) {
 		int		i1, i2, i3;
 		Vec3	d1, d2, normal;
 		Vec3	*v1, *v2, *v3;
@@ -285,7 +285,7 @@ void R_IdentifySilEdges( srfTriangles_t *tri ) {
 	int		numTris;
 	int		shared, single;
 
-	numTris = tri->numIndexes / 3;
+	numTris = tri->numIndices / 3;
 
 	numSilEdges = 0;
 	numPlanes = numTris;

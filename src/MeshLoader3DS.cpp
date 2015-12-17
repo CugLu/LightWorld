@@ -105,8 +105,8 @@ Mesh* LoadMesh3DS(const char* filename)
 		case INDEX_DATA_3DS:
 			{
 				unsigned short numTri = file->ReadUnsignedShort();
-				geo->numIndexes = numTri * 3;
-				geo->indices = new glIndex_t[geo->numIndexes];
+				geo->numIndices = numTri * 3;
+				geo->indices = new glIndex_t[geo->numIndices];
 				for(int i=0; i<numTri; ++i)
 				{
 					geo->indices[i*3] = file->ReadUnsignedShort();

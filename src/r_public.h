@@ -26,7 +26,7 @@ typedef struct srfTriangles_s
 	int	numVerts;				
 	DrawVert* verts;				
 
-	int	numIndexes;			
+	int	numIndices;			
 	glIndex_t* indices;
 
 	int numSilEdges;
@@ -37,6 +37,9 @@ typedef struct srfTriangles_s
 
 	Aabb3d aabb;
 	Plane* facePlanes;
+
+	glIndex_t drawBegin;
+	glIndex_t drawCount;
 
 	bool generateNormals;
 	bool tangentsCalculated;
@@ -143,4 +146,5 @@ Vec2 R_WorldToScreenPos(Vec3 pos, mat4* viewProj, int screenwidth, int screenhei
 
 void R_IdentifySilEdges( srfTriangles_t *tri );
 
+void R_DrawAllTris(srfTriangles_t *tri);
 #endif

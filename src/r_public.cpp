@@ -50,11 +50,13 @@ void R_GenerateGeometryVbo( srfTriangles_t *tri )
 
 	// Stick the data for the indices into its VBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tri->vbo[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(glIndex_t) * tri->numIndexes, tri->indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(glIndex_t) * tri->numIndices, tri->indices, GL_STATIC_DRAW);
 
 	// Clear the VBO state
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	R_DrawAllTris(tri);
 }
 
 drawSurf_t* R_AllocDrawSurf()
@@ -107,7 +109,7 @@ void R_GenerateQuad( srfTriangles_t* geo )
 	
 	R_SetTextureUV(geo, 1.f, 1.f);
 
-	geo->numIndexes = 6;
+	geo->numIndices = 6;
 	geo->indices = new glIndex_t[6];
 	geo->indices[0] = 0;
 	geo->indices[1] = 1;
@@ -144,10 +146,10 @@ void R_GenerateBox( srfTriangles_t* geo, float sx, float sy, float sz)
 								1, 5, 3, 3, 5, 7
 						};
 
-	geo->numIndexes = sizeof(indices) / sizeof(unsigned short);
+	geo->numIndices = sizeof(indices) / sizeof(unsigned short);
 
-	geo->indices = new glIndex_t[geo->numIndexes];
-	for (int i=0; i<geo->numIndexes; i++)
+	geo->indices = new glIndex_t[geo->numIndices];
+	for (int i=0; i<geo->numIndices; i++)
 	{
 		geo->indices[i] = indices[i];
 	}
@@ -309,4 +311,10 @@ Vec2 R_WorldToScreenPos( Vec3 pos, mat4* viewProj, int screenwidth, int screenhe
 	screenPos.y = out.y;
 
 	return screenPos;
+}
+
+void R_DrawAllTris( srfTriangles_t *tri )
+{
+	tri->drawBegin = 0;
+	tri->drawCount = tri->numIndices;
 }

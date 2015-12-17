@@ -38,7 +38,7 @@ srfTriangles_t* R_GenerateCaps( Vec3 lightPos, srfTriangles_t* tri )
 	if (!tri->facePlanes || !tri->facePlanesCalculated)
 		R_DeriveFacePlanes(tri);
 
-	int numPlanes = tri->numIndexes / 3; 
+	int numPlanes = tri->numIndices / 3; 
 	Plane* plane = tri->facePlanes;
 	for (int i=0; i<numPlanes; i++)
 	{
@@ -51,6 +51,41 @@ srfTriangles_t* R_GenerateCaps( Vec3 lightPos, srfTriangles_t* tri )
 
 	return NULL;
 }
+
+/*
+===============
+PointsOrdered
+
+To make sure the triangulations of the sil edges is consistant,
+we need to be able to order two points.  We don't care about how
+they compare with any other points, just that when the same two
+points are passed in (in either order), they will always specify
+the same one as leading.
+
+Currently we need to have separate faces in different surfaces
+order the same way, so we must look at the actual coordinates.
+If surfaces are ever guaranteed to not have to edge match with
+other surfaces, we could just compare indexes.
+===============
+*/
+static bool PointsOrdered( const Vec3 &a, const Vec3 &b ) {
+	float	i, j;
+
+	// vectors that wind up getting an equal hash value will
+	// potentially cause a misorder, which can show as a couple
+	// crack pixels in a shadow
+
+	// scale by some odd numbers so -8, 8, 8 will not be equal
+	// to 8, -8, 8
+
+	// in the very rare case that these might be equal, all that would
+	// happen is an oportunity for a tiny rasterization shadow crack
+	i = a[0] + a[1]*127 + a[2]*1023;
+	j = b[0] + b[1]*127 + b[2]*1023;
+
+	return (bool)(i < j);
+}
+
 
 /*
 =================
@@ -66,7 +101,7 @@ static void R_AddSilEdges( const srfTriangles_t *tri ) {
 	silEdge_t	*sil;
 	int		numPlanes;
 
-	numPlanes = tri->numIndexes / 3;
+	numPlanes = tri->numIndices / 3;
 
 	// add sil edges for any true silhouette boundaries on the surface
 	for ( i = 0 ; i < tri->numSilEdges ; i++ ) {
@@ -100,20 +135,40 @@ static void R_AddSilEdges( const srfTriangles_t *tri ) {
 		// If this wasn't done, slight rasterization cracks would show in the shadow
 		// volume when two sil edges were exactly coincident
 		if ( facing[ sil->p2 ] ) {
-			shadowIndices[numShadowIndices++] = v1;
-			shadowIndices[numShadowIndices++] = v1+1;
-			shadowIndices[numShadowIndices++] = v2;
-			shadowIndices[numShadowIndices++] = v2;
-			shadowIndices[numShadowIndices++] = v1+1;
-			shadowIndices[numShadowIndices++] = v2+1;
+			//if ( PointsOrdered( shadowVerts[ v1 ], shadowVerts[ v2 ] ) ) {
+				shadowIndices[numShadowIndices++] = v1;
+				shadowIndices[numShadowIndices++] = v1+1;
+				shadowIndices[numShadowIndices++] = v2;
+				shadowIndices[numShadowIndices++] = v2;
+				shadowIndices[numShadowIndices++] = v1+1;
+				shadowIndices[numShadowIndices++] = v2+1;
+				/*	} else {
+				shadowIndices[numShadowIndices++] = v1;
+				shadowIndices[numShadowIndices++] = v2+1;
+				shadowIndices[numShadowIndices++] = v2;
+				shadowIndices[numShadowIndices++] = v1;
+				shadowIndices[numShadowIndices++] = v1+1;
+				shadowIndices[numShadowIndices++] = v2+1;
+				}*/
 		} else { 
-			shadowIndices[numShadowIndices++] = v1;
-			shadowIndices[numShadowIndices++] = v2;
-			shadowIndices[numShadowIndices++] = v1+1;
-			shadowIndices[numShadowIndices++] = v2;
-			shadowIndices[numShadowIndices++] = v2+1;
-			shadowIndices[numShadowIndices++] = v1+1;
+		//	if ( PointsOrdered( shadowVerts[ v1 ], shadowVerts[ v2 ] ) ) {
+				shadowIndices[numShadowIndices++] = v1;
+				shadowIndices[numShadowIndices++] = v2;
+				shadowIndices[numShadowIndices++] = v1+1;
+				shadowIndices[numShadowIndices++] = v2;
+				shadowIndices[numShadowIndices++] = v2+1;
+				shadowIndices[numShadowIndices++] = v1+1;
+		/*	} else {
+				shadowIndices[numShadowIndices++] = v1;
+				shadowIndices[numShadowIndices++] = v2;
+				shadowIndices[numShadowIndices++] = v2+1;
+				shadowIndices[numShadowIndices++] = v1;
+				shadowIndices[numShadowIndices++] = v2+1;
+				shadowIndices[numShadowIndices++] = v1+1;
+			}*/
 		}
+
+		
 	}
 }
 
@@ -134,7 +189,7 @@ static void R_ProjectPointsToFarPlane( Vec3& lightPos, mat4& modelMatrix, int fi
 	// make a projected copy of the even verts into the odd spots
 	in = &shadowVerts[firstShadowVert];
 	for (int i = firstShadowVert ; i < numShadowVerts ; i+= 2, in += 2 ) {
-		in[1] = in[0] + (in[0] - lv).normalize()*100;
+		in[1] = in[0] + (in[0] - lv).normalize()*10;
 	}
 }
 
@@ -148,24 +203,27 @@ void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& 
 
 	Vec3 lv;
 	R_GlobalPointToLocal( modelMatrix.m, lightPos, lv );
-	int numPlanes = tri->numIndexes / 3; 
+	int numPlanes = tri->numIndices / 3; 
 	Plane* plane = tri->facePlanes;
 	
 	for (int i=0; i<numPlanes; i++)
 	{
-		facing[i] = plane[i].Distance(lv) > 0;
+		facing[i] = plane[i].Distance(lv) >= 0.f;
 		//Sys_Printf("%f %f %f %d\n", plane[i][0], plane[i][1], plane[i][2], facing[i]);
 	}
 
+	// for dangling edges to reference
+	facing[numPlanes] = 1;
+
 	memset(remap, -1, sizeof(remap));
 	numShadowVerts = 0;
-	int numTris = tri->numIndexes / 3;
+	int numTris = tri->numIndices / 3;
 	for ( int i = 0 ; i < numTris ; i++ ) {
 		int		i1, i2, i3;
 
 		// if it isn't facing the right way, don't add it        
 		// to the shadow volume
-		if ( facing[i] ) {
+		if ( !facing[i] ) {
 			continue;
 		}
 
@@ -228,7 +286,7 @@ void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& 
 	R_ProjectPointsToFarPlane(lightPos, modelMatrix, firstShadowVert, numShadowVerts );
 	
 	shadowTris->numVerts = numShadowVerts;
-	shadowTris->numIndexes = numShadowIndices;
+	shadowTris->numIndices = numShadowIndices;
 	R_AllocStaticTriSurfVerts(shadowTris, shadowTris->numVerts);
 	R_AllocStaticTriSurfIndices(shadowTris, numShadowIndices);
 
@@ -238,7 +296,7 @@ void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& 
 		//Sys_Printf("%f %f %f\n", shadowTris->verts[i].xyz.x, shadowTris->verts[i].xyz.y, shadowTris->verts[i].xyz.y);
 	}
 
-	for (int i=0; i<shadowTris->numIndexes; ++i)
+	for (int i=0; i<shadowTris->numIndices; ++i)
 		shadowTris->indices[i] = shadowIndices[i];
 
 	R_GenerateGeometryVbo(shadowTris);
