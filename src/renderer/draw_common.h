@@ -28,6 +28,8 @@ void R_RenderCommon(drawSurf_t* drawSurf);
 //void R_DrawCommon( srfTriangles_t* tri, unsigned short *attri, unsigned short numAttri );
 
 void R_Draw3DCoordinate();
+
+void R_BindArrayBuffer(int i);
 #endif
 
 

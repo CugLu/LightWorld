@@ -910,7 +910,7 @@ bool Sys_DrawText(const char* text, sysTextContent_t* img) {
 			COLORREF& clr = *pPixel;
 
 			clr |= (0xffffff | (GetRValue(clr) << 24));
-			//clr = ~clr;
+			clr = ~clr;
 			++pPixel;
 		}
 	}

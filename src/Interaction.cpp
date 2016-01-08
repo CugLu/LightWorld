@@ -189,7 +189,7 @@ static void R_ProjectPointsToFarPlane( Vec3& lightPos, mat4& modelMatrix, int fi
 	// make a projected copy of the even verts into the odd spots
 	in = &shadowVerts[firstShadowVert];
 	for (int i = firstShadowVert ; i < numShadowVerts ; i+= 2, in += 2 ) {
-		in[1] = in[0] + (in[0] - lv).normalize()*10;
+		in[1] = in[0] + (in[0] - lv).normalize()*100;
 	}
 }
 
@@ -266,18 +266,20 @@ void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& 
 			Sys_Error( "R_CreateShadowVolumeInFrustum: bad remap[]" );
 		}
 
-		shadowIndices[numShadowIndices++] = remap[i1];
-		shadowIndices[numShadowIndices++] = remap[i2];
 		shadowIndices[numShadowIndices++] = remap[i3];
+		shadowIndices[numShadowIndices++] = remap[i2];
+		shadowIndices[numShadowIndices++] = remap[i1];
 	}
 
 	Sys_Printf("front face %d\n", numShadowIndices/3);
 	int preSilIndexes = numShadowIndices;
+	numCapIndices = numShadowIndices;
 	// any edges that are a transition between a shadowing and
 	// non-shadowing triangle will cast a silhouette edge
 	R_AddSilEdges( tri );
 
 	c_sils += numShadowIndices - preSilIndexes;
+	numSilIndices = c_sils;
 
 	int firstShadowVert = 0;
 

@@ -27,6 +27,7 @@ Box* box;
 float angle = 0;
 Interaction* inter;
 
+					static bool drawCap = true;
 ShadowSampler::ShadowSampler( void ):_camera(NULL)
 {
 }
@@ -85,22 +86,23 @@ void ShadowSampler::Init()
 	_model = _renderSys->CreateModel();
 	_model->SetFile("ninja.b3d");
 	_model->SetViewProj(_camera->GetViewProj());
-	//_renderSys->AddModel(_model);
+	_renderSys->AddModel(_model);
 	
-
 	inter = new Interaction;
 	drawSurf_t* surf = _model->_drawSurf;
 	R_IdentifySilEdges(surf->geo);
-	inter->CreateInteraction(surf->geo, Vec3(0, 40, 10), surf->matModel);
+	inter->CreateInteraction(surf->geo, Vec3(30, 40, 10), surf->matModel);
 	_renderSys->AddSurfTris(inter->shadowTris);
 
-	{
-/*		inter = new Interaction;
-		drawSurf_t* surf = box->_drawSurf;
-		R_IdentifySilEdges(surf->geo);
-		inter->CreateInteraction(surf->geo, Vec3(0, 5, 0), surf->matModel);
-		_renderSys->AddSurfTris(inter->shadowTris)*/;
-	}
+	CreateLight();
+
+	//{
+	//	inter = new Interaction;
+	//	drawSurf_t* surf = box->_drawSurf;
+	//	R_IdentifySilEdges(surf->geo);
+	//	inter->CreateInteraction(surf->geo, Vec3(16, 5, 0), surf->matModel);
+	//	_renderSys->AddSurfTris(inter->shadowTris);
+	//}
 }
 
 void ShadowSampler::Frame()
@@ -183,7 +185,21 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 					Sys_Printf("draw begin %d\n", inter->shadowTris->drawBegin);
 				}
 				break;
-
+			case 'b':
+				{
+					if (drawCap)
+					{
+						inter->shadowTris->drawBegin = 0;
+						inter->shadowTris->drawCount = inter->numCapIndices;
+					}
+					else
+					{
+						inter->shadowTris->drawBegin = inter->numCapIndices;
+						inter->shadowTris->drawCount = inter->numSilIndices;
+					}
+					drawCap = !drawCap;
+				}
+				break;
 			default:
 				break;
 			}
@@ -247,13 +263,14 @@ void ShadowSampler::SetupCamera()
 
 void ShadowSampler::CreateLight()
 {
-	_light = new Camera();
-	_light->Setup3DCamera(1366, 768);
-	_light->SetPosition(-1.f, 1.f, -1.f);
+	//_light = new Camera();
+	//_light->Setup3DCamera(1366, 768);
+	//_light->SetPosition(-1.f, 1.f, -1.f);
 
 	_spLight = new Sprite;
 	_spLight->SetLabel("light");
-	_spLight->SetPosition(-100.f, 100.f, -100.f);
+	//30, 40, 10
+	_spLight->SetPosition(30.f, 40.f, 10.f);
 	_renderSys->AddSprite(_spLight);
 }
 

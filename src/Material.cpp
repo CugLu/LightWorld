@@ -61,8 +61,9 @@ bool Material::LoadMemory( const char* buffer ) {
 	}
 
 	Sys_Printf("material: %s\n"
-			  "has color: %s\n" 
-			  "has texture: %s\n", _name.c_str(), _hasColor? "true" : "false", _hasTexture? "true" : "false");
+			  "          color: %s\n" 
+			  "          texture: %s\n",
+			  _name.c_str(), _hasColor? "true" : "false", _hasTexture? "true" : "false");
 	return false;
 }
 

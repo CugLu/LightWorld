@@ -7,21 +7,21 @@
 #include "sys/sys_public.h"
 #include "Material.h"
 
-static void R_BindArrayBuffer(int i) {
+void R_BindArrayBuffer(int i) {
 	switch (i) {
-	case 0:
+	case 0: // xyz
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), 0);
 		break;
-	case 1:
+	case 1: // st
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)12);
 		break;
-	case 2:
+	case 2: // normal
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)20);
 		break;
-	case 3:
+	case 3: // tangents
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)32);
 		break;
-	case 4:
+	case 4: // color
 		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)44);
 		break;
 	default:

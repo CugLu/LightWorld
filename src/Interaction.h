@@ -28,6 +28,9 @@ private:
 	
 public:
 	srfTriangles_t *		shadowTris;
+
+	int numSilIndices;
+	int numCapIndices;
 public:
 	
 };

@@ -102,22 +102,25 @@ private:
 
 	void RenderBounds();
 
+	void RB_STD_FillDepthBuffer();
+
+	void RB_DrawInteractions();
+
 	mat4* _mainViewProj;
 private:
 	Camera* _camera;
-	Array<drawSurf_t*> _surfaces;
 	Sprite*	_defaultSprite;
 	shadowMap_t* _shadowMap;
 
+	Array<drawSurf_t*> _surfaces;
 	Array<Model*> _models;
 	Array<srfTriangles_t*> _srftri;
+	Array<drawSurf_t*> _sprites;
 
 	int _winWidth;
 	int _winHeight;
 	
 	ResourceSystem* _resourceSys;
-
-
 };
 
 #endif

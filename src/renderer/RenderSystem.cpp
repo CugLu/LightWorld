@@ -18,6 +18,12 @@
 
 #include "Interaction.h"
 
+void R_RenderSurfaces(Array<drawSurf_t*> surfaces)
+{
+	for (unsigned int i = 0; i < surfaces.size(); i++)
+		R_RenderCommon(surfaces[i]);
+}
+
 
 RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms)
 {
@@ -28,7 +34,7 @@ RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms)
 void RenderSystemLocal::Init()
 {	
 	//glShadeModel(GL_SMOOTH);				// init value			
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);			// init value
+	glClearColor(0.0f, 0.5f, 0.5f, 0.5f);			// init value
 
 	glClearDepthf(1.0f);									
 	glEnable(GL_DEPTH_TEST);							
@@ -72,12 +78,16 @@ void RenderSystemLocal::FrameUpdate()
 	glViewport(0, 0, 800, 600);
 
 	//CreateShadow();
+	////RenderPasses();
 
-	RenderCommon();
+	////RenderBounds()
 
-	//RenderPasses();
+	RB_STD_FillDepthBuffer();
 
-	RenderBounds();
+	RB_DrawInteractions();
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	R_RenderSurfaces(_sprites);
 
 	GL_SwapBuffers();
 }
@@ -99,7 +109,6 @@ void RenderSystemLocal::DrawString( const char* text )
 {
 	_defaultSprite->SetLabel(text);
 }
-
 
 bool RenderSystemLocal::AddDrawSur( drawSurf_t* drawSur )
 {
@@ -124,6 +133,21 @@ bool RenderSystemLocal::AddDrawSur( drawSurf_t* drawSur )
 	return true;
 }
 
+void drawShadow()
+{
+	glPushMatrix();
+	glLoadIdentity();
+	glColor4f(0.7, 0.7, 0.8, 1.0);
+	glBegin( GL_TRIANGLE_STRIP );
+	glVertex3f(-1.f, 1.0f,-0.10f);
+	glVertex3f(-1.f,-1.0f,-0.10f);
+	glVertex3f( 1.f, 1.0f,-0.10f);
+	glVertex3f( 1.f,-1.0f,-0.10f);
+	glEnd();
+	glPopMatrix();
+	//glPopAttrib();
+}
+
 void RenderSystemLocal::RenderBounds()
 {	
 	glEnableVertexAttribArray(0);
@@ -136,14 +160,11 @@ void RenderSystemLocal::RenderBounds()
 
 
 	// draw volume
-	//glPolygonMode(GL_FRONT, GL_LINE);
 	if (!_debugShadowVolume)
 	{
 		for (unsigned int i=0; i<_srftri.size(); ++i)
 			R_DrawPositon(_srftri[i]);
 	}
-	 glPolygonMode(GL_FRONT, GL_FILL);
-
 	 if (!_drawShadow)
 	 {
 		 glUniform3f(shader->GetUniform(eUniform_Color), 0.3, 0.3, 0.3);
@@ -151,7 +172,6 @@ void RenderSystemLocal::RenderBounds()
 		 glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
 		 glClearStencil(0);
 		 glDepthMask( GL_FALSE );
-		 //glDepthFunc(GL_LEQUAL);
 		 glStencilFunc(GL_ALWAYS, 0, 0xf);
 
 		 glFrontFace(GL_CCW);
@@ -168,14 +188,14 @@ void RenderSystemLocal::RenderBounds()
 			 R_DrawPositon(_srftri[i]);
 		 }
 
+		 glUseProgram(0);
 		 glFrontFace(GL_CCW);
 		 glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 		 glStencilFunc(GL_NOTEQUAL, 0, 0xf);
 		 glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-		 for (unsigned int i=0; i<_srftri.size(); ++i)
-		 {
-			 R_DrawPositon(_srftri[i]);
-		 }
+
+		 drawShadow();
+
 		 glDepthMask( GL_TRUE );
 		 glDisable(GL_STENCIL_TEST);
 	 }
@@ -184,41 +204,41 @@ void RenderSystemLocal::RenderBounds()
 
 
 
-	// bound render
-	for (unsigned int i = 0; i < _surfaces.size(); i++)
-	{
-		if(!_surfaces[i]->bShowBound)
-			continue;
+	//// bound render
+	//for (unsigned int i = 0; i < _surfaces.size(); i++)
+	//{
+	//	if(!_surfaces[i]->bShowBound)
+	//		continue;
 
-		if (_surfaces[i]->bHit)
-			glUniform3f(shader->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
-		else
-			glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
+	//	if (_surfaces[i]->bHit)
+	//		glUniform3f(shader->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
+	//	else
+	//		glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
 
-		mat4 t = (*_surfaces[i]->viewProj) * _surfaces[i]->matModel;
-		glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
-		RB_DrawBounds(&_surfaces[i]->geo->aabb);
-	}
+	//	mat4 t = (*_surfaces[i]->viewProj) * _surfaces[i]->matModel;
+	//	glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
+	//	RB_DrawBounds(&_surfaces[i]->geo->aabb);
+	//}
 
-	float vertices[] = {0.f, 0.f, 0.f, 
-			10.f, 0.f, 0.f,
-			0.f, 10.f, 0.f,
-			0.f, 0.f, 10.f,
-	};
+	//float vertices[] = {0.f, 0.f, 0.f, 
+	//		10.f, 0.f, 0.f,
+	//		0.f, 10.f, 0.f,
+	//		0.f, 0.f, 10.f,
+	//};
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
 
-	glUniform3f(shader->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
-	unsigned short indices1[] = {0, 1};
-	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices1);
+	//glUniform3f(shader->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
+	//unsigned short indices1[] = {0, 1};
+	//glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices1);
 
-	glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
-	unsigned short indices2[] = {0, 2};
-	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices2);
+	//glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
+	//unsigned short indices2[] = {0, 2};
+	//glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices2);
 
-	glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 0.0, 1.0);
-	unsigned short indices3[] = {0, 3};
-	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices3);
+	//glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 0.0, 1.0);
+	//unsigned short indices3[] = {0, 3};
+	//glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices3);
 }
 
 void RenderSystemLocal::RenderPasses()
@@ -243,6 +263,7 @@ void RenderSystemLocal::RenderPasses()
 	}
 }
 
+
 void RenderSystemLocal::RenderCommon()
 {
 	for (unsigned int i = 0; i < _surfaces.size(); i++)
@@ -262,7 +283,9 @@ bool RenderSystemLocal::AddUISurf( drawSurf_t* drawSurf )
 		drawSurf->shaderParms->tex = _resourceSys->AddTexture(".png");
 
 	drawSurf->mtr = _resourceSys->AddMaterial("mtr/positiontex.mtr");
-	return AddDrawSur(drawSurf);
+	_sprites.push_back(drawSurf);
+	return true;
+	//return AddDrawSur(drawSurf);
 }
 
 bool RenderSystemLocal::AddSprite( Sprite* sprite )
@@ -348,4 +371,84 @@ void RenderSystemLocal::CreateShadow()
 void RenderSystemLocal::AddSurfTris( srfTriangles_t* tri )
 {
 	_srftri.push_back(tri);
+}
+
+void RenderSystemLocal::RB_STD_FillDepthBuffer()
+{
+	glEnableVertexAttribArray(0);
+	Shader* shader = _resourceSys->FindShader(eShader_Position);
+	glUseProgram(shader->GetProgarm());
+
+	mat4 t = *_mainViewProj;
+	glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
+	glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 0.0, 0.0);
+
+		glBlendFunc( GL_ONE, GL_ZERO );
+	for (unsigned int i = 0; i < _surfaces.size(); i++)
+	{
+		drawSurf_t* drawSurf = _surfaces[i];
+		srfTriangles_t* tris = drawSurf->geo;
+
+		mat4 t = (*drawSurf->viewProj) * drawSurf->matModel;
+		glUniformMatrix4fv(shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
+
+		glBindBuffer(GL_ARRAY_BUFFER, tris->vbo[0]);
+		R_BindArrayBuffer(0);
+		R_BindArrayBuffer(4);
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tris->vbo[1]);
+		glDrawElements(GL_TRIANGLES, tris->numIndices, GL_UNSIGNED_SHORT, 0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		GL_CheckError("i=====");
+	}
+}
+
+void RenderSystemLocal::RB_DrawInteractions()
+{
+	glEnableVertexAttribArray(0);
+	Shader* shader = _resourceSys->FindShader(eShader_Position);
+	glUseProgram(shader->GetProgarm());
+
+	mat4 t = *_mainViewProj;
+	glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
+	glUniform3f(shader->GetUniform(eUniform_Color), 0.3, 0.3, 0.3);
+	glEnable(GL_STENCIL_TEST);
+	glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
+	glClearStencil(0);
+	glDepthMask( GL_FALSE );
+	glStencilFunc(GL_ALWAYS, 0, 0xf);
+	
+	glPolygonMode(GL_FRONT, GL_LINE);
+
+	glFrontFace(GL_CCW);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
+	for (unsigned int i=0; i<_srftri.size(); ++i)
+	{
+		R_DrawPositon(_srftri[i]);
+	}
+
+	glFrontFace(GL_CW);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
+	for (unsigned int i=0; i<_srftri.size(); ++i)
+	{
+		R_DrawPositon(_srftri[i]);
+	}
+
+	   glPolygonMode(GL_FRONT, GL_FILL);
+	glFrontFace(GL_CCW);
+	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+	glStencilFunc(GL_EQUAL, 0, 0xf);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+	glDepthMask(GL_FALSE);
+
+	glDepthFunc(GL_LEQUAL);
+	glBlendFunc( GL_ONE, GL_ONE );
+	RenderCommon();
+
+	glDepthMask(GL_TRUE);
+	glDisable(GL_STENCIL_TEST);
+	   glPolygonMode(GL_FRONT, GL_FILL);
 }
