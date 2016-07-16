@@ -1,0 +1,22 @@
+attribute vPosition;
+attribute vColor;
+
+vert{
+	attribute vec3 vPosition;
+	attribute vec4 vColor;
+	varying vec4 vFragmentColor;
+	uniform mat4 WVP;
+	void main() 
+	{
+		gl_Position = WVP* vec4(vPosition, 1.0);
+		vFragmentColor = vColor;
+	}
+}
+
+frag{
+	varying vec4 vFragmentColor;
+	void main() {
+		gl_FragColor = vFragmentColor;
+		//gl_FragColor = vec4(0, 0, 0, 0);
+	}
+}

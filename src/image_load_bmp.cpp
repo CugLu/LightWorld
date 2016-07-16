@@ -5,7 +5,6 @@ typedef unsigned long       DWORD;
 typedef int                 BOOL;
 typedef unsigned char       BYTE;
 typedef unsigned short      WORD;
-;
 
 typedef int                 INT;
 typedef unsigned int        UINT;
@@ -36,12 +35,13 @@ struct bitmapinfoheader{
 
 bool image_load_bmp(const char *file, Image* i)
 {
-	FILE *fp; //our file pointer
-    bitmapfileheader bitmapFileHeader; //our bitmap file header
+	FILE *fp; 
+    bitmapfileheader bitmapFileHeader; 
 	bitmapinfoheader bitmapInfoHeader;
-    unsigned char *bitmapImage;  //store image data
-    int imageIdx=0;  //image index counter
-    unsigned char tempRGB;  //our swap variable
+    unsigned char *bitmapImage; 
+    int imageIdx = 0;   
+	//our swap variable
+    unsigned char tempRGB;
 
     //open filename in read binary mode
     fp = fopen(file, "rb");
@@ -49,7 +49,7 @@ bool image_load_bmp(const char *file, Image* i)
         return false;
 
     //read the bitmap file header
-    fread(&bitmapFileHeader, sizeof(bitmapfileheader),1,fp);
+    fread(&bitmapFileHeader, sizeof(bitmapfileheader), 1, fp);
 
     //verify that this is a bmp file by check bitmap id
     if (bitmapFileHeader.bfType !=0x4D42)

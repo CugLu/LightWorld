@@ -12,14 +12,12 @@ public:
 	bool Init();
 
 	bool RunScript(const char* filePath);
-
 	bool Call(const char* funcname);
-
 	void CallFuncI(const char* funcname, double i);
 
 	lua_State* GetLuaState();
-private:
 
+private:
 	lua_State* L;
 };
 

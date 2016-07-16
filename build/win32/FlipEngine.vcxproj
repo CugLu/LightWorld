@@ -18,7 +18,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -200,6 +200,7 @@
     <ClCompile Include="../../src/MeshLoaderB3D.cpp" />
     <ClCompile Include="../../src/Mesh.cpp" />
     <ClCompile Include="../../src/Model.cpp" />
+    <ClCompile Include="..\..\src\common\Collision.cpp" />
     <ClCompile Include="..\..\src\external\spine\Animation.c" />
     <ClCompile Include="..\..\src\external\spine\AnimationState.c" />
     <ClCompile Include="..\..\src\external\spine\AnimationStateData.c" />
@@ -234,7 +235,6 @@
     <ClCompile Include="../../src/r_public.cpp" />
     <ClCompile Include="../../src/ScriptSystem.cpp" />
     <ClCompile Include="../../src/Shader.cpp" />
-    <ClCompile Include="../../src/ShadowVolume.cpp" />
     <ClCompile Include="../../src/Shape.cpp" />
     <ClCompile Include="../../src/Sprite.cpp" />
     <ClCompile Include="../../src/sys\win32\win_glutils.cpp" />
@@ -254,6 +254,7 @@
     <ClCompile Include="../../src/external\zlib\trees.c" />
     <ClCompile Include="../../src/external\zlib\uncompr.c" />
     <ClCompile Include="../../src/external\zlib\zutil.c" />
+    <ClCompile Include="..\..\src\pipeline\PipelineP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../src/common\Array.h" />
@@ -327,6 +328,7 @@
     <ClInclude Include="../../src/MeshLoaderB3D.h" />
     <ClInclude Include="../../src/Mesh.h" />
     <ClInclude Include="../../src/Model.h" />
+    <ClInclude Include="..\..\src\common\Collision.h" />
     <ClInclude Include="..\..\src\external\spine\Animation.h" />
     <ClInclude Include="..\..\src\external\spine\AnimationState.h" />
     <ClInclude Include="..\..\src\external\spine\AnimationStateData.h" />
@@ -361,8 +363,6 @@
     <ClInclude Include="../../src/r_public.h" />
     <ClInclude Include="../../src/ScriptSystem.h" />
     <ClInclude Include="../../src/Shader.h" />
-    <ClInclude Include="../../src/ShaderSource.h" />
-    <ClInclude Include="../../src/ShadowVolume.h" />
     <ClInclude Include="../../src/Sprite.h" />
     <ClInclude Include="../../src/sys\sys_public.h" />
     <ClInclude Include="../../src/sys\win32\win_local.h" />
@@ -377,7 +377,8 @@
     <ClInclude Include="../../src/external\zlib\zconf.h" />
     <ClInclude Include="../../src/external\zlib\zlib.h" />
     <ClInclude Include="../../src/external\zlib\zutil.h" />
-    <ClInclude Include="..\..\src\tr_trisurf.h" />
+    <ClInclude Include="..\..\src\pipeline\Pipeline.h" />
+    <ClInclude Include="..\..\src\pipeline\PipelineP.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,6 +11,7 @@ class DrawVert;
 class Shader;
 class Material;
 class Plane;
+class Texture;
 
 typedef struct {
 	// NOTE: making this a glIndex is dubious, as there can be 2x the faces as verts
@@ -28,41 +29,43 @@ typedef struct srfTriangles_s
 
 	int	numIndices;			
 	glIndex_t* indices;
+	glIndex_t *	silIndices;		
 
+	// edges
+	bool bPickUp;
 	int numSilEdges;
 	silEdge_t* silEdges;
-	glIndex_t* silIndexes;
 
+	// vbo
 	GLuint vbo[2];
 
 	Aabb3d aabb;
+
+	// pick
+	int numPickIndices;
+	glIndex_t* pickIndices; 
+
 	Plane* facePlanes;
 
+	//
 	glIndex_t drawBegin;
 	glIndex_t drawCount;
 
+	//
 	bool generateNormals;
 	bool tangentsCalculated;
 	bool facePlanesCalculated;
 	bool perfectHull;
 	bool calcShadow;
+	bool bDrawSingleEdge;
 
 }srfTriangles_t;
 
-typedef struct
-{
-	Shader* shader;
-	Texture* tex;
-	Texture* bumpMap;
-	Vec3 color;
-}material_t;
-
-
 typedef struct{
 	int	id;
-	material_t* shaderParms;
 	srfTriangles_t*	geo;
 	Material* mtr;
+	Texture* tex;
 	mat4* view;
 	mat4* proj;
 	mat4* viewProj;
@@ -85,36 +88,28 @@ typedef struct
 	unsigned int height;
 }shadowMap_t;
 
-drawSurf_t* R_AllocDrawSurf();
+typedef struct
+{
+	Vec3 position;
+	Quat rotation;
+}transform_t;
 
+drawSurf_t* R_AllocDrawSurf();
 srfTriangles_t *R_AllocStaticTriSurf( void );
 
-void	R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts );
-
-void	R_AllocStaticTriSurfIndices( srfTriangles_t *tri, int numIndexes );
-
+void R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts );
+void R_AllocStaticTriSurfIndices( srfTriangles_t *tri, int numIndexes );
 void R_AllocStaticTriSurfPlanes(srfTriangles_t* tri, int num);
 
-material_t* R_AllocMaterail();
-
-
-/**
- * fast methods
- **/
 drawSurf_t* R_GenerateFloor(float w, float h);
-
+drawSurf_t* R_GenerateQuadSurf();
 void R_GenerateGeometryVbo( srfTriangles_t *tri);
-
 void R_GenerateQuad(srfTriangles_t* geo);
+void R_GenerateBox(srfTriangles_t* geo, float sx, float sy, float sz);
+void R_GeneratePlane(srfTriangles_t* geo, float w, float h);
 
 //shadowMap_t* R_GenerateShadowMap();
 void R_SetTextureUV(srfTriangles_t* geo, float u, float v);
-
-drawSurf_t* R_GenerateQuadSurf();
-
-void R_GenerateBox( srfTriangles_t* geo, float sx, float sy, float sz);
-
-void R_GeneratePlane(srfTriangles_t* geo, float w, float h);
 
 mat4 R_BillboardModelView(mat4& model, mat4& view);
 
@@ -129,22 +124,22 @@ srfTriangles_t *	R_MergeTriangles( const srfTriangles_t *tri1, const srfTriangle
 
 void R_DeriveFacePlanes( srfTriangles_t *tri );
 
-void mem_free( void *data );
-
 void R_FreeStaticTriSurf( srfTriangles_t *tri );
-
 
 // animation
 void R_InitBasePoses(srfTriangles_t* geo, Joint* joint);
 
 void R_UpdateGeoPoses(srfTriangles_t* geo, Joint* joint, float frame);
 
-
 //
 Vec2 R_WorldToScreenPos(Vec3 pos, mat4* viewProj, int screenwidth, int screenheight);
-
 
 void R_IdentifySilEdges( srfTriangles_t *tri );
 
 void R_DrawAllTris(srfTriangles_t *tri);
+
+void R_PickTri( srfTriangles_t* tri, Vec3 orig, Vec3 dir);
+
+void R_CreateSilIndice(srfTriangles_t* tri);
+
 #endif

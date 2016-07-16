@@ -186,6 +186,7 @@ static int GL_InitGL()
 {
 	glewInit();
 
+
 	char *GL_version	=	(char *)glGetString(GL_VERSION);
     char *GL_vendor	=	(char *)glGetString(GL_VENDOR);
     char *GL_renderer	=	(char *)glGetString(GL_RENDERER);

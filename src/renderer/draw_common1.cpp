@@ -21,8 +21,11 @@ void R_BindArrayBuffer(int i) {
 	case 3: // tangents
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)32);
 		break;
-	case 4: // color
-		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)44);
+	case 4: //
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)44);
+		break;
+	case 5: // color
+		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)56);
 		break;
 	default:
 		Sys_Error("%s %s", __FILE__, __LINE__);
@@ -46,8 +49,15 @@ static void R_DrawCommon( srfTriangles_t* tri, unsigned short *attri, unsigned s
 void R_RenderCommon(drawSurf_t* drawSurf){
 	Material* mtr = drawSurf->mtr;
 	srfTriangles_t* tri = drawSurf->geo;
-	if (mtr == NULL)
+	if (mtr == NULL) {
+		Sys_Error("draw surf material is null");
 		return;
+	}
+
+	if (drawSurf->tex == NULL && mtr->HasTexCoord()) {
+		Sys_Error("draw surf texture is null");
+		return;
+	}
 
 	unsigned short* attri = mtr->_attriArr;
 	unsigned short numAttri = mtr->_numAttri;
@@ -61,10 +71,9 @@ void R_RenderCommon(drawSurf_t* drawSurf){
 	if (mtr->_hasColor)
 		glUniform3f(shader->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
 
-	if (mtr->_hasTexture)
-	{
+	if (mtr->_hasTexture) {
 		glUniform1i( shader->GetUniform(eUniform_Samper0), 0 );
-		glBindTexture( GL_TEXTURE_2D, drawSurf->shaderParms->tex->GetName() );
+		glBindTexture( GL_TEXTURE_2D, drawSurf->tex->GetName() );
 	}
 
 	//if (mtr->_hasWorldViewPorj)
@@ -75,6 +84,6 @@ void R_RenderCommon(drawSurf_t* drawSurf){
 	R_DrawCommon(tri, attri, numAttri);
 
 	for (int i = 0; i < numAttri; i++)
-		glEnableVertexAttribArray(attri[i]);
+		glDisableVertexAttribArray(attri[i]);
 }
 

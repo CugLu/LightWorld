@@ -5,7 +5,6 @@
 class Texture;
 class ResourceSystem;
 
-
 class Sprite
 {
 public:
@@ -15,15 +14,10 @@ public:
 	void Init();
 
 	void SetTexture(const char* imgPath);
-
 	void SetLabel(const char* label);
-
 	void SetLabelFmt(const char* fmt, ...);
-
 	void SetupVBO();
-
 	void SetPosition(float x, float y, float z);
-
 	void SetViewProj(mat4* viewProj);
 
 	Vec3 GetPosition();
@@ -40,12 +34,11 @@ private:
 
 public:
 	drawSurf_t* _drawSurf;
-	int  _width;
-	int  _height;
+	int _width;
+	int _height;
 	Vec3 _position;
 
 	ResourceSystem* _resourceSys;
 };
-
 
 #endif

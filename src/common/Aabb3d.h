@@ -10,7 +10,6 @@ public:
 	~Aabb3d();
 
 	bool AddPoint(const Vec3& v);
-
 	bool RayIntersection( const Vec3 &start, const Vec3 &dir, float &scale ) const;
 public:
 	Vec3 _min;

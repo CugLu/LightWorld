@@ -8,6 +8,7 @@ const int SILEDGE_HASH_SIZE		= 1024;
 static int			numSilEdges;
 static silEdge_t	silEdges[MAX_SIL_EDGES];
 static int			numPlanes;
+static glIndex_t sigIndice[MAX_SIL_EDGES];
 /*
 ==================
 R_DeriveTangents
@@ -296,9 +297,9 @@ void R_IdentifySilEdges( srfTriangles_t *tri ) {
 	for ( i = 0 ; i < numTris ; i++ ) {
 		int		i1, i2, i3;
 
-		i1 = tri->indices[ i*3 + 0 ];
-		i2 = tri->indices[ i*3 + 1 ];
-		i3 = tri->indices[ i*3 + 2 ];
+		i1 = tri->silIndices[ i*3 + 0 ];
+		i2 = tri->silIndices[ i*3 + 1 ];
+		i3 = tri->silIndices[ i*3 + 2 ];
 
 		// create the edges
 		R_DefineEdge( i1, i2, i );
@@ -333,6 +334,8 @@ void R_IdentifySilEdges( srfTriangles_t *tri ) {
 	single = 0;
 	for ( i = 0 ; i < numSilEdges ; i++ ) {
 		if ( silEdges[i].p2 == numPlanes ) {
+			sigIndice[single*2] = silEdges[i].v1;
+			sigIndice[single*2 + 1] = silEdges[i].v2;
 			single++;
 		} else {
 			shared++;
@@ -349,4 +352,6 @@ void R_IdentifySilEdges( srfTriangles_t *tri ) {
 	tri->numSilEdges = numSilEdges;
 	tri->silEdges = (silEdge_t*)mem_alloc( numSilEdges * sizeof(silEdge_t) );
 	memcpy( tri->silEdges, silEdges, numSilEdges * sizeof( tri->silEdges[0] ) );
+
 }
+

@@ -1,8 +1,35 @@
 #include "glutils.h"
 #include "common/precompiled.h"
+#include "common/File.h"
 #include "sys/sys_public.h"
 
-static GLuint GL_CompileShader(GLenum shaderType, const char* source)
+static const int MAX_BUFFER_LEN = 1024;
+
+static void GL_CompileError(GLuint shader, const char* source)
+{
+	char buf[MAX_BUFFER_LEN]; 
+	GLint len;
+	glGetShaderInfoLog(shader, MAX_BUFFER_LEN, &len, buf);
+	Sys_Printf("Could not compile shader %s:\n %s\n", source, buf);
+	glDeleteShader(shader);
+}
+
+static void GL_LinkError(GLuint program)
+{
+	GLint bufLength = 0;
+	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &bufLength);
+
+	if (bufLength) 
+	{
+		char* buf = (char*)malloc(bufLength);
+		glGetProgramInfoLog(program, bufLength, NULL, buf);
+		Sys_Printf("Could not link program:\n%s\n", buf);
+		free(buf);
+	}
+	glDeleteProgram(program);
+}
+
+GLuint GL_CompileShader(GLenum shaderType, const char* source)
 {
 	GLuint shader = glCreateShader(shaderType);
 	if (!shader)
@@ -10,73 +37,60 @@ static GLuint GL_CompileShader(GLenum shaderType, const char* source)
 
 	glShaderSource(shader, 1, &source, NULL);
 	glCompileShader(shader);
-	GLint compiled = 0;
+
+	GLint compiled;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
-	if (!compiled) {
-		char buf[1024]; 
-		GLint len;
-		glGetShaderInfoLog(shader, 1024, &len, buf);
-		Sys_Printf("Could not compile shader %d:\n%s\n",
-			shaderType, buf);
-		glDeleteShader(shader);
-		return 0;
-	}
-    return shader;
+	if (compiled == GL_TRUE)
+		return shader;
+
+	GL_CompileError(shader, source);
+	return 0;
 }
 
-static GLuint GL_CompileShaderFromFile( GLenum target, const char* filename)
+GLuint GL_CompileShaderFromFile(GLenum target, const char* filename)
 {
-    FILE *shaderFile;
-    char *text;
-    long size;
+	char* data = F_ReadFileData(filename);
+	if (data == NULL)
+		return 0;
 
-    //must read files as binary to prevent problems from newline translation
-    shaderFile = fopen( filename, "rb");
-
-    if ( shaderFile == NULL)
-        return 0;
-
-    fseek( shaderFile, 0, SEEK_END);
-    size = ftell(shaderFile);
-    fseek( shaderFile, 0, SEEK_SET);
-    text = new char[size+1];
-    fread( text, size, 1, shaderFile);
-    fclose( shaderFile);
-
-    text[size] = '\0';
-    GLuint object = GL_CompileShader( target, text);
-    delete []text;
+    GLuint object = GL_CompileShader(target, data);
+    delete []data;
     return object;
 }
 
 GLuint GL_LinkProgram(GLuint vert, GLuint pixel)
 {
 	GLuint program = glCreateProgram();
-	if (program) {
-		glAttachShader(program, vert);
-		glAttachShader(program, pixel);
-		glLinkProgram(program);
-		GLint linkStatus = GL_FALSE;
-		glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
-		if (linkStatus != GL_TRUE) {
-			GLint bufLength = 0;
-			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &bufLength);
-			if (bufLength) {
-				char* buf = (char*)malloc(bufLength);
-				if (buf) {
-					glGetProgramInfoLog(program, bufLength, NULL, buf);
-					Sys_Printf("Could not link program:\n%s\n", buf);
-					free(buf);
-				}
-			}
-			glDeleteProgram(program);
-			program = 0;
-		}
-	}
-	return program;
+	if (program == NULL)
+		return 0;
+
+	glAttachShader(program, vert);
+	glAttachShader(program, pixel);
+	glLinkProgram(program);
+	GLint linkStatus = GL_FALSE;
+	glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
+
+	if (linkStatus == GL_TRUE)
+		return program;
+
+	GL_LinkError(program);
+	return 0;
 }
 
+GLuint GL_LinkProgram( GLuint program, GLuint vert, GLuint frag )
+{
+	glAttachShader(program, vert);
+	glAttachShader(program, frag);
+	glLinkProgram(program);
+	GLint linkStatus = GL_FALSE;
+	glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
 
+	if (linkStatus == GL_TRUE)
+		return program;
+
+	GL_LinkError(program);
+	return 0;
+}
 
 GLuint GL_GenTextureRGB(int w, int h, void* data)
 {
@@ -105,6 +119,11 @@ GLuint GL_CreateProgram(const char* pVertexSource, const char* pFragmentSource) 
 	}
 
 	return GL_LinkProgram(vertexShader, pixelShader);
+}
+
+GLuint GL_CreateProgram()
+{
+	return glCreateProgram();
 }
 
 GLuint GL_CreateProgramFromFile(const char* vert, const char* frag)
@@ -159,8 +178,6 @@ void Test_2DDraw()
 		glVertex2f (i*100.f, 100.f);
 	glEnd();
 }
-
-
 
 #endif
 

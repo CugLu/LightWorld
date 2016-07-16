@@ -5,7 +5,6 @@ class Mesh;
 
 Mesh* LoadMesh3DS(const char* filename);
 
-
 #endif
 
 

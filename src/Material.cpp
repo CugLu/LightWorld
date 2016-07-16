@@ -39,31 +39,35 @@ bool Material::LoadMemory( const char* buffer ) {
 		}
 	}
 
-	_shader.LoadFromBuffer(_vert, _frag);
+	_shader.Compile(_vert, _frag);
+	_shader.PreLink();
+
 	if (_hasPosition)
-	{
 		_shader.BindAttribLocation(eAttrib_Position);
-	}
+
+	if (_hasColorAttr)
+		_shader.BindAttribLocation(eAttrib_Color);
+
+	_shader.Link();
+
 
 	if (_hasWorldViewPorj)
-	{
 		_shader.GetUniformLocation(eUniform_MVP);
-	}
 
 	if (_hasColor)
-	{
 		_shader.GetUniformLocation(eUniform_Color);
-	}
 
 	if (_hasTexture)
-	{
 		_shader.GetUniformLocation(eUniform_Samper0);
-	}
 
 	Sys_Printf("material: %s\n"
+		"          attri:%d %d %d %d %d"
 			  "          color: %s\n" 
 			  "          texture: %s\n",
-			  _name.c_str(), _hasColor? "true" : "false", _hasTexture? "true" : "false");
+			  _name.c_str(),
+			  _attriArr[0], _attriArr[1], _attriArr[2], _attriArr[3], _attriArr[4],
+			   _hasColor? "true" : "false", 
+			  _hasTexture? "true" : "false");
 	return false;
 }
 
@@ -94,21 +98,26 @@ bool Material::ParseVertProgram( Lexer& lexer ) {
 	while (lexer.Lex(tk))
 	{
 		if (tk._data == "vPosition")
-			_attriArr[_numAttri++] = 0;
+			AddAttri(eAttrib_Position);
 		else if(tk._data == "vTexCoord")
-			_attriArr[_numAttri++] = 1;
+			AddAttri(eAttrib_TexCoord);
 		else if(tk._data == "vNormal")
-			_attriArr[_numAttri++] = 2;
+			AddAttri(eAttrib_Normal);
 		else if (tk._data == "vTangent")
-			_attriArr[_numAttri++] = 3;
+			AddAttri(eAttrib_Tangent);
 		else if (tk._data == "vBinormal")
-			_attriArr[_numAttri++] = 4;
+			AddAttri(eAttrib_Binormal);
+		else if (tk._data == "vColor") {
+			_hasColorAttr = true;
+			AddAttri(eAttrib_Color);
+		}
 		else if (tk._data == "WVP")
 			_hasWorldViewPorj = true;
 		else if (tk._data == "modelView")
 			_hasModelView = true;
 		else if (tk._data == "invModelView")
 			_hasInvModelView = true;
+
 		else if (tk._type == '{')
 		{
 			openParen ++;
@@ -132,17 +141,7 @@ bool Material::ParseFragProgram( Lexer& lexer ) {
 	Token tk;
 	while (lexer.Lex(tk))
 	{
-		if (tk._data == "vPosition")
-			_attriArr[_numAttri++] = 0;
-		else if(tk._data == "vTexCoord")
-			_attriArr[_numAttri++] = 1;
-		else if(tk._data == "vNormal")
-			_attriArr[_numAttri++] = 2;
-		else if (tk._data == "vTangent")
-			_attriArr[_numAttri++] = 3;
-		else if (tk._data == "vBinormal")
-			_attriArr[_numAttri++] = 4;
-		else if (tk._data == "WVP")
+		if (tk._data == "WVP")
 			_hasWorldViewPorj = true;
 		else if (tk._data == "COLOR")
 			_hasColor = true;
@@ -172,5 +171,14 @@ bool Material::ParseFragProgram( Lexer& lexer ) {
 void Material::SetName( const char* name )
 {
 	_name = name;
+}
+
+void Material::AddAttri( int type )
+{
+	for (int i=0; i<_numAttri; i++)
+		if (_attriArr[i] == type)
+			return;
+
+	_attriArr[_numAttri++] = type;
 }
 

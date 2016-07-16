@@ -15,7 +15,6 @@ typedef enum {
 class lfBuffer
 {
 public:
-	
 	 lfStr ReadString();
 	 int ReadInt();
 	 float ReadFloat();

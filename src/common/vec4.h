@@ -1,22 +1,19 @@
 #ifndef __VEC4_H__
 #define __VEC4_H__
-#include "Vec3.h"
 
 class Vec4
 {
 public:
 	Vec4();
-	~Vec4();
 	Vec4(float x, float y, float z, float w);
+	Vec4(const Vec3& v, float w);
+	Vec4(const Vec4& other);
 
-	Vec4(const Vec3& v, float w) : x(v.x), y(v.y), z(v.z), w(w) {}
+	~Vec4();
 
-	Vec4(const Vec4& other) :x(other.x), y(other.y), z(other.z), w(other.w) {};
-
-	inline void operator=( const Vec4& other );
+	void operator=( const Vec4& other );
 
 	void Set(float x, float y, float z, float w);
-
 	inline Vec3 &ToVec3( void );
 
 public:
@@ -29,6 +26,14 @@ public:
 inline Vec4::Vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w)
 {
 }
+
+inline Vec4::Vec4(const Vec3& v, float w) : x(v.x), y(v.y), z(v.z), w(w) 
+{
+}
+
+inline Vec4::Vec4(const Vec4& other):x(other.x), y(other.y), z(other.z), w(other.w) 
+{
+};
 
 inline Vec4::Vec4()
 {

@@ -9,9 +9,9 @@ class ResourceSystem;
 class Interaction;
 
 class Model {
-	friend class RenderSystemLocal;
+	friend class RenderSystem;
 public:
-	Model();
+	Model(ResourceSystem* resourceSys);
 	virtual ~Model();
 
 	virtual void Init();

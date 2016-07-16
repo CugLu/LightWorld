@@ -34,11 +34,13 @@ void HashTable::Put( lfStr key, void* value )
 	hashnode* node = HashStr(key);
 	if (node->value == NULL)
 	{
+		node->key = key;
 		node->value = value;
 	}
 	else
 	{
 		hashnode* node = NewKey(key);
+		node->key = key;
 		node->value = value;
 	}
 }

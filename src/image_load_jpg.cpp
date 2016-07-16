@@ -9,7 +9,6 @@ extern "C"
 }
 #include <setjmp.h>
 
-
 struct loader_jpeg_error_mgr
 {
 	struct jpeg_error_mgr pub;
@@ -62,7 +61,7 @@ bool image_load_jpg(const char *file, Image* i)
 	fseek(fp, 0, SEEK_SET);
 	fread(buff, 1, size, fp);
 
-		// allocate and initialize JPEG decompression object
+	// allocate and initialize JPEG decompression object
 	jpeg_decompress_struct cinfo;
 	loader_jpeg_error_mgr jerr;
 	unsigned char** rowPtr;

@@ -1,12 +1,12 @@
 #include "Mat4.h"
 
-void mat4::makeIdentity()
+void mat4::MakeIdentity()
 {
 	memset(m, 0, sizeof(float)* 16);   // memory.h
 	m[0] = m[5] = m[10] = m[15] = 1.f;
 }
 
-void mat4::buildPerspectiveProjection(float fieldOfViewRadians, float aspectRatio, float zNear, float zFar)
+void mat4::BuildPerspectiveProjection(float fieldOfViewRadians, float aspectRatio, float zNear, float zFar)
 {
 	float cotangent = (float)(cos(fieldOfViewRadians/2) / sin(fieldOfViewRadians/2));
 
@@ -33,7 +33,7 @@ void mat4::buildPerspectiveProjection(float fieldOfViewRadians, float aspectRati
 	m[15] = 0;
 }
 
-void mat4::transformVec3(float& x, float& y, float& z)
+void mat4::TransformVec3(float& x, float& y, float& z)
 {
 	float vector[3];
 
@@ -46,14 +46,14 @@ void mat4::transformVec3(float& x, float& y, float& z)
 	z = vector[2];
 }
 
-void mat4::setScale(float x, float y, float z)
+void mat4::SetScale(float x, float y, float z)
 {
 	m[0] = x;
 	m[5] = y;
 	m[10] = z;
 }
 
-void mat4::multiplyWith1x4Matrix(float *matrix)
+void mat4::MultiplyWith1x4Matrix(float *matrix)
 {
 	float mat[4];
 	mat[0] = matrix[0];
@@ -67,7 +67,7 @@ void mat4::multiplyWith1x4Matrix(float *matrix)
 	matrix[3] = m[3]*mat[0] + m[7]*mat[1] + m[11]*mat[2] + m[15]*mat[3];
 }
 
-mat4 mat4::inverse()
+mat4 mat4::Inverse()
 {
 	mat4 r;
 	float v0 = m[2] * m[7] - m[6] * m[3];

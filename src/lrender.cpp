@@ -19,27 +19,21 @@ static int render_createsprite(lua_State* L) {
     Assert(cobj);
 
 	Sprite** obj = (Sprite **)lua_newuserdata(L, sizeof(Sprite*));
-	*obj = cobj->CreateSprite();
+	*obj = new Sprite;
 	Lua_SetMetatable(L, "Sprite");
 	return 1;
 }
 
 static int render_createmodel(lua_State* L) {
-	RenderSystem* cobj = get_render(L);
-	Assert(cobj);
-    
-	Model** obj = (Model **)lua_newuserdata(L, sizeof(Model*));
-	*obj = cobj->CreateModel();
-	Lua_SetMetatable(L, "Model");
+	//Model** obj = (Model **)lua_newuserdata(L, sizeof(Model*));
+	//*obj = new Model;
+	//Lua_SetMetatable(L, "Model");
 	return 1;
 }
 
 static int render_createanimodel(lua_State* L) {
-	RenderSystem* cobj = get_render(L);
-	Assert(cobj);
-    
 	AniModel** obj = (AniModel **)lua_newuserdata(L, sizeof(AniModel*));
-	*obj = cobj->CreateAniModel();
+	*obj = new AniModel;
 	Lua_SetMetatable(L, "AniModel");
 	return 1;
 }

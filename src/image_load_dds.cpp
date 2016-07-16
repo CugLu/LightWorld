@@ -3,7 +3,6 @@
 #include "Image.h"
 #include "glutils.h"
 
-
 // surface description flags
 const unsigned long DDSF_CAPS           = 0x00000001l;
 const unsigned long DDSF_HEIGHT         = 0x00000002l;
@@ -147,7 +146,6 @@ struct DDS_HEADER
 };
 
 bool image_load_dds( const char *file, Image* i) {
-    // open file
     FILE *fp = fopen(file, "rb");
     if (fp == NULL)
         return false;

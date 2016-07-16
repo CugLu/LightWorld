@@ -4,12 +4,11 @@
 class Vec2
 {
 public:
-	~Vec2();
-
 	Vec2(): x(0), y(0) {};
 	Vec2(float nx, float ny) : x(nx), y(ny){};
 	Vec2(const Vec2& other)	:x(other.x), y(other.y) {};
 
+	~Vec2();
 	// operators
 
 	void Zero( void ) {

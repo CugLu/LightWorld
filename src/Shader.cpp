@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include "sys/sys_public.h"
+#include "glutils.h"
 
 const char* UniformType[16] = 
 {
@@ -19,7 +20,8 @@ const char* AttribType[16] =
 	"vTexCoord",
 	"vNormal",
 	"vTangent",
-	"vBinormal"
+	"vBinormal",
+	"vColor",
 };
 
 
@@ -40,7 +42,10 @@ void Shader::GetUniformLocation( unformType_t type )
 void Shader::BindAttribLocation( attribType_t type )
 {
 	if (type >= 0 && type < eAttrib_Count)
+	{
+		//Sys_Printf("BindAttribLocation %d %s\n", type, AttribType[type]);
 		glBindAttribLocation(_program, type, AttribType[type]);
+	}
 }
 
 GLuint Shader::GetUniform( unformType_t type )
@@ -72,6 +77,42 @@ bool Shader::LoadFromBuffer( const char* vfile, const char* ffile )
 bool Shader::SetName( const char* name )
 {
 	_name = name;
+	return true;
+}
+
+bool Shader::Compile( const char* vert, const char* frag )
+{
+	_vert = GL_CompileShader(GL_VERTEX_SHADER, vert);
+	if (!_vert) 
+		return false;
+
+	_frag = GL_CompileShader(GL_FRAGMENT_SHADER, frag);
+	if (!_frag) 
+		return false;
+
+	return true;
+}
+
+void Shader::Link()
+{
+	GL_LinkProgram(_program, _vert, _frag);
+}
+
+void Shader::PreLink()
+{
+	_program = GL_CreateProgram();
+}
+
+bool Shader::LoadAndCompile( const char* vfile, const char* ffile )
+{
+	_vert = GL_CompileShaderFromFile(GL_VERTEX_SHADER, vfile);
+	if (!_vert)
+		return false;
+
+	_frag = GL_CompileShaderFromFile(GL_FRAGMENT_SHADER, ffile);
+	if (!_frag)
+		return false;
+
 	return true;
 }
 

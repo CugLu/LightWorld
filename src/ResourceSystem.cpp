@@ -24,102 +24,15 @@ static LoaderPlugin loaderPlugin[] = {
 	{ "bmp", image_load_bmp},
 };
 static int TexPluginCount = sizeof(loaderPlugin) / sizeof(LoaderPlugin);
-static Texture* defaultTexture;
-//--------------------------------------------------------------------------------------------
-static Shader* LoadPostionShader()
-{
-	Shader* shader = new Shader;
-	shader->LoadFromBuffer(position_vert, position_frag);
-	shader->SetName("position");
-	shader->BindAttribLocation(eAttrib_Position);
-	shader->GetUniformLocation(eUniform_MVP);
-	shader->GetUniformLocation(eUniform_Color);
-	GL_CheckError("LoadPostionShader");
-	return shader;
-}
-
-static Shader* LoadPositionTexShader()
-{
-	Shader* shader = new Shader;
-	shader->LoadFromBuffer(positiontex_vert, positiontex_frag);
-	shader->SetName("positionTex");
-	shader->BindAttribLocation(eAttrib_Position);
-	shader->BindAttribLocation(eAttrib_TexCoord);
-	shader->GetUniformLocation(eUniform_MVP);
-	shader->GetUniformLocation(eUniform_Samper0);
-	GL_CheckError("LoadPositionTexShader");
-	return shader;
-}
-
-static Shader* LoadPhongShader()
-{
-	Shader* shader = new Shader;
-	shader->LoadFromFile("../media/shader/phong.vert", "../media/shader/phong.frag");
-	shader->SetName("phong");
-	shader->BindAttribLocation(eAttrib_Position);
-	shader->BindAttribLocation(eAttrib_TexCoord);
-	shader->BindAttribLocation(eAttrib_Normal);
-
-	shader->GetUniformLocation(eUniform_MVP);
-	shader->GetUniformLocation(eUniform_EyePos);
-	shader->GetUniformLocation(eUniform_LightPos);
-	shader->GetUniformLocation(eUniform_ModelView);
-	shader->GetUniformLocation(eUniform_InvModelView);
-	shader->GetUniformLocation(eUniform_Samper0);
-	GL_CheckError("load phong shader");
-	return shader;
-}
-
-static Shader* LoadBumpShader()
-{
-	Shader* shader = new Shader;
-	shader->LoadFromFile("../media/shader/bump.vert", "../media/shader/bump.frag");
-	shader->SetName("bump");
-	shader->BindAttribLocation(eAttrib_Position);
-	shader->BindAttribLocation(eAttrib_TexCoord);
-	shader->BindAttribLocation(eAttrib_Normal);
-	shader->BindAttribLocation(eAttrib_Tangent);
-	shader->BindAttribLocation(eAttrib_Binormal);
-
-	shader->GetUniformLocation(eUniform_MVP);
-	shader->GetUniformLocation(eUniform_EyePos);
-	shader->GetUniformLocation(eUniform_LightPos);
-	shader->GetUniformLocation(eUniform_ModelView);
-	shader->GetUniformLocation(eUniform_InvModelView);
-	shader->GetUniformLocation(eUniform_Samper0);
-	shader->GetUniformLocation(eUniform_BumpMap);
-	return shader;
-}
-
-static Shader* LoadBlurShader()
-{
-	Shader* shader = new Shader;
-	shader->LoadFromFile("../media/blur.vs", "../media/blur.fs");
-	shader->SetName("blur");
-	shader->BindAttribLocation(eAttrib_Position);
-	shader->BindAttribLocation(eAttrib_TexCoord);
-	shader->GetUniformLocation(eUniform_MVP);
-	shader->GetUniformLocation(eUniform_Samper0);
-	return shader;
-}
-
-
-static ShaderPlugin shaderplugin[] = {
-	{ eShader_Position, LoadPostionShader },
-	{ eShader_PositionTex, LoadPositionTexShader },
-	//{ eShader_Phong, LoadPhongShader },
-	//{ eShader_Blur, LoadBlurShader  },
-	//{ eShader_Bump, LoadBumpShader },
-};
-static int ShaderPluginCount = sizeof(shaderplugin) / sizeof(ShaderPlugin);
-
 //--------------------------------------------------------------------------------------------
 
 static sysTextContent_t textContent;
 
-//ResourceManager* ResourceManager::sm_pSharedInstance = nullptr;
-ResourceSystem::ResourceSystem()
+static const char* DEFAULT_TEXTURE_PATH = "../Media/nskinbl.jpg";
+
+ResourceSystem::ResourceSystem() : _searchDir("")
 {
+
 }
 
 ResourceSystem::~ResourceSystem()
@@ -127,8 +40,7 @@ ResourceSystem::~ResourceSystem()
 	
 }
 
-
-Texture* ResourceSystem::AddTexture(const char* file)
+Texture* ResourceSystem::FindTexture(const char* file)
 {
 	Texture* texture = NULL;
 
@@ -149,20 +61,18 @@ Texture* ResourceSystem::AddTexture(const char* file)
 		if( !loaderPlugin[i].pFunc(fullpath.c_str(), &image) )
 		{
 			Sys_Printf( "load image %s failed\n", fullpath.c_str() );
-			return defaultTexture;
+			return FindTexture(DEFAULT_TEXTURE_PATH);
 		}
-		else
-		{
-			texture = new Texture();
-			texture->Init(&image);
 
-			_textures.Put(file, texture);
-			return texture;
-		}
+		texture = new Texture();
+		texture->Init(&image);
+
+		_textures.Put(file, texture);
+		return texture;
 	}
 
 	Sys_Printf( "load image %s failed\n", fullpath.c_str() );
-	return defaultTexture;
+	return FindTexture(DEFAULT_TEXTURE_PATH);
 };
 
 Mesh* ResourceSystem::AddMesh(const char* file)
@@ -203,18 +113,11 @@ Texture* ResourceSystem::AddText( const char* text )
 	else
 	{
 		Sys_Printf("sys_drawtext error %s\n", text);
-		return defaultTexture;
+		return FindTexture(DEFAULT_TEXTURE_PATH);
 	}
 }
 
-Shader* ResourceSystem::AddShaderFromFile( const char* vfile, const char* ffile )
-{
-	Shader* shader = new Shader;
-	shader->LoadFromFile(vfile, ffile);
-	return shader;
-}
-
-Material* ResourceSystem::AddMaterial( const char* file )
+Material* ResourceSystem::FindMaterial( const char* file )
 {
 	Material* mtr;
 	auto it = _materials.Get(file);
@@ -226,7 +129,7 @@ Material* ResourceSystem::AddMaterial( const char* file )
 	lfStr fullPath = _searchDir + file;
 	mtr = new Material();
 	mtr->SetName(file);
-	const char* buffer = F_ReadFileData(fullPath); //"../media/Position.mtr");
+	const char* buffer = F_ReadFileData(fullPath);
 
 	if (buffer == NULL)
 	{
@@ -235,31 +138,8 @@ Material* ResourceSystem::AddMaterial( const char* file )
 	}
 
 	mtr->LoadMemory(buffer);
-	_materials.Put(fullPath, mtr);
+	_materials.Put(file, mtr);
 	return mtr;
-}
-
-bool ResourceSystem::LoadGLResource()
-{
-	memset(_shaders, 0, 32);
-	for (int i =0; i<ShaderPluginCount; i++)
-	{
-		_shaders[shaderplugin[i].name] = shaderplugin[i].func();
-	}
-
-	defaultTexture = AddTexture("../Media/nskinbl.jpg");
-	return true;
-}
-
-Shader* ResourceSystem::FindShader( int shaderId )
-{
-	if (shaderId >= MAX_SHADER_COUNT && shaderId < 0)
-	{
-		Sys_Error("find shader out of bounds");
-		return NULL;
-	}	
-
-	return _shaders[shaderId];
 }
 
 static Image* LoadImage(lfStr filename, Image* image) {
@@ -274,7 +154,8 @@ static Image* LoadImage(lfStr filename, Image* image) {
 	return NULL;
 }
 
-Texture* ResourceSystem::AddCubeTexture(const char* px, const char* nx, const char* py, const char* ny, const char* pz, const char* nz)
+Texture* ResourceSystem::AddCubeTexture(const char* px, const char* nx, const char* py, 
+const char* ny, const char* pz, const char* nz)
 {
 	Texture* texture = NULL;
 
@@ -296,4 +177,5 @@ void ResourceSystem::SetSearchDir( const char* dir )
 {
 	_searchDir = dir;
 }
+
 

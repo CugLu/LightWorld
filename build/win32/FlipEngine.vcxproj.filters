@@ -47,6 +47,9 @@
     <Filter Include="external\spine">
       <UniqueIdentifier>{36a4360d-4834-4662-877f-010ab113716d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="pipeline">
+      <UniqueIdentifier>{ab97f110-5e09-4409-bc84-0c9319ef9567}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../../src/renderer\RenderSystem.cpp" />
@@ -487,9 +490,6 @@
     <ClCompile Include="../../src/Shape.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
-    <ClCompile Include="../../src/ShadowVolume.cpp">
-      <Filter>renderer</Filter>
-    </ClCompile>
     <ClCompile Include="../../src/Shader.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
@@ -594,6 +594,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\external\spine\SlotData.c">
       <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pipeline\PipelineP.cpp">
+      <Filter>pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\common\Collision.cpp">
+      <Filter>common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -846,12 +852,6 @@
     <ClInclude Include="../../src/Shape.h">
       <Filter>renderer</Filter>
     </ClInclude>
-    <ClInclude Include="../../src/ShadowVolume.h">
-      <Filter>renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="../../src/ShaderSource.h">
-      <Filter>renderer</Filter>
-    </ClInclude>
     <ClInclude Include="../../src/Shader.h">
       <Filter>renderer</Filter>
     </ClInclude>
@@ -954,6 +954,14 @@
     <ClInclude Include="..\..\src\external\spine\spine.h">
       <Filter>external\spine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\tr_trisurf.h" />
+    <ClInclude Include="..\..\src\pipeline\Pipeline.h">
+      <Filter>pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pipeline\PipelineP.h">
+      <Filter>pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\common\Collision.h">
+      <Filter>common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

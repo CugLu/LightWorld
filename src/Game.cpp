@@ -172,16 +172,6 @@
 //	sprite->_drawSurf->matModel.buildTranslate(286.f, 0.f, 0.f);
 //}
 
-
 void Game::Init()
 {
-	Sys_Printf("Initializing RenderSystem\n");
-
-	glimpParms_t pram;
-	pram.width = 800;
-	pram.height = 600;
-	pram.displayHz = 1/60;
-	pram.stereo = 1/60;
-	_renderSys = new RenderSystemLocal(&pram);
-	_renderSys->Init();
 }

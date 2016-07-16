@@ -4,7 +4,6 @@ uniform mat4 WVP;
 uniform mat4 modelView;
 uniform mat4 invModelView;
 
-
 attribute vec3 vPosition;
 attribute vec2 vTexCoord;
 attribute vec3 vNormal;

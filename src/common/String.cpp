@@ -7,13 +7,6 @@ const char *units[2][4] =
 	{ "B/s", "KB/s", "MB/s", "GB/s" }
 };
 
-
-
-/*
-============
-idStr::ReAllocate
-============
-*/
 void lfStr::ReAllocate( int amount, bool keepold ) {
 	char	*newbuffer;
 	int		newsize;

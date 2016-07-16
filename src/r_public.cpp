@@ -4,6 +4,7 @@
 #include "common/File.h"
 #include "common/Plane.h"
 #include "common/mem.h"
+#include "common/Collision.h"
 
 static const int SHADOWMAP_DEPTH_SIZE = 1024;
 
@@ -24,13 +25,6 @@ void R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts ) {
 void R_AllocStaticTriSurfPlanes( srfTriangles_t* tri, int num )
 {
 	tri->facePlanes = (Plane*)mem_alloc(sizeof(Plane) * num);
-}
-
-material_t* R_AllocMaterail()
-{
-	material_t* material = new material_t;
-	memset(material, 0, sizeof(material_t));
-	return material;
 }
 
 void R_GenerateGeometryVbo( srfTriangles_t *tri )
@@ -63,7 +57,7 @@ drawSurf_t* R_AllocDrawSurf()
 {
 	drawSurf_t* drawSurf = new drawSurf_t;
 	memset(drawSurf, 0, sizeof(drawSurf_t));
-	drawSurf->matModel.makeIdentity();
+	drawSurf->matModel.MakeIdentity();
 	return drawSurf;
 }
 
@@ -217,7 +211,7 @@ drawSurf_t* R_GenerateQuadSurf()
 static void R_InitPoses(srfTriangles_t* geo, Joint* joint)
 {
 	mat4 positionMatrix;
-	positionMatrix.buildTranslate(joint->position);
+	positionMatrix.BuildTranslate(joint->position);
 	mat4 rotationMatrix;
 	rotationMatrix = joint->rotation.ToMatrix();
 	mat4 localAniMatrix = positionMatrix*rotationMatrix;
@@ -227,12 +221,12 @@ static void R_InitPoses(srfTriangles_t* geo, Joint* joint)
 	else
 		joint->globalAnimatedMatrix = localAniMatrix;
 
-	joint->globalInvMatrix = joint->globalAnimatedMatrix.inverse();
+	joint->globalInvMatrix = joint->globalAnimatedMatrix.Inverse();
 	
 	for (unsigned int i = 0; i < joint->vertexIndices.size(); ++i) {
 		int vertex = joint->vertexIndices[i];
 		Vec3 p = geo->verts[vertex].xyz / joint->vertexWeights[i];
-		joint->globalInvMatrix.transformVec3(p.x, p.y, p.z);
+		joint->globalInvMatrix.TransformVec3(p.x, p.y, p.z);
 		geo->basePoses[vertex] = p;
 		//geo->basePoses[vertex] = geo->verts[vertex].xyz;
 	}
@@ -266,7 +260,7 @@ void R_UpdateGeoPoses(srfTriangles_t* geo, Joint* joint, float frame)
 	//file.WriteString("%s %f %f %f\n", joint->name.c_str(), position.x, position.y, position.z);
 
 	mat4 positionMatrix;
-	positionMatrix.buildTranslate(position);
+	positionMatrix.BuildTranslate(position);
 	mat4 rotationMatrix;
 	rotationMatrix = rotation.ToMatrix();
 	mat4 localAniMatrix = positionMatrix * rotationMatrix;
@@ -283,7 +277,7 @@ void R_UpdateGeoPoses(srfTriangles_t* geo, Joint* joint, float frame)
 	{
 		int vertex = joint->vertexIndices[i];
 		Vec3 p = geo->basePoses[vertex];
-		mat.transformVec3(p.x, p.y, p.z);
+		mat.TransformVec3(p.x, p.y, p.z);
 		geo->verts[vertex].xyz = p * joint->vertexWeights[i];
 		//file.WriteString("%f %f %f\n", geo->verts[vertex].xyz.x, geo->verts[vertex].xyz.y, geo->verts[vertex].xyz.z);
 	}
@@ -317,4 +311,74 @@ void R_DrawAllTris( srfTriangles_t *tri )
 {
 	tri->drawBegin = 0;
 	tri->drawCount = tri->numIndices;
+}
+
+void R_PickTri( srfTriangles_t* tri, Vec3 orig, Vec3 dir)
+{
+	if (tri->bPickUp)
+		return;
+
+	tri->numPickIndices = 0;
+	float t, u, v;
+	for (int i=0; i<tri->numIndices; i+=3) {
+		int	i1, i2, i3;
+		i1 = tri->indices[i + 0];
+		i2 = tri->indices[i + 1];
+		i3 = tri->indices[i + 2];
+		Vec3* v0 = &tri->verts[i1].xyz;
+		Vec3* v1 = &tri->verts[i2].xyz;
+		Vec3* v2 = &tri->verts[i3].xyz;
+
+		if( IntersectTriangle(orig, dir, *v0, *v1, *v2, &t, &u, &v) ) {
+			tri->bPickUp = true;
+			tri->pickIndices[tri->numPickIndices++] = i1;
+			tri->pickIndices[tri->numPickIndices++] = i2;
+			tri->pickIndices[tri->numPickIndices++] = i3;
+		}
+	}
+}
+
+void R_CreateSilIndice( srfTriangles_t* tri )
+{
+	int		c_removed, c_unique;
+	int		*remap;
+	int		i, j, hashKey;
+	const DrawVert *v1, *v2;
+
+	remap = (int*)malloc( tri->numVerts * sizeof( remap[0] ) );
+
+	c_removed = 0;
+	c_unique = 0;
+	for ( i = 0 ; i < tri->numVerts ; i++ ) {
+		v1 = &tri->verts[i];
+
+		// see if there is an earlier vert that it can map to
+		int j = 0;
+		bool found = false;
+		for ( j=0; j<i; ++j)
+		{
+			int k = remap[j];
+			v2 = &tri->verts[k];
+			if ( v2->xyz[0] == v1->xyz[0]
+			&& v2->xyz[1] == v1->xyz[1]
+			&& v2->xyz[2] == v1->xyz[2] ) {
+				c_removed++;
+				remap[i] = k;
+				found = true;
+				break;
+			}
+		}
+
+		if ( !found ) {
+			c_unique++;
+			remap[i] = i;
+		}
+	}
+
+	tri->silIndices = new glIndex_t[tri->numIndices];
+	for ( i = 0; i < tri->numIndices; i++ ) {
+		tri->silIndices[i] = remap[tri->indices[i]];
+	}
+
+	free(remap);
 }

@@ -326,6 +326,7 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 		// now allocate and generate the combined vertexes
 		R_AllocStaticTriSurfVerts( tri, tri->numVerts );
 		for ( j = 0; j < tri->numVerts; j++ ) {
+
 			mv = &mvTable[j];
 			tri->verts[ j ].Clear();
 			tri->verts[ j ].xyz = vList[ mv->v ];
@@ -377,6 +378,7 @@ void Mesh::BuildDeformInfo()
 	{
 		R_DeriveNormals(_geometries[i]);
 		R_BoundTriSurf(_geometries[i]);
+		R_CreateSilIndice(_geometries[i]);
 		R_IdentifySilEdges(_geometries[i]);
 	}
 }

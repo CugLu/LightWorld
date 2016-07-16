@@ -16,13 +16,6 @@
 
 #endif /* _WIN32 */
 
-//-----------------------------------------------------
-
-#if !defined( _DEBUG ) && !defined( NDEBUG )
-	// don't generate asserts
-	#define NDEBUG
-#endif
-
 #ifdef _MSC_VER
 	#include <stdio.h>
 	#define Assert(x) { if(!(x)){printf("Assert "__FILE__ ":%u ("#x")\n", __LINE__);__debugbreak();	}}
@@ -48,11 +41,17 @@
 
 typedef unsigned char byte;
 
-#ifndef BIT
-#define BIT( num )				( 1 << ( num ) )
-#endif
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
 
-//-----------------------------------------------------
+typedef int s32;
+typedef short s16;
+typedef char s8;
+
+#ifndef BIT
+#define BIT( num )	 ( 1 << ( num ) )
+#endif
 
 #endif	/* __cplusplus */
 

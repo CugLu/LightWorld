@@ -17,30 +17,31 @@ public:
 	bool LoadMemory(const char* buffer);
 
 	bool HasPosition();
-
 	bool HasTexCoord();
-
 	bool HasNormal();
-
 	bool HasColor();
 
 	bool ParseVertProgram(Lexer& lexer);
-
 	bool ParseFragProgram(Lexer& lexer);
 
 	unsigned int ProgramId();
 
 	void SetName(const char* name);
+
+private:
+	void AddAttri(int type);
+
 public:
 	lfStr _name;
 
 	bool _hasPosition;
 	bool _hasTexCoord;
 	bool _hasNormal;
+	bool _hasColorAttr;
 	bool _hasTangent;
 	bool _hasBinormal;
-	bool _hasWorldViewPorj;
 	bool _hasColor;
+	bool _hasWorldViewPorj;
 	bool _hasTexture;
 	bool _hasModelView;
 	bool _hasInvModelView;

@@ -1,11 +1,11 @@
 #ifndef __MATH_MATH_H__
 #define __MATH_MATH_H__
-
 #include "precompiled.h"
 
 #ifdef INFINITY
 #undef INFINITY
 #endif
+
 
 #ifdef FLT_EPSILON
 #undef FLT_EPSILON

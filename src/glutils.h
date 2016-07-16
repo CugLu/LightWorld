@@ -28,9 +28,6 @@ typedef struct {
 
 GLuint GL_GenTextureRGB(int w, int h, void* data);
 
-GLuint GL_CreateProgram(const char* pVertexSource, const char* pFragmentSource);
-GLuint GL_CreateProgramFromFile(const char* vert, const char* frag);
-
 void GL_CheckError(const char* op);
 
 #ifdef _WIN32
@@ -40,8 +37,13 @@ void Test_2DDraw();
 #endif
 
 bool GL_CreateDevice(int width, int height);
-
 void GL_SwapBuffers( void );
 
+GLuint GL_CreateProgram(const char* pVertexSource, const char* pFragmentSource);
+GLuint GL_CreateProgramFromFile(const char* vert, const char* frag);
+GLuint GL_CompileShader(GLenum shaderType, const char* source);
+GLuint GL_CompileShaderFromFile(GLenum target, const char* filename);
+GLuint GL_CreateProgram();
+GLuint GL_LinkProgram(GLuint program, GLuint vert, GLuint frag);
 
 #endif

@@ -1,8 +1,9 @@
 #ifndef __LIGHT_H__
 #define __LIGHT_H__
 
-#include "color4.h"
 #include "common/Vec3.h"
+#include "common/Array.h"
+#include "Interaction.h"
 
 enum E_LIGHT_TYPE
 {
@@ -22,9 +23,12 @@ public:
 
 private:
 	Vec3 _positon;
+
 	Vec3 _dir;
 
 	Vec3 _matView;
+
+	Array<Interaction*> interactions;
 };
 
 #endif

@@ -23,7 +23,6 @@ public:
 
 	void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& modelMatrix );
 
-
 private:
 	
 public:

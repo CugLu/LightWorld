@@ -6,6 +6,7 @@
 
 class Plane;
 class Model;
+class ResourceSystem;
 
 class ShadowSampler : public Game
 {
@@ -39,6 +40,10 @@ private:
 	Plane* _plane;
 
 	Model* _model;
+
+	Vec3 _lightPos;
+
+	ResourceSystem* _resourceSys;
 };
 
 #endif

@@ -4,7 +4,9 @@
 #include "r_public.h"
 #include "Interaction.h"
 
-Model::Model():_inter(NULL)
+Model::Model(ResourceSystem* resourceSys)
+	: _inter(NULL)
+	, _resourceSys(resourceSys)
 {
 	Init();
 }
@@ -17,14 +19,13 @@ Model::~Model()
 void Model::Init()
 {
 	_drawSurf = R_AllocDrawSurf();
-	_drawSurf->shaderParms = R_AllocMaterail();
 	_inter = new Interaction;
 }
 
 void Model::SetPosition(float x, float y, float z)
 {
 	_position.set(x, y, z);
-	_drawSurf->matModel.buildTranslate(x, y, z);
+	_drawSurf->matModel.BuildTranslate(x, y, z);
 }
 
 Vec3 Model::GetPosition()
@@ -39,10 +40,10 @@ void Model::SetFile( const char* filename )
 	mesh->CalcBounds();
 	_drawSurf->geo = mesh->GetGeometries(0);
 
-	_drawSurf->shaderParms->tex = _resourceSys->AddTexture("0.png");
+	_drawSurf->tex = _resourceSys->FindTexture("0.png");
 	R_GenerateGeometryVbo(_drawSurf->geo);
 
-	_drawSurf->mtr = _resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
+	_drawSurf->mtr = _resourceSys->FindMaterial("../media/mtr/positiontex.mtr");
 }
 
 void Model::SetViewProj( mat4* viewProj )
@@ -66,7 +67,6 @@ AniModel::~AniModel()
 void AniModel::Init()
 {
 	_drawSurf = R_AllocDrawSurf();
-	_drawSurf->shaderParms = R_AllocMaterail();
 }
 
 void AniModel::SetFile( const char* filename )
@@ -77,7 +77,7 @@ void AniModel::SetFile( const char* filename )
 	//AddStaticModel(model);
 	_drawSurf->geo = mesh->GetGeometries(0);
 
-	_drawSurf->shaderParms->tex = _resourceSys->AddTexture("0.png");
+	_drawSurf->tex = _resourceSys->FindTexture("0.png");
 	R_GenerateGeometryVbo(_drawSurf->geo);
 
 	_root = mesh->GetRootJoint();
@@ -121,7 +121,7 @@ void AniModel::UpdateJointPoses( Joint* joint )
 void AniModel::SetPosition(float x, float y, float z)
 {
 	_position.set(x, y, z);
-	_drawSurf->matModel.buildTranslate(x, y, z);
+	_drawSurf->matModel.BuildTranslate(x, y, z);
 }
 
 Vec3 AniModel::GetPosition()

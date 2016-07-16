@@ -45,7 +45,6 @@ private:
 
 	bool ReadName(Token& result);
 
-
 private:
 	const char* _buffer;
 	const char* _bufferPtr;

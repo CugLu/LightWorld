@@ -19,87 +19,44 @@ public:
 
 	void clear();
 
-	//! Sets pointer to new array, using this as new workspace.
-	//! \param newPointer: Pointer to new array of elements.
-	//! \param size: Size of the new array.
 	void set_pointer(T* newPointer, unsigned int size);
 
-	//! Sets if the array should delete the memory it used.
-	//! \param f: If true, the array frees the allocated memory in its
-	//! destructor, otherwise not. The default is true.
 	void set_free_when_destroyed(bool f);
 
-	//! Sets the size of the array.
-	//! \param usedNow: Amount of elements now used.
 	void set_used(unsigned int usedNow);
 
-	//! Assignement operator
 	void operator=(const Array<T>& other);
 
-	//! Direct access operator
 	T& operator [](unsigned int index);
 
-	//! Direct access operator
 	const T& operator [](unsigned int index) const;
 
-	//! Returns a pointer to the array.
-	//! \return Pointer to the array.
 	T* pointer();
 
-	//! Returns a const pointer to the array.
-	//! \return Pointer to the array.
 	const T* const_pointer() const;
 
-	//! Returns size of used array.
-	//! \return Size of elements in the array.
 	unsigned int size() const;
 
-	//! Returns amount memory allocated.
-	//! \return Returns amount of memory allocated. The amount of bytes
-	//! allocated would  be allocated_size() * sizeof(ElementsUsed);
 	unsigned int allocated_size() const;
 
-	//! Returns true if array is empty
-	//! \return True if the array is empty, false if not.
 	bool empty() const;
 
-	//! Performs a binary search for an element, returns -1 if not found.
-	//! The array will be sorted before the binary search if it is not
-	//! already sorted.
-	//! \param element: Element to search for.
-	//! \return Returns position of the searched element if it was found,
-	//! otherwise -1 is returned.
 	int binary_search(const T& element);
 
-	//! Performs a binary search for an element, returns -1 if not found.
-	//! The array will be sorted before the binary search if it is not
-	//! already sorted.
-	//! \param element: Element to search for.
-	//! \param left: First left index
-	//! \param right: Last right index.
-	//! \return Returns position of the searched element if it was found,
-	//! otherwise -1 is returned.
 	int binary_search(const T& element, int left, int right);
 
-	//! Erases an element from the array. May be slow, because all elements 
-	//! following after the erased element have to be copied.
-	//! \param index: Index of element to be erased.
 	void erase(unsigned int index);
 
-	//! Erases some elements from the array. may be slow, because all elements 
-	//! following after the erased element have to be copied.
-	//! \param index: Index of the first element to be erased.
-	//! \param count: Amount of elements to be erased.
 	void erase(unsigned int index, int count);
 
 	T& end();
 
-	private:
-		T* data;
-		unsigned int allocated;
-		unsigned int used;
-		bool free_when_destroyed;
-		bool is_sorted;
+private:
+	T* data;
+	unsigned int allocated;
+	unsigned int used;
+	bool free_when_destroyed;
+	bool is_sorted;
 };
 
 template <class T>

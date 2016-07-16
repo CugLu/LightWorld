@@ -2,6 +2,7 @@
 #include "common/Plane.h"
 #include "r_public.h"
 #include "sys/sys_public.h"
+#
 
 #define	MAX_SHADOW_INDEXES		0x18000
 #define	MAX_SHADOW_VERTS		0x18000
@@ -11,7 +12,9 @@
 static int	numShadowIndices;
 static unsigned short shadowIndices[MAX_SHADOW_INDEXES];
 
-static int remap[MAX_VERTEX];
+static int MaxUShort = 65535;
+
+static unsigned short remap[MAX_VERTEX];
 static int numFacePlane;
 static int facing[MAX_FACE_PLANE];
 
@@ -40,8 +43,7 @@ srfTriangles_t* R_GenerateCaps( Vec3 lightPos, srfTriangles_t* tri )
 
 	int numPlanes = tri->numIndices / 3; 
 	Plane* plane = tri->facePlanes;
-	for (int i=0; i<numPlanes; i++)
-	{
+	for (int i=0; i<numPlanes; i++) {
 		if(plane[i].Distance(lightPos) > 0)
 			facing[numPlanes++] = i;
 	}
@@ -96,7 +98,7 @@ for each silhouette edge in the light
 =================
 */
 static void R_AddSilEdges( const srfTriangles_t *tri ) {
-	int		v1, v2;
+	glIndex_t		v1, v2;
 	int		i;
 	silEdge_t	*sil;
 	int		numPlanes;
@@ -130,45 +132,51 @@ static void R_AddSilEdges( const srfTriangles_t *tri ) {
 		v1 = remap[ sil->v1 ];
 		v2 = remap[ sil->v2 ];
 
+		if (v1 == MaxUShort || v2 == MaxUShort)
+		{
+			// Sys_Printf("max unsigned short %d %d", sil->v1, v1);
+			continue;
+		}
+
 		// we need to choose the correct way of triangulating the silhouette quad
 		// consistantly between any two points, no matter which order they are specified.
 		// If this wasn't done, slight rasterization cracks would show in the shadow
 		// volume when two sil edges were exactly coincident
 		if ( facing[ sil->p2 ] ) {
-			//if ( PointsOrdered( shadowVerts[ v1 ], shadowVerts[ v2 ] ) ) {
+			if ( PointsOrdered( shadowVerts[ v1 ], shadowVerts[ v2 ] ) ) {
 				shadowIndices[numShadowIndices++] = v1;
 				shadowIndices[numShadowIndices++] = v1+1;
 				shadowIndices[numShadowIndices++] = v2;
 				shadowIndices[numShadowIndices++] = v2;
 				shadowIndices[numShadowIndices++] = v1+1;
 				shadowIndices[numShadowIndices++] = v2+1;
-				/*	} else {
+				//Sys_Printf("%d %d %d %d %d %d\n ", v1, v1+1, v2, v2, v1 + 1, v2+1);
+				} else {
 				shadowIndices[numShadowIndices++] = v1;
 				shadowIndices[numShadowIndices++] = v2+1;
 				shadowIndices[numShadowIndices++] = v2;
 				shadowIndices[numShadowIndices++] = v1;
 				shadowIndices[numShadowIndices++] = v1+1;
 				shadowIndices[numShadowIndices++] = v2+1;
-				}*/
+				}
 		} else { 
-		//	if ( PointsOrdered( shadowVerts[ v1 ], shadowVerts[ v2 ] ) ) {
+			if ( PointsOrdered( shadowVerts[ v1 ], shadowVerts[ v2 ] ) ) {
 				shadowIndices[numShadowIndices++] = v1;
 				shadowIndices[numShadowIndices++] = v2;
 				shadowIndices[numShadowIndices++] = v1+1;
 				shadowIndices[numShadowIndices++] = v2;
 				shadowIndices[numShadowIndices++] = v2+1;
 				shadowIndices[numShadowIndices++] = v1+1;
-		/*	} else {
+				//Sys_Printf("%d %d %d %d %d %d\n ", v1, v2, v1+1, v2, v2 + 1, v1+1);
+			} else {
 				shadowIndices[numShadowIndices++] = v1;
 				shadowIndices[numShadowIndices++] = v2;
 				shadowIndices[numShadowIndices++] = v2+1;
 				shadowIndices[numShadowIndices++] = v1;
 				shadowIndices[numShadowIndices++] = v2+1;
 				shadowIndices[numShadowIndices++] = v1+1;
-			}*/
+			}
 		}
-
-		
 	}
 }
 
@@ -189,6 +197,7 @@ static void R_ProjectPointsToFarPlane( Vec3& lightPos, mat4& modelMatrix, int fi
 	// make a projected copy of the even verts into the odd spots
 	in = &shadowVerts[firstShadowVert];
 	for (int i = firstShadowVert ; i < numShadowVerts ; i+= 2, in += 2 ) {
+	//	in[1] = lightPos;
 		in[1] = in[0] + (in[0] - lv).normalize()*100;
 	}
 }
@@ -206,16 +215,15 @@ void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& 
 	int numPlanes = tri->numIndices / 3; 
 	Plane* plane = tri->facePlanes;
 	
-	for (int i=0; i<numPlanes; i++)
-	{
-		facing[i] = plane[i].Distance(lv) >= 0.f;
+	for (int i=0; i<numPlanes; i++) {
+		facing[i] = plane[i].Distance(lv) > 0.f;
 		//Sys_Printf("%f %f %f %d\n", plane[i][0], plane[i][1], plane[i][2], facing[i]);
 	}
 
 	// for dangling edges to reference
 	facing[numPlanes] = 1;
 
-	memset(remap, -1, sizeof(remap));
+	memset(remap, MaxUShort, sizeof(remap));
 	numShadowVerts = 0;
 	int numTris = tri->numIndices / 3;
 	for ( int i = 0 ; i < numTris ; i++ ) {
@@ -223,13 +231,13 @@ void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& 
 
 		// if it isn't facing the right way, don't add it        
 		// to the shadow volume
-		if ( !facing[i] ) {
+		if ( facing[i] ) {
 			continue;
 		}
 
-		i1 = tri->indices[ i*3 + 0 ];
-		i2 = tri->indices[ i*3 + 1 ];
-		i3 = tri->indices[ i*3 + 2 ];
+		i1 = tri->silIndices[ i*3 + 0 ];
+		i2 = tri->silIndices[ i*3 + 1 ];
+		i3 = tri->silIndices[ i*3 + 2 ];
 
 		// make sure the verts that are not on the negative sides
 		// of the frustum are copied over.
@@ -241,17 +249,18 @@ void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& 
 			return;
 		}
 
-		if ( remap[i1] == -1 ) {
+		// i1点没有记录
+		if ( remap[i1] == MaxUShort ) {
 			remap[i1] = numShadowVerts;
 			shadowVerts[ numShadowVerts ] = tri->verts[i1].xyz;
 			numShadowVerts+=2;
 		}
-		if ( remap[i2] == -1 ) {
+		if ( remap[i2] == MaxUShort ) {
 			remap[i2] = numShadowVerts;
 			shadowVerts[ numShadowVerts ] = tri->verts[i2].xyz;
 			numShadowVerts+=2;
 		}
-		if ( remap[i3] == -1 ) {
+		if ( remap[i3] == MaxUShort ) {
 			remap[i3] = numShadowVerts;
 			shadowVerts[ numShadowVerts ] = tri->verts[i3].xyz;
 			numShadowVerts+=2;
@@ -262,14 +271,27 @@ void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& 
 			overflowed = true;
 			return;
 		}
-		if ( remap[i1] == -1 || remap[i2] == -1 || remap[i3] == -1 ) {
+		if ( remap[i1] == MaxUShort || remap[i2] == MaxUShort || remap[i3] == MaxUShort ) {
 			Sys_Error( "R_CreateShadowVolumeInFrustum: bad remap[]" );
 		}
 
 		shadowIndices[numShadowIndices++] = remap[i3];
 		shadowIndices[numShadowIndices++] = remap[i2];
 		shadowIndices[numShadowIndices++] = remap[i1];
+
+		/*Sys_Printf("shadow indices %d %d %d %d\n", numShadowIndices, shadowIndices[numShadowIndices-3], 
+			shadowIndices[numShadowIndices-2], shadowIndices[numShadowIndices-1]);*/
 	}
+
+	numCapIndices = numShadowIndices;
+
+	//for (int i = 0; i < numCapIndices; i += 3) 
+	//{
+	//	shadowIndices[numShadowIndices + i + 0] = shadowIndices[ i + 2] + 1;
+	//	shadowIndices[numShadowIndices + i + 1] = shadowIndices[ i + 1] + 1;
+	//	shadowIndices[numShadowIndices + i + 2] = shadowIndices[ i + 0] + 1;
+	//}
+	//numShadowIndices += numCapIndices;
 
 	Sys_Printf("front face %d\n", numShadowIndices/3);
 	int preSilIndexes = numShadowIndices;
@@ -292,14 +314,22 @@ void Interaction::CreateInteraction( srfTriangles_t* tri, Vec3& lightPos, mat4& 
 	R_AllocStaticTriSurfVerts(shadowTris, shadowTris->numVerts);
 	R_AllocStaticTriSurfIndices(shadowTris, numShadowIndices);
 
-	for (int i=0; i<numShadowVerts; ++i)
-	{
+	for (int i=0; i<numShadowVerts; ++i) {
 		shadowTris->verts[i].xyz = shadowVerts[i];
+		shadowTris->verts[i].color[3] = i%2==0 ? 255 : 0;
+		shadowTris->verts[i].color[0] = i%2==0 ? 255 : 0;
+		shadowTris->verts[i].color[1] = 0;
+		shadowTris->verts[i].color[2] = 0;
 		//Sys_Printf("%f %f %f\n", shadowTris->verts[i].xyz.x, shadowTris->verts[i].xyz.y, shadowTris->verts[i].xyz.y);
 	}
 
-	for (int i=0; i<shadowTris->numIndices; ++i)
+	for (int i=0; i<shadowTris->numIndices; ++i) {
+		//if (shadowIndices[i] == 65535)
+		{
+			//Sys_Printf("shadowtris %d %u\n", i, shadowIndices[i]);
+		}
 		shadowTris->indices[i] = shadowIndices[i];
+	}
 
 	R_GenerateGeometryVbo(shadowTris);
 

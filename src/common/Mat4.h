@@ -15,48 +15,48 @@
 class mat4
 {
 public:
-	mat4() { makeIdentity(); }
+	mat4() { MakeIdentity(); }
 	~mat4() {}
 
 	inline mat4 operator*(const mat4 mat);
 	inline mat4 operator*=(const mat4& mat);
 	inline Vec4 operator*( const Vec4 &vec ) const;
 
-	void makeIdentity();
-	void buildPerspectiveProjection(float fieldOfViewRadians, float aspectRatio, float zNear, float zFar);
+	void MakeIdentity();
+	void BuildPerspectiveProjection(float fieldOfViewRadians, float aspectRatio, float zNear, float zFar);
 	void BuildProjectionOrthoRH( float widthOfViewVolume, float heightOfViewVolume, float zNear, float zFar);
-	void transformVec3(float& x, float& y, float& z);
-	void setScale(float x, float y, float z);
-	void multiplyWith1x4Matrix(float *mat);
+	void TransformVec3(float& x, float& y, float& z);
+	void SetScale(float x, float y, float z);
+	void MultiplyWith1x4Matrix(float *mat);
 
-	mat4 inverse();
-	inline void buildTranslate(const Vec3& v);
-	inline void buildTranslate(float x, float y, float z);
-	inline mat4 buildLookAt(Vec3 position, Vec3 target, Vec3 up);
-	inline void buildScale(float x, float y, float z);
+	mat4 Inverse();
+	inline void BuildTranslate(const Vec3& v);
+	inline void BuildTranslate(float x, float y, float z);
+	inline mat4 BuildLookAt(Vec3 position, Vec3 target, Vec3 up);
+	inline void BuildScale(float x, float y, float z);
 public:
 	float m[16];
 };
 
-inline void mat4::buildTranslate(const Vec3& v)
+inline void mat4::BuildTranslate(const Vec3& v)
 {
-	makeIdentity();
+	MakeIdentity();
 	m[12] = v.x;
 	m[13] = v.y;
 	m[14] = v.z;
 }
 
-inline void mat4::buildTranslate(float x, float y, float z)
+inline void mat4::BuildTranslate(float x, float y, float z)
 {
-	makeIdentity();
+	MakeIdentity();
 	m[12] = x;
 	m[13] = y;
 	m[14] = z;
 }
 
-inline void mat4::buildScale(float x, float y, float z)
+inline void mat4::BuildScale(float x, float y, float z)
 {
-	makeIdentity();
+	MakeIdentity();
 	m[0] = x; m[5] = y; m[10] = z;
 }
 
@@ -84,7 +84,7 @@ inline mat4 mat4::operator*(const mat4 mat)
 	return r;
 }
 
-inline mat4 mat4::buildLookAt(Vec3 position, Vec3 target, Vec3 up)
+inline mat4 mat4::BuildLookAt(Vec3 position, Vec3 target, Vec3 up)
 {
 	// right hand  opengl
 	Vec3 zaxis = position - target;

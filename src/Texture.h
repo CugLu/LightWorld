@@ -12,9 +12,7 @@ public:
 	virtual ~Texture() {}
 	
 	bool Init(Image* i);
-
 	bool Init(int w, int h, void* data);
-
 	bool InitCubeTexture(Image* images[6]);
 
 	GLuint GetName();
