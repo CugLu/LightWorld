@@ -20,6 +20,9 @@
 
 #include "pipeline/PipelineP.h"
 
+#include "VarSystem.h"
+static Var testVar;
+
 drawSurf_t* draw;
 void R_RenderSurfaces(Array<drawSurf_t*> surfaces)
 {
@@ -70,6 +73,8 @@ void RenderSystem::Init()
 	_pipeline = new PipelineP();
 	_pipeline->Init();
 	draw = new drawSurf_t;
+
+	//debug = testVar.GetInt();
 }
 
 void RenderSystem::FrameUpdate()
@@ -100,7 +105,12 @@ void RenderSystem::FrameUpdate()
 				glUseProgram(shader->GetProgarm());
 
 				mat4 t = *_mainViewProj;
-				glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
+
+				for (int i = 0; i < 16; ++i)
+				{
+					printf("%f,", t.m[i]);
+				}
+				//glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
 
 				if (showShadowVolume == 1)
 				{

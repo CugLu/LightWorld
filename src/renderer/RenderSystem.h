@@ -4,6 +4,7 @@
 #include "common/Mat4.h"
 #include "common/Array.h"
 #include "r_public.h"
+#include "Test.h"
 
 class Pipeline;
 class Model;

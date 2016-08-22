@@ -342,7 +342,7 @@ void R_CreateSilIndice( srfTriangles_t* tri )
 {
 	int		c_removed, c_unique;
 	int		*remap;
-	int		i, j, hashKey;
+	int		i;
 	const DrawVert *v1, *v2;
 
 	remap = (int*)malloc( tri->numVerts * sizeof( remap[0] ) );

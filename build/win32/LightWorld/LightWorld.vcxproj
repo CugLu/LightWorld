@@ -1,0 +1,390 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{43D5EEC3-7C08-413F-A26E-C1A11F05247B}</ProjectGuid>
+    <RootNamespace>FlipEngine</RootNamespace>
+    <ProjectName>LightWorld</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../../src;../../../src/external;../../../src/external/zlib</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\Program Files (x86)\Visual Leak Detector\lib\Win32;../Engine/external/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>Debug;../../src/external/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../src/autolua\lAniModel.cpp" />
+    <ClCompile Include="../../../src/autolua\lCamera.cpp" />
+    <ClCompile Include="../../../src/autolua\lModel.cpp" />
+    <ClCompile Include="../../../src/autolua\lSprite.cpp" />
+    <ClCompile Include="../../../src/Camera.cpp" />
+    <ClCompile Include="../../../src/common\Aabb3d.cpp" />
+    <ClCompile Include="../../../src/common\File.cpp" />
+    <ClCompile Include="../../../src/common\HashTable.cpp" />
+    <ClCompile Include="../../../src/common\mem.cpp" />
+    <ClCompile Include="../../../src/common\Joint.cpp" />
+    <ClCompile Include="../../../src/common\Lexer.cpp" />
+    <ClCompile Include="../../../src/common\Mat4.cpp" />
+    <ClCompile Include="../../../src/common\Math.cpp" />
+    <ClCompile Include="../../../src/common\Parser.cpp" />
+    <ClCompile Include="../../../src/common\Plane.cpp" />
+    <ClCompile Include="../../../src/common\Quat.cpp" />
+    <ClCompile Include="../../../src/common\String.cpp" />
+    <ClCompile Include="../../../src/common\Timer.cpp" />
+    <ClCompile Include="../../../src/common\Token.cpp" />
+    <ClCompile Include="../../../src/common\Vec2.cpp" />
+    <ClCompile Include="../../../src/Game.cpp" />
+    <ClCompile Include="../../../src/glutils.cpp" />
+    <ClCompile Include="../../../src/Image.cpp" />
+    <ClCompile Include="../../../src/image_load_bmp.cpp" />
+    <ClCompile Include="../../../src/image_load_dds.cpp" />
+    <ClCompile Include="../../../src/image_load_jpg.cpp" />
+    <ClCompile Include="../../../src/image_load_png.cpp" />
+    <ClCompile Include="../../../src/image_load_tga.cpp" />
+    <ClCompile Include="../../../src/Interaction.cpp" />
+    <ClCompile Include="../../../src/external\jpeglib\jaricom.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jcapimin.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jcapistd.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jcarith.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jccoefct.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jccolor.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jcdctmgr.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jchuff.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jcinit.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jcmainct.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jcmarker.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jcmaster.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jcomapi.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jcparam.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jcprepct.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jcsample.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jctrans.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdapimin.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdapistd.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdarith.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdatadst.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdatasrc.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdcoefct.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdcolor.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jddctmgr.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdhuff.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdinput.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdmainct.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdmarker.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdmaster.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdmerge.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdpostct.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdsample.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jdtrans.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jerror.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jfdctflt.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jfdctfst.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jfdctint.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jidctflt.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jidctfst.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jidctint.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jmemansi.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jmemmgr.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jquant1.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jquant2.c" />
+    <ClCompile Include="../../../src/external\jpeglib\jutils.c" />
+    <ClCompile Include="../../../src/external\libpng\png.c" />
+    <ClCompile Include="../../../src/external\libpng\pngerror.c" />
+    <ClCompile Include="../../../src/external\libpng\pngget.c" />
+    <ClCompile Include="../../../src/external\libpng\pngmem.c" />
+    <ClCompile Include="../../../src/external\libpng\pngpread.c" />
+    <ClCompile Include="../../../src/external\libpng\pngread.c" />
+    <ClCompile Include="../../../src/external\libpng\pngrio.c" />
+    <ClCompile Include="../../../src/external\libpng\pngrtran.c" />
+    <ClCompile Include="../../../src/external\libpng\pngrutil.c" />
+    <ClCompile Include="../../../src/external\libpng\pngset.c" />
+    <ClCompile Include="../../../src/external\libpng\pngtrans.c" />
+    <ClCompile Include="../../../src/external\libpng\pngwio.c" />
+    <ClCompile Include="../../../src/external\libpng\pngwrite.c" />
+    <ClCompile Include="../../../src/external\libpng\pngwtran.c" />
+    <ClCompile Include="../../../src/external\libpng\pngwutil.c" />
+    <ClCompile Include="../../../src/lgeo.cpp" />
+    <ClCompile Include="../../../src/lrender.cpp" />
+    <ClCompile Include="../../../src/luautils.cpp" />
+    <ClCompile Include="../../../src/external\lua\lapi.c" />
+    <ClCompile Include="../../../src/external\lua\lauxlib.c" />
+    <ClCompile Include="../../../src/external\lua\lbaselib.c" />
+    <ClCompile Include="../../../src/external\lua\lcode.c" />
+    <ClCompile Include="../../../src/external\lua\ldblib.c" />
+    <ClCompile Include="../../../src/external\lua\ldebug.c" />
+    <ClCompile Include="../../../src/external\lua\ldo.c" />
+    <ClCompile Include="../../../src/external\lua\ldump.c" />
+    <ClCompile Include="../../../src/external\lua\lfunc.c" />
+    <ClCompile Include="../../../src/external\lua\lgc.c" />
+    <ClCompile Include="../../../src/external\lua\linit.c" />
+    <ClCompile Include="../../../src/external\lua\liolib.c" />
+    <ClCompile Include="../../../src/external\lua\llex.c" />
+    <ClCompile Include="../../../src/external\lua\lmathlib.c" />
+    <ClCompile Include="../../../src/external\lua\lmem.c" />
+    <ClCompile Include="../../../src/external\lua\loadlib.c" />
+    <ClCompile Include="../../../src/external\lua\lobject.c" />
+    <ClCompile Include="../../../src/external\lua\lopcodes.c" />
+    <ClCompile Include="../../../src/external\lua\loslib.c" />
+    <ClCompile Include="../../../src/external\lua\lparser.c" />
+    <ClCompile Include="../../../src/external\lua\lstate.c" />
+    <ClCompile Include="../../../src/external\lua\lstring.c" />
+    <ClCompile Include="../../../src/external\lua\lstrlib.c" />
+    <ClCompile Include="../../../src/external\lua\ltable.c" />
+    <ClCompile Include="../../../src/external\lua\ltablib.c" />
+    <ClCompile Include="../../../src/external\lua\ltm.c" />
+    <ClCompile Include="../../../src/external\lua\lua.c" />
+    <ClCompile Include="../../../src/external\lua\lundump.c" />
+    <ClCompile Include="../../../src/external\lua\lvm.c" />
+    <ClCompile Include="../../../src/external\lua\lzio.c" />
+    <ClCompile Include="../../../src/external\lua\print.c" />
+    <ClCompile Include="../../../src/MapFile.cpp" />
+    <ClCompile Include="../../../src/Material.cpp" />
+    <ClCompile Include="../../../src/MeshLoader3DS.cpp" />
+    <ClCompile Include="../../../src/MeshLoaderB3D.cpp" />
+    <ClCompile Include="../../../src/Mesh.cpp" />
+    <ClCompile Include="../../../src/Model.cpp" />
+    <ClCompile Include="../..\..\src\common\Collision.cpp" />
+    <ClCompile Include="../..\..\src\external\spine\Animation.c" />
+    <ClCompile Include="../..\..\src\external\spine\AnimationState.c" />
+    <ClCompile Include="../..\..\src\external\spine\AnimationStateData.c" />
+    <ClCompile Include="../..\..\src\external\spine\Atlas.c" />
+    <ClCompile Include="../..\..\src\external\spine\AtlasAttachmentLoader.c" />
+    <ClCompile Include="../..\..\src\external\spine\Attachment.c" />
+    <ClCompile Include="../..\..\src\external\spine\AttachmentLoader.c" />
+    <ClCompile Include="../..\..\src\external\spine\Bone.c" />
+    <ClCompile Include="../..\..\src\external\spine\BoneData.c" />
+    <ClCompile Include="../..\..\src\external\spine\BoundingBoxAttachment.c" />
+    <ClCompile Include="../..\..\src\external\spine\Event.c" />
+    <ClCompile Include="../..\..\src\external\spine\EventData.c" />
+    <ClCompile Include="../..\..\src\external\spine\extension.c" />
+    <ClCompile Include="../..\..\src\external\spine\IkConstraint.c" />
+    <ClCompile Include="../..\..\src\external\spine\IkConstraintData.c" />
+    <ClCompile Include="../..\..\src\external\spine\Json.c" />
+    <ClCompile Include="../..\..\src\external\spine\MeshAttachment.c" />
+    <ClCompile Include="../..\..\src\external\spine\RegionAttachment.c" />
+    <ClCompile Include="../..\..\src\external\spine\Skeleton.c" />
+    <ClCompile Include="../..\..\src\external\spine\SkeletonBounds.c" />
+    <ClCompile Include="../..\..\src\external\spine\SkeletonData.c" />
+    <ClCompile Include="../..\..\src\external\spine\SkeletonJson.c" />
+    <ClCompile Include="../..\..\src\external\spine\Skin.c" />
+    <ClCompile Include="../..\..\src\external\spine\SkinnedMeshAttachment.c" />
+    <ClCompile Include="../..\..\src\external\spine\Slot.c" />
+    <ClCompile Include="../..\..\src\external\spine\SlotData.c" />
+    <ClCompile Include="../..\..\src\MeshLoaderLwo.cpp" />
+    <ClCompile Include="../../../src/renderer\draw_common.cpp" />
+    <ClCompile Include="../../../src/renderer\RenderSystem.cpp" />
+    <ClCompile Include="../../../src/renderer\draw_common1.cpp" />
+    <ClCompile Include="../../../src/ResourceSystem.cpp" />
+    <ClCompile Include="../../../src/r_public.cpp" />
+    <ClCompile Include="../../../src/ScriptSystem.cpp" />
+    <ClCompile Include="../../../src/Shader.cpp" />
+    <ClCompile Include="../../../src/Shape.cpp" />
+    <ClCompile Include="../../../src/Sprite.cpp" />
+    <ClCompile Include="../../../src/sys\win32\win_glutils.cpp" />
+    <ClCompile Include="../../../src/sys\win32\win_shared.cpp" />
+    <ClCompile Include="../../../src/sys\win32\win_syscon.cpp" />
+    <ClCompile Include="../../../src/sys\win32\win_wndproc.cpp" />
+    <ClCompile Include="../../../src/Texture.cpp" />
+    <ClCompile Include="../../../src/tr_trisurf.cpp" />
+    <ClCompile Include="../../../src/external\zlib\adler32.c" />
+    <ClCompile Include="../../../src/external\zlib\compress.c" />
+    <ClCompile Include="../../../src/external\zlib\crc32.c" />
+    <ClCompile Include="../../../src/external\zlib\deflate.c" />
+    <ClCompile Include="../../../src/external\zlib\infback.c" />
+    <ClCompile Include="../../../src/external\zlib\inffast.c" />
+    <ClCompile Include="../../../src/external\zlib\inflate.c" />
+    <ClCompile Include="../../../src/external\zlib\inftrees.c" />
+    <ClCompile Include="../../../src/external\zlib\trees.c" />
+    <ClCompile Include="../../../src/external\zlib\uncompr.c" />
+    <ClCompile Include="../../../src/external\zlib\zutil.c" />
+    <ClCompile Include="../..\..\src\pipeline\PipelineP.cpp" />
+    <ClCompile Include="..\..\..\src\VarSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../../../src/common\Array.h" />
+    <ClInclude Include="../../../src/common\File.h" />
+    <ClInclude Include="../../../src/common\Lexer.h" />
+    <ClInclude Include="../../../src/common\Mat4.h" />
+    <ClInclude Include="../../../src/common\Parser.h" />
+    <ClInclude Include="../../../src/common\Token.h" />
+    <ClInclude Include="../../../src/common\Vec3.h" />
+    <ClInclude Include="../../../src/common\Vec4.h" />
+    <ClInclude Include="../../../src/Shape.h" />
+    <ClInclude Include="../../../src/Camera.h" />
+    <ClInclude Include="../../../src/common\Aabb3d.h" />
+    <ClInclude Include="../../../src/common\HashTable.h" />
+    <ClInclude Include="../../../src/common\mem.h" />
+    <ClInclude Include="../../../src/common\Joint.h" />
+    <ClInclude Include="../../../src/common\List.h" />
+    <ClInclude Include="../../../src/common\Math.h" />
+    <ClInclude Include="../../../src/common\Plane.h" />
+    <ClInclude Include="../../../src/common\precompiled.h" />
+    <ClInclude Include="../../../src/common\Quat.h" />
+    <ClInclude Include="../../../src/common\String.h" />
+    <ClInclude Include="../../../src/common\Timer.h" />
+    <ClInclude Include="../../../src/common\Vec2.h" />
+    <ClInclude Include="../../../src/DrawVert.h" />
+    <ClInclude Include="../../../src/Game.h" />
+    <ClInclude Include="../../../src/glutils.h" />
+    <ClInclude Include="../../../src/Image.h" />
+    <ClInclude Include="../../../src/image_load.h" />
+    <ClInclude Include="../../../src/Interaction.h" />
+    <ClInclude Include="../../../src/external\jpeglib\cderror.h" />
+    <ClInclude Include="../../../src/external\jpeglib\jconfig.h" />
+    <ClInclude Include="../../../src/external\jpeglib\jdct.h" />
+    <ClInclude Include="../../../src/external\jpeglib\jerror.h" />
+    <ClInclude Include="../../../src/external\jpeglib\jinclude.h" />
+    <ClInclude Include="../../../src/external\jpeglib\jmemsys.h" />
+    <ClInclude Include="../../../src/external\jpeglib\jmorecfg.h" />
+    <ClInclude Include="../../../src/external\jpeglib\jpegint.h" />
+    <ClInclude Include="../../../src/external\jpeglib\jpeglib.h" />
+    <ClInclude Include="../../../src/external\jpeglib\jversion.h" />
+    <ClInclude Include="../../../src/external\libpng\png.h" />
+    <ClInclude Include="../../../src/external\libpng\pngconf.h" />
+    <ClInclude Include="../../../src/Light.h" />
+    <ClInclude Include="../../../src/luautils.h" />
+    <ClInclude Include="../../../src/external\lua\lapi.h" />
+    <ClInclude Include="../../../src/external\lua\lauxlib.h" />
+    <ClInclude Include="../../../src/external\lua\lcode.h" />
+    <ClInclude Include="../../../src/external\lua\ldebug.h" />
+    <ClInclude Include="../../../src/external\lua\ldo.h" />
+    <ClInclude Include="../../../src/external\lua\lfunc.h" />
+    <ClInclude Include="../../../src/external\lua\lgc.h" />
+    <ClInclude Include="../../../src/external\lua\llex.h" />
+    <ClInclude Include="../../../src/external\lua\llimits.h" />
+    <ClInclude Include="../../../src/external\lua\lmem.h" />
+    <ClInclude Include="../../../src/external\lua\lobject.h" />
+    <ClInclude Include="../../../src/external\lua\lopcodes.h" />
+    <ClInclude Include="../../../src/external\lua\lparser.h" />
+    <ClInclude Include="../../../src/external\lua\lstate.h" />
+    <ClInclude Include="../../../src/external\lua\lstring.h" />
+    <ClInclude Include="../../../src/external\lua\ltable.h" />
+    <ClInclude Include="../../../src/external\lua\ltm.h" />
+    <ClInclude Include="../../../src/external\lua\lua.h" />
+    <ClInclude Include="../../../src/external\lua\luaconf.h" />
+    <ClInclude Include="../../../src/external\lua\lualib.h" />
+    <ClInclude Include="../../../src/external\lua\lundump.h" />
+    <ClInclude Include="../../../src/external\lua\lvm.h" />
+    <ClInclude Include="../../../src/external\lua\lzio.h" />
+    <ClInclude Include="../../../src/MapFile.h" />
+    <ClInclude Include="../../../src/Material.h" />
+    <ClInclude Include="../../../src/MeshLoader3DS.h" />
+    <ClInclude Include="../../../src/MeshLoaderB3D.h" />
+    <ClInclude Include="../../../src/Mesh.h" />
+    <ClInclude Include="../../../src/Model.h" />
+    <ClInclude Include="../..\..\src\common\Collision.h" />
+    <ClInclude Include="../..\..\src\external\spine\Animation.h" />
+    <ClInclude Include="../..\..\src\external\spine\AnimationState.h" />
+    <ClInclude Include="../..\..\src\external\spine\AnimationStateData.h" />
+    <ClInclude Include="../..\..\src\external\spine\Atlas.h" />
+    <ClInclude Include="../..\..\src\external\spine\AtlasAttachmentLoader.h" />
+    <ClInclude Include="../..\..\src\external\spine\Attachment.h" />
+    <ClInclude Include="../..\..\src\external\spine\AttachmentLoader.h" />
+    <ClInclude Include="../..\..\src\external\spine\Bone.h" />
+    <ClInclude Include="../..\..\src\external\spine\BoneData.h" />
+    <ClInclude Include="../..\..\src\external\spine\BoundingBoxAttachment.h" />
+    <ClInclude Include="../..\..\src\external\spine\Event.h" />
+    <ClInclude Include="../..\..\src\external\spine\EventData.h" />
+    <ClInclude Include="../..\..\src\external\spine\extension.h" />
+    <ClInclude Include="../..\..\src\external\spine\IkConstraint.h" />
+    <ClInclude Include="../..\..\src\external\spine\IkConstraintData.h" />
+    <ClInclude Include="../..\..\src\external\spine\Json.h" />
+    <ClInclude Include="../..\..\src\external\spine\MeshAttachment.h" />
+    <ClInclude Include="../..\..\src\external\spine\RegionAttachment.h" />
+    <ClInclude Include="../..\..\src\external\spine\Skeleton.h" />
+    <ClInclude Include="../..\..\src\external\spine\SkeletonBounds.h" />
+    <ClInclude Include="../..\..\src\external\spine\SkeletonData.h" />
+    <ClInclude Include="../..\..\src\external\spine\SkeletonJson.h" />
+    <ClInclude Include="../..\..\src\external\spine\Skin.h" />
+    <ClInclude Include="../..\..\src\external\spine\SkinnedMeshAttachment.h" />
+    <ClInclude Include="../..\..\src\external\spine\Slot.h" />
+    <ClInclude Include="../..\..\src\external\spine\SlotData.h" />
+    <ClInclude Include="../..\..\src\external\spine\spine.h" />
+    <ClInclude Include="../..\..\src\MeshLoaderLwo.h" />
+    <ClInclude Include="../../../src/renderer\draw_common.h" />
+    <ClInclude Include="../../../src/renderer\RenderSystem.h" />
+    <ClInclude Include="../../../src/ResourceSystem.h" />
+    <ClInclude Include="../../../src/r_public.h" />
+    <ClInclude Include="../../../src/ScriptSystem.h" />
+    <ClInclude Include="../../../src/Shader.h" />
+    <ClInclude Include="../../../src/Sprite.h" />
+    <ClInclude Include="../../../src/sys\sys_public.h" />
+    <ClInclude Include="../../../src/sys\win32\win_local.h" />
+    <ClInclude Include="../../../src/Texture.h" />
+    <ClInclude Include="../../../src/external\zlib\crc32.h" />
+    <ClInclude Include="../../../src/external\zlib\deflate.h" />
+    <ClInclude Include="../../../src/external\zlib\inffast.h" />
+    <ClInclude Include="../../../src/external\zlib\inffixed.h" />
+    <ClInclude Include="../../../src/external\zlib\inflate.h" />
+    <ClInclude Include="../../../src/external\zlib\inftrees.h" />
+    <ClInclude Include="../../../src/external\zlib\trees.h" />
+    <ClInclude Include="../../../src/external\zlib\zconf.h" />
+    <ClInclude Include="../../../src/external\zlib\zlib.h" />
+    <ClInclude Include="../../../src/external\zlib\zutil.h" />
+    <ClInclude Include="../..\..\src\pipeline\Pipeline.h" />
+    <ClInclude Include="../..\..\src\pipeline\PipelineP.h" />
+    <ClInclude Include="../..\..\src\renderer\Test.h" />
+    <ClInclude Include="..\..\..\src\VarSystem.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

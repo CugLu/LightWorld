@@ -21,7 +21,9 @@
 #include "Shape.h"
 #include "Interaction.h"
 
-#pragma comment(lib, "FlipEngine.lib")
+#include "VarSystem.h"
+
+#pragma comment(lib, "LightWorld.lib")
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glew32.lib")
 
@@ -32,6 +34,33 @@ float angle = 0;
 Interaction* inter;
 
 static bool drawCap = true;
+
+Var testVal;
+
+class A
+{
+public:
+	A();
+	~A();
+
+	void init() {
+		width = 100;
+	}
+	void init(int i) = delete;
+
+private:
+	int width;
+
+};
+
+A::A()
+{
+}
+
+A::~A()
+{
+}
+
 ShadowSampler::ShadowSampler( void ):_camera(NULL)
 {
 }
@@ -42,6 +71,8 @@ ShadowSampler::~ShadowSampler()
 
 void ShadowSampler::Init()
 {
+
+	int i = testVal.GetInt();
 	Sys_Printf("Initializing RenderSystem\n");
 
 	// init resource system

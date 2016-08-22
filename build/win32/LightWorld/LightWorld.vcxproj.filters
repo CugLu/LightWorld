@@ -1,0 +1,970 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{d88e481f-7fdd-41bb-9909-877199bed60c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="renderer">
+      <UniqueIdentifier>{f7044928-a8d5-45b3-99a9-a897f717b201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{1024b3f6-527e-49d6-b34b-64455dc61005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sys">
+      <UniqueIdentifier>{29bfbb7b-04ac-429c-a633-83435516451c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{c009582d-28f2-4970-9dfc-cb4d0f2d99ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4bc43604-2c62-4dd9-89b6-92796b8f17da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="autolua">
+      <UniqueIdentifier>{0dbb5001-0274-4627-9c62-e5a62af1f62f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script">
+      <UniqueIdentifier>{0b7d2966-91af-4cb7-8dda-ba0efcd3f36e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{4a2d2f85-c138-45ce-9c4e-902b0db73550}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\lua">
+      <UniqueIdentifier>{a8d0bcd7-9093-4de8-b540-1ec814b16f62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\zlib">
+      <UniqueIdentifier>{416383ac-b15f-4803-aa3d-860adbb4812c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\libjpeg">
+      <UniqueIdentifier>{5c261911-8354-420e-89ad-0d0ddce32271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\libpng">
+      <UniqueIdentifier>{e110f520-fc92-404f-b065-4859816d6c52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="external\spine">
+      <UniqueIdentifier>{36a4360d-4834-4662-877f-010ab113716d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pipeline">
+      <UniqueIdentifier>{ab97f110-5e09-4409-bc84-0c9319ef9567}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../../src/renderer\RenderSystem.cpp" />
+    <ClCompile Include="../../../src/ResourceSystem.cpp" />
+    <ClCompile Include="../../../src/ScriptSystem.cpp" />
+    <ClCompile Include="../../../src/external\zlib\adler32.c">
+      <Filter>external\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\Aabb3d.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\zlib\compress.c">
+      <Filter>external\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\zlib\crc32.c">
+      <Filter>external\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\zlib\deflate.c">
+      <Filter>external\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/renderer\draw_common.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/renderer\draw_common1.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\File.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/glutils.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\HashTable.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/Image.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/image_load_bmp.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/image_load_dds.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/image_load_jpg.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/image_load_png.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/image_load_tga.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\zlib\infback.c">
+      <Filter>external\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\zlib\inffast.c">
+      <Filter>external\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\zlib\inflate.c">
+      <Filter>external\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\zlib\inftrees.c">
+      <Filter>external\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jaricom.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jcapimin.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jcapistd.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jcarith.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jccoefct.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jccolor.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jcdctmgr.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jchuff.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jcinit.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jcmainct.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jcmarker.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jcmaster.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jcomapi.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jcparam.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jcprepct.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jcsample.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jctrans.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdapimin.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdapistd.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdarith.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdatadst.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdatasrc.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdcoefct.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdcolor.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jddctmgr.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdhuff.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdinput.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdmainct.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdmarker.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdmaster.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdmerge.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdpostct.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdsample.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jdtrans.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jerror.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jfdctflt.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jfdctfst.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jfdctint.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jidctflt.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jidctfst.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jidctint.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jmemansi.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jmemmgr.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\Joint.cpp">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jquant1.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jquant2.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\jpeglib\jutils.c">
+      <Filter>external\libjpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lapi.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lauxlib.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lbaselib.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lcode.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\ldblib.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\ldebug.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\ldo.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\ldump.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lfunc.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lgc.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\linit.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\liolib.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\llex.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lmathlib.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lmem.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\loadlib.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lobject.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lopcodes.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\loslib.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lparser.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lstate.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lstring.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lstrlib.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\ltable.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\ltablib.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\ltm.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lua.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/luautils.cpp">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lundump.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lvm.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\lzio.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\Mat4.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\zlib\zutil.c">
+      <Filter>external\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/Game.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/Interaction.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/autolua\lAniModel.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/MapFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/Material.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/MeshLoader3DS.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/MeshLoaderB3D.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/Model.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\Math.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\mem.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/Mesh.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\Parser.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\Plane.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngwtran.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\png.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngerror.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngget.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngmem.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngpread.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngread.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngrio.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngrtran.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngrutil.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngset.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngtrans.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngwio.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngwrite.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\libpng\pngwutil.c">
+      <Filter>external\libpng</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\lua\print.c">
+      <Filter>external\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\Quat.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\Vec2.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sys\win32\win_wndproc.cpp">
+      <Filter>sys</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sys\win32\win_glutils.cpp">
+      <Filter>sys</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sys\win32\win_shared.cpp">
+      <Filter>sys</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/sys\win32\win_syscon.cpp">
+      <Filter>sys</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\zlib\uncompr.c">
+      <Filter>external\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/external\zlib\trees.c">
+      <Filter>external\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\Token.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\Timer.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\String.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/tr_trisurf.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/Texture.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/Sprite.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/Shape.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/Shader.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/r_public.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/lgeo.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/autolua\lModel.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/autolua\lSprite.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/lrender.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/autolua\lCamera.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../src/common\Lexer.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\MeshLoaderLwo.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\Animation.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\AnimationState.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\AnimationStateData.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\Atlas.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\AtlasAttachmentLoader.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\Attachment.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\AttachmentLoader.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\Bone.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\BoneData.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\BoundingBoxAttachment.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\Event.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\EventData.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\extension.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\IkConstraint.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\IkConstraintData.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\Json.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\MeshAttachment.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\RegionAttachment.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\Skeleton.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\SkeletonBounds.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\SkeletonData.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\SkeletonJson.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\Skin.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\SkinnedMeshAttachment.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\Slot.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\external\spine\SlotData.c">
+      <Filter>external\spine</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\pipeline\PipelineP.cpp">
+      <Filter>pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="../..\..\src\common\Collision.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VarSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../../../src/renderer\RenderSystem.h" />
+    <ClInclude Include="../../../src/ResourceSystem.h" />
+    <ClInclude Include="../../../src/ScriptSystem.h" />
+    <ClInclude Include="../../../src/common\Aabb3d.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Array.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\jpeglib\cderror.h">
+      <Filter>external\libjpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\zlib\crc32.h">
+      <Filter>external\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\zlib\deflate.h">
+      <Filter>external\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/renderer\draw_common.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/DrawVert.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\File.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/glutils.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\HashTable.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/Image.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/image_load.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\zlib\inffast.h">
+      <Filter>external\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\zlib\inffixed.h">
+      <Filter>external\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\zlib\inflate.h">
+      <Filter>external\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\zlib\inftrees.h">
+      <Filter>external\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\jpeglib\jconfig.h">
+      <Filter>external\libjpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\jpeglib\jdct.h">
+      <Filter>external\libjpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\jpeglib\jerror.h">
+      <Filter>external\libjpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\jpeglib\jinclude.h">
+      <Filter>external\libjpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\jpeglib\jmemsys.h">
+      <Filter>external\libjpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\jpeglib\jmorecfg.h">
+      <Filter>external\libjpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Joint.h">
+      <Filter>external\libjpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\jpeglib\jpegint.h">
+      <Filter>external\libjpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\jpeglib\jpeglib.h">
+      <Filter>external\libjpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\jpeglib\jversion.h">
+      <Filter>external\libjpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lapi.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lauxlib.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lcode.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\ldebug.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\ldo.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lfunc.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lgc.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\llex.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\llimits.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lmem.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lobject.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lopcodes.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lparser.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lstate.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lstring.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\ltable.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\ltm.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lua.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\luaconf.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lualib.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/luautils.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lundump.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lvm.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\lua\lzio.h">
+      <Filter>external\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Mat4.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\zlib\zconf.h">
+      <Filter>external\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\zlib\zlib.h">
+      <Filter>external\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\zlib\zutil.h">
+      <Filter>external\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/Game.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/Interaction.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/MapFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/Material.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/MeshLoader3DS.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/MeshLoaderB3D.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/Model.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Math.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\mem.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/Mesh.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Parser.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Plane.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\libpng\png.h">
+      <Filter>external\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\libpng\pngconf.h">
+      <Filter>external\libpng</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\precompiled.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Quat.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Vec2.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Vec3.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Vec4.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/sys\win32\win_local.h">
+      <Filter>sys</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/external\zlib\trees.h">
+      <Filter>external\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Token.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Timer.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\String.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/Texture.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/Sprite.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/Shape.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/Shader.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/sys\sys_public.h">
+      <Filter>sys</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/r_public.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\List.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/Light.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../src/common\Lexer.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\MeshLoaderLwo.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\Animation.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\AnimationState.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\AnimationStateData.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\Atlas.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\AtlasAttachmentLoader.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\Attachment.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\AttachmentLoader.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\Bone.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\BoneData.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\BoundingBoxAttachment.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\Event.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\EventData.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\extension.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\IkConstraint.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\IkConstraintData.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\Json.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\MeshAttachment.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\RegionAttachment.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\Skeleton.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\SkeletonBounds.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\SkeletonData.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\SkeletonJson.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\Skin.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\SkinnedMeshAttachment.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\Slot.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\SlotData.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\external\spine\spine.h">
+      <Filter>external\spine</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\pipeline\Pipeline.h">
+      <Filter>pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\pipeline\PipelineP.h">
+      <Filter>pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\common\Collision.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="../..\..\src\renderer\Test.h" />
+    <ClInclude Include="..\..\..\src\VarSystem.h" />
+  </ItemGroup>
+</Project>

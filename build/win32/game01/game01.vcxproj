@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\example\example01\sampler.cpp" />
-    <ClCompile Include="..\..\example\example01\win_main.cpp" />
+    <ClCompile Include="..\..\..\example\example01\sampler.cpp" />
+    <ClCompile Include="..\..\..\example\example01\win_main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\example\example01\sampler.h" />
@@ -45,18 +45,16 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IntDir>obj\</IntDir>
-  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../src;../../src/external;../../src/external/zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../../src/external;../../../src/external/zlib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>Debug;../../src/external/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../Debug;../../../src/external/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
